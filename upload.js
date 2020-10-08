@@ -133,12 +133,12 @@ function parsedata(data) {
                 AdminCommandRules.push([cmd,rank]);
                 break;
             case 'ServerAdmins':
-                var id = +linedata[2].slice(0,16);
+                var id = linedata[2].slice(0,17);
                 var rank = linedata[3].trim().slice(1,-2).trim();
                 ServerAdmins.push([id,rank])
                 break;
             case 'PlayerChatColors':
-                var id = +linedata[2].slice(0,16);
+                var id = linedata[2].slice(0,17);
                 var cr = Math.floor(parseFloat(linedata[4])*255);
                 var cg = Math.floor(parseFloat(linedata[5])*255);
                 var cb = Math.floor(parseFloat(linedata[6])*255);
@@ -146,7 +146,7 @@ function parsedata(data) {
                 PlayerChatColors.push([id, hexrgb]);
                 break;
             case 'PlayerChatTags':
-                var id = +linedata[2].slice(0,16);
+                var id = linedata[2].slice(0,17);
                 var tag = linedata[3].trim().slice(1,-2).trim();
                 PlayerChatTags.push([id,tag]);
                 break;
