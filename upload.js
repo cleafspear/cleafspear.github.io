@@ -312,7 +312,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     cell0.innerHTML = '<input type="text" value='+playersettings[newstaff][0]+'>';
     cell1.innerHTML = '<select name="Ranks">'+div.innerHTML+'</select>';
     cell1.firstChild.value = playersettings[newstaff][1];
-    cell2.innerHTML = '<input type="text" value='+playersettings[newstaff][2]+'>';
+    cell2.innerHTML = '<input type="text" value="'+playersettings[newstaff][2]+'">';
     cell3.innerHTML = '<input type="color" value='+playersettings[newstaff][3]+'>';
     if(newstaff == 0) {
         cell4.innerHTML = '<input type="button" value="X" disabled>';

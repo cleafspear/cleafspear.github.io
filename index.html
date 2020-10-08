@@ -45,7 +45,7 @@
                         </select>
                     <br>
                     <label for="growth">
-                        <div class="tooltip">Growth Cap:<span class="tooltiptext">This limits both the natral and command set growth.<br>Setting your growth above this with commands will revert to this set max on the next growth tick.</span></div></label>
+                        <div class="tooltip">Growth Cap:<span class="tooltiptext">This limits both the natural and command set growth.<br>Setting your growth above this with commands will revert to this set max on the next growth tick.</span></div></label>
                     <input type="text" value="20.0" id="growth">
                     <br>
                     <label for="discordenable">Discord link Enabled:</label>
@@ -101,7 +101,7 @@
                 <div class="Section" id="Section2" style="display: none">
                     <label for="GroupLimit">
                         <div class="tooltip">Use Hard Group Limits
-                            <span class="tooltiptext">Enableing this will force groups to respect the creature caps.<br>Any young that hatch into a group at cap will automatically be ejected from the group.<br>Leaving this disabled allows groups to exceed the caps,at the cost that when the adults count reaches the limit,a stress debuff will be applied.</span>
+                            <span class="tooltiptext">Enabling this will force groups to respect the creature caps.<br>Any young that hatch into a group at cap will automatically be ejected from the group.<br>Leaving this disabled allows groups to exceed the caps,at the cost that when the adults count reaches the limit,a stress debuff will be applied.</span>
                         </div></label>
                     <input type="checkbox" id="grouplimit" onchange="HLToggle()">
                     <table id="dinos" class="limits" >
@@ -110,7 +110,7 @@
                                 <th>Creature</th>
                                 <th id="dinoh">Soft Limit</th>
                                 <th><div class="tooltip">% server population
-                            <span class="tooltiptext">This sets a limit for the total number of a certin creature compared to the rest of the server.<br>I.E.:50% on pteranodon means that a max of 50% of the server population can be Pteranodons. anyone that exceeds this will have their growth rate SEVERELY reduced.</span></th>
+                            <span class="tooltiptext">This sets a limit for the total number of a certain creature compared to the rest of the server.<br>I.E.:50% on pteranodon means that a max of 50% of the server population can be Pteranodons. anyone that exceeds this will have their growth rate SEVERELY reduced.</span></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -483,12 +483,12 @@
                 </div>
                 <button type="button" id="Section6button" onclick="SHfuntion('Section6')">Show Advanced Configuration:</button>
                 <div class="Section" id="Section6" style="display: none">
-                    <p>This section contains less often used configuration settings, or setting found under diffrent headers. only change these setting if you understand the risk!</p>
+                    <p>This section contains less often used configuration settings, or setting found under different headers. only change these setting if you understand the risk!</p>
                     <label for="Autosave">Ausosave frequency:</label>
                     <input type="text" id="asave"value="135">
                     <label for="Autosave">Seconds</label>
                 </div>
-                <button type="button" id="Finalbutton" onclick="SHfuntion('Final')">Show Configuration File:</button>
+                <button type="button" id="Finalbutton" onclick="SHfuntion('Final')">Show Configuration Outputs:</button>
                 <div class="Section" id="Final" style="display: none">
                 <input type="button" value="Generate Game.ini" onclick="GenertateTXT()">
                 <input type="button" value="Export Game.ini" onclick="GenerateFile()">
