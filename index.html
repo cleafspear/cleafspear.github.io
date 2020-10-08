@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Beast of Bermuda Config Generator</title>
+        <meta name="description" content="A Complete configuration Generator for the game Beast of bermuda, Developed by Discord user Cleafspear#0001">
+        <link rel="stylesheet" href="main.css">
+        <script src="mainjs.js"></script>
+        <script src="generate.js"></script>
+        <script src="upload.js"></script>
+    </head>
+    <body>
+        <div class="content">
+            <h1>Beast of Bermuda Config Generator</h1>
+            <b>This configuration Generator is compatible with Version 1.1.1029 of the server.</b>
+            <br>
+            note:anything with a dashed line under it will have additional information about if if you are confused!
+            <br>
+            <label for="file-upload">Upload Existing Game.ini:</label>
+            <input type="file" accept=".ini, .txt" onchange="readdata(this)"> <!--just a note..nothing is actually getting uploaded anywhere outside of the local client. this just lets us have the file avalible to be parsed by the script-->
+            <div class="SectionContainer">
+                <button type="button" id="Section1button" onclick="SHfuntion('Section1')">Show Basic Configuration:</button>
+                <div class="Section" id="Section1" style="display: none">
+                    <label for="maps">Map:</label>
+                    <!-- selector for the map. add maps and define the internal names in these options-->
+                    <select id="maps">
+                        <option selected value="Forest_Island">Forest Island</option>
+                        <option value="Ancestral_Plains">Ancestral Plains</option>
+                        <option value="Rival_Shores">Rival Shores</option>
+                        <option value="DM_Caldera">Caldera (DeathMatch)</option>
+                        <option value="Test_Performance">Test Performance (Testing Map)</option>
+                        <option value="BB_Test_Map">BB Test Map(Testing Map)</option>
+                    </select>
+                    <br>
+                    <label for="gamemode">
+                        <div class="tooltip">Gamemode:
+                            <span class="tooltiptext">Life Cycle: grow and reproduce!<br>Combat:Fight to the Death!<br>Free Roam:Explore and chat!</span>
+                        </div>
+                    </label>
+                    <select id="gamemode">
+                            <option value="Life_Cycle">Life Cycle</option>
+                            <option value="Combat">Combat</option>
+                            <option value="Free_Roam">Free Roam</option>
+                        </select>
+                    <br>
+                    <label for="growth">
+                        <div class="tooltip">Growth Cap:<span class="tooltiptext">This limits both the natral and command set growth.<br>Setting your growth above this with commands will revert to this set max on the next growth tick.</span></div></label>
+                    <input type="text" value="20.0" id="growth">
+                    <br>
+                    <label for="discordenable">Discord link Enabled:</label>
+                    <input type="checkbox" id="discordenable" onchange="SHSubSection('discord')" >
+                    <br>
+                    <div id="discord" style="display: none">
+                        <label><div class="tooltip">Discord Join ID:<span class="tooltiptext">this is the code after discord.gg/thiscodehere.<br>Do not include the discord.gg/</span></div></label>
+                        <input type="text" id="discordlink">
+                        <br>
+                    </div>
+                    <label for="steamgroup">Steam Group Required:</label>
+                    <input type="checkbox" id="steamgroup" onchange="SHSubSection('steam')">
+                    <br>
+                    <div id="steam" style="display: none">
+                        <label><div class="tooltip">Steam Group ID:<span class="tooltiptext">this is the "long" steam name that your users should be in</span></div></label>
+                        <input type="text" id="steamname">
+                        <br>
+                    </div>
+                    <label for="motd">
+                        <div class="tooltip">Use MOTD:
+                            <span class="tooltiptext">Make Sure to have the file in place per the <a href="https://wiki.beastsofbermuda.com/Message_of_the_day" target="_blank">wiki entry!</a></span>
+                        </div>
+                    </label>
+                    <input type="checkbox" id="motd" >
+                    <br>
+                    <label for="console"><div class="tooltip">Console Lock:
+                            <span class="tooltiptext">Disabling this will place your server in open console mode and ignore command restriction settings</span>
+                        </div>
+                    </label>
+                    <input type="checkbox" id="console" checked>
+                    <br>
+                    <label for="slots">Reserved Admin Slots:</label>
+                    <input type="text" id = "slots" value="2">
+                    <br>
+                    <label for="gchat">Disable Global Chat:</label>
+                    <input type="checkbox" id="gchat" >
+                    <br>
+                    <label for="carcassrate"><div class="tooltip">Carcass Spawn Rate:
+                            <span class="tooltiptext">This increases the amount of total meat spawned over time on the map</span>
+                        </div></label>
+                    <input type="text" id ="carcassrate" value="1.0" >
+                    <br>
+                    <label for="carcassratio" ><div class="tooltip">Carcass Spawn Ratio:
+                            <span class="tooltiptext">This adjust the size vs number of carcasses spawned.<br>Adjusting it lower will increase the size but lower the count spawned over time<br>Adjusting it higher will decrease the size but increase the count spawned</span>
+                        </div></label>
+                    <input type="text" id ="carcassratio" value="1.0" >
+                    <br>
+                    <label for="DayLegnth">Day Legnth:</label>
+                    <input type="text" id="daycycle" value="7050.0" >
+                    <label for="Autosave">Seconds</label>
+                </div>
+                <button type="button" id="Section2button" onclick="SHfuntion('Section2')">Show Dino Configuration:</button>
+                <div class="Section" id="Section2" style="display: none">
+                    <label for="GroupLimit">
+                        <div class="tooltip">Use Hard Group Limits
+                            <span class="tooltiptext">Enableing this will force groups to respect the creature caps.<br>Any young that hatch into a group at cap will automatically be ejected from the group.<br>Leaving this disabled allows groups to exceed the caps,at the cost that when the adults count reaches the limit,a stress debuff will be applied.</span>
+                        </div></label>
+                    <input type="checkbox" id="grouplimit" onchange="HLToggle()">
+                    <table id="dinos" class="limits" >
+                        <thead>
+                            <tr>
+                                <th>Creature</th>
+                                <th id="dinoh">Soft Limit</th>
+                                <th><div class="tooltip">% server population
+                            <span class="tooltiptext">This sets a limit for the total number of a certin creature compared to the rest of the server.<br>I.E.:50% on pteranodon means that a max of 50% of the server population can be Pteranodons. anyone that exceeds this will have their growth rate SEVERELY reduced.</span></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Acrocanthosaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Apatosaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Elasmosaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Kronosaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Ichthyovenator</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Lurdusaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Megalosaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Mosasaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Oryctodromeus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Pachycephalosaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Parasaurolophus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Pteranodon</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Saichania</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Tropeognathus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Tyrannosaurus</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Utahraptor</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                            <tr>
+                                <td>Velociraptor</td>
+                                <td><input type="text" value="999"></td>
+                                <td><input type="text" value="100.0"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" id="Section3button" onclick="SHfuntion('Section3')">Show Admin Rank Configuration:</button>
+                <div class="Section" id="Section3" style="display: none">
+                    <!-- this will rely HEAVILY on the javascript to create the entries.only the sheer basics are built here.-->
+                    <table id="Ranks">
+                        <thead>
+                            <tr>
+                                <th><div class="tooltip">Rank name<span class="tooltiptext">Server side names for setting permissions.<br>Cannot contain spaces.<br>You cannot share the same name for multiple levels.</span></div></th>
+                                <th><div class="tooltip">Rank Level<span class="tooltiptext">The Numeric level of the rank.<br>Multiple names cannot be at the same level.<br>Ranks with a higher level inherit the power of lower levels.</span></div></th>
+                                <th>Remove Row</th>
+                                <th>Add Row Below</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" value="NoAdmin" onchange="updatename(this)"></td>
+                                <td><input type="text" value="999" ></td>
+                                <td><input type="button" value="X" disabled></td>
+                                <td><input type="button" value="+" onclick="RankAddRow(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" value="DefaultAdmin" onchange="updatename(this)"></td>
+                                <td><input type="text" value="1"></td>
+                                <td><input type="button" value="X" onclick="RankRemoveRow(this)"></td>
+                                <td><input type="button" value="+" onclick="RankAddRow(this)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" id="Section4button" onclick="SHfuntion('Section4')">Show Command Configuration:</button>
+                <div class="Section" id="Section4" style="display: none">
+                    <table id="commands">
+                        <thead>
+                            <tr>
+                                <th>Configuration Variables</th>
+                                <th><div class="tooltip">Minimum Rank<span class="tooltiptext">This is the minimum rank required to use the command. any rank above it will also have access.<br>DO NOT set any of these to blank.</span></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ServerMutePlayer</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br> MutePlayer<br>UnMutePlayer <br>ListPunishedPlayers <br>GetPunishedPlayers</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">KickPlayer</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br> KickPlayer<br>TogglePlayerNameTags</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">BanPlayer</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>BanPlayer<br>UnBanPlayer<br>ListPunishedPlayers<br>GetPunishedPlayers</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">RespawnPlayer</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Respawn<br>RestoreDeadEntity<br>ResurrectPlayer</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ControlWeather</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Lightning<br>SetDayLength<br>SetWeather ReqWeather<br>ForceStorm<br>ToggleWeatherData<br>PauseWeather<br>SetTimeOfDay<br>MoveTornado<br>KillTornado<br>The following command needs additional perms:<br>SpawnTornado</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ClearCarcasses</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DestroyAllCarcasses<br>SpawnCarcass</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ClearBones</div>
+                                        <span class="tooltiptext">allows the usage of ClearAllBones</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">CheckServerData</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>ReqTunnelNodes <br>ReqTunnelEntrances <br>ReqTunnelMeshes <br>ReqTunnelDecorativeMeshes <br>ReqTunnelCollisionMeshes <br>ReqTunnelDespawnTimes <br>ReqTunnelActors</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ModifyServerData</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands: <br>DeleteTunnelNetwork <br>RemoveTunnelNetworkDirtPaddies <br>PurgeOrphanData <br>WipePlayerData <br>RemoveAllCarcasses <br>ResetAllFish <br>ResetFish <br>ForceServerSave <br>ForceServerFlush <br>ForceServerLoad</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ControlServer</div>
+                                        <span class="tooltiptext">Allows the usage of ServerConsoleCommand</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">RestartMap</div>
+                                        <span class="tooltiptext">Allows the usage of RestartLevel</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin" selected>NoAdmin</option>
+                                    <option value="DefaultAdmin">DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">PossessEntity</div>
+                                        <span class="tooltiptext">Allows the usage of PossessEntity and admin mixpacking</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">SpawnEntity</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SpawnEntity <br>SpawnEgg <br>MoveTornado <br>KillTornado <br>GiveEgg <br>DestroyEntity<br>The following command needs additional perms:<br>SpawnTornado</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">UseObserver</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SetViewHitboxes <br>EnterSpectate <br>LeaveSpectate</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">GrowEntity</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SetInBurrow <br>SetModelAngles <br>SetGrowthLevel <br>AddGrowthTime <br>FillAllStats <br>SetStats <br>SetScore</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">Teleport</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Teleport <br>TeleportAt <br>TeleportToP <br>TeleportToMe</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">Announce</div>
+                                        <span class="tooltiptext">Allows the usage of Announce</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ModifyTalents</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SetTalents (to include the 'set x' commands)<br> ListTalentModifiers <br>ListTalentPoints</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ModifyEggAndNesting</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SetGender <br>DisplayHeredity <br>MatePlayers <br>SetFriendship <br>DisplayFriendships <br>DisplayEggs</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" id="Section5button" onclick="SHfuntion('Section5')">Show Player Configuration:</button>
+                <div class="Section" id="Section5" style="display: none">
+                    <p>Note:Leave Staff rank blank if you do not wish to assign a rank,chat tag blank to not assign a tag, and chat color to white to not assign a color</p>
+                    <table id="staff">
+                        <thead>
+                            <tr>
+                                <th><div class="tooltip">Steam ID
+                                        <span class="tooltiptext">This is the SteamID64 for the player.</span>
+                                    </div></th>
+                                <th>Staff Rank</th>
+                                <th><div class="tooltip">Chat Tag
+                                        <span class="tooltiptext">This tag is placed right before the name in chat.use it to identify Staff/Vips/Special people!<br>Leave blank to not set a tag</span>
+                                    </div></th>
+                                <th><div class="tooltip">Name/Tag Color
+                                        <span class="tooltiptext">This will color the tag and name of a user. But will not effect their chat color.<br>Click on the color to change it.<br>Accepts RGB,HSV,HexColor.<br>Leave White to not set a color.</span>
+                                    </div></th>
+                                <th>Delete Line</th>
+                                <th>Add Line</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="text" value="76561197994229267"></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                                <td><input type="text" value="Developer"></td>
+                                <td><input type="color" value="#FF3400"></td>
+                                <td><input type="button" value="X" disabled></td>
+                                <td><input type="button" value="+" onclick="StaffAddRow(this)"></td>
+                            </tr>
+                            <tr>
+                                <td><input type="text" value="76561197998584510"></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                                <td><input type="text" value="Cool Guy"></td>
+                                <td><input type="color" value="#00bfab"></td>
+                                <td><input type="button" value="X" onclick="StaffRemoveRow(this)"></td>
+                                <td><input type="button" value="+" onclick="StaffAddRow(this)"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button type="button" id="Section6button" onclick="SHfuntion('Section6')">Show Advanced Configuration:</button>
+                <div class="Section" id="Section6" style="display: none">
+                    <p>This section contains less often used configuration settings, or setting found under diffrent headers. only change these setting if you understand the risk!</p>
+                    <label for="Autosave">Ausosave frequency:</label>
+                    <input type="text" id="asave"value="135">
+                    <label for="Autosave">Seconds</label>
+                </div>
+                <button type="button" id="Finalbutton" onclick="SHfuntion('Final')">Show Configuration File:</button>
+                <div class="Section" id="Final" style="display: none">
+                <input type="button" value="Generate Game.ini" onclick="GenertateTXT()">
+                <input type="button" value="Export Game.ini" onclick="GenerateFile()">
+                <br>
+                <textarea rows="30" cols="120" style="scroll-behavior: auto ;resize: horizontal" id="Output">Click Generate Game.ini to output your config here,or click Export Game.ini to download a ready to insert file</textarea>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">Built and maintained by Cleafspear#0001<br>This webapp is fully stand alone. no data is ever sent to or from the providing webserver.</footer>
+    </body>
+</html>
+
