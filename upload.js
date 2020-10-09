@@ -207,7 +207,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
             }
         }
      }
-     var ranks = document.getElementById("Ranks");//this one has the largest effect of them all, since it has to build the rows first, then build the options into a fragment for the future scripts to grab and use
+     var ranks = document.getElementById("Ranks").getElementsByTagName('tbody')[0];//this one has the largest effect of them all, since it has to build the rows first, then build the options into a fragment for the future scripts to grab and use
     var rankscount = 0;//resets to 0 on 
     var rankscount = ranks.rows.length;
     for(rowid = 1;rowid < rankscount; rowid++) {
@@ -259,7 +259,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
             }
         }
     }
-    var stafftab = document.getElementById("staff");//this one is going to be a bit messy. we need to run through 3 diffrent arrays, verify and avoid duplicates, and process each row at a time.
+    var stafftab = document.getElementById("staff").getElementsByTagName('tbody')[0];//this one is going to be a bit messy. we need to run through 3 diffrent arrays, verify and avoid duplicates, and process each row at a time.
     //we zipper the 3 diffrent arrays first so we only have to deal with 1 at the end
     var playersettings =[];
     //we start with appending all the staff ranks
