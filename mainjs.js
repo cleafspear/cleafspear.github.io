@@ -39,7 +39,7 @@ function RankRemoveRow(oButton) {
     }
 }
 function RankAddRow(oButton) {
-    var tab = document.getElementById("Ranks").getElementsByTagName('tbody')[0];
+    var tab = document.getElementById("Ranks");
     var selections = document.getElementsByName("Ranks");
     var loc = oButton.parentNode.parentNode.rowIndex + 1;
     var row = tab.insertRow(loc);

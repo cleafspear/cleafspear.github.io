@@ -210,7 +210,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
      var ranks = document.getElementById("Ranks").getElementsByTagName('tbody')[0];//this one has the largest effect of them all, since it has to build the rows first, then build the options into a fragment for the future scripts to grab and use
     var rankscount = 0;//resets to 0 on 
     var rankscount = ranks.rows.length;
-    for(rowid = 1;rowid < rankscount; rowid++) {
+    for(rowid = 0;rowid < rankscount; rowid++) {
         ranks.deleteRow(-1);//simply because deleteing in order row will cause all the indexes to shift, thereby breaking if you try to index from top to bottom
     }
     var rankfragment = document.createDocumentFragment() //stores all options into here when we need to push it during a later entry
@@ -296,7 +296,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     }
     //now with everything zippered together, we can finally buld the interface
     var staffcount = stafftab.rows.length;
-    for(rowid = 1;rowid < staffcount; rowid++) {
+    for(rowid = 0;rowid < staffcount; rowid++) {
         stafftab.deleteRow(-1);
     }
     for(newstaff in playersettings) {
