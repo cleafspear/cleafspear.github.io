@@ -34,12 +34,12 @@ function RankRemoveRow(oButton) {
     var selections = document.getElementsByName("Ranks");//grabs all selects that use this list
     var rIndex = oButton.parentNode.parentNode.rowIndex;//the indexs match thanks to the blank space used as a placeholder of the rows
     tabRanks.deleteRow(rIndex);
-    for(var select in selections){
+    for (var select in selections) {
         selections[select].remove(rIndex);
     }
 }
 function RankAddRow(oButton) {
-    var tab = document.getElementById("Ranks");
+    var tab = document.getElementById("Ranks").getElementsByTagName('tbody')[0];
     var selections = document.getElementsByName("Ranks");
     var loc = oButton.parentNode.parentNode.rowIndex + 1;
     var row = tab.insertRow(loc);
@@ -48,7 +48,7 @@ function RankAddRow(oButton) {
     var cell2 = row.insertCell(2);
     var cell3 = row.insertCell(3);
     cell0.innerHTML = '<input type="text" value="UnnamedRank" onchange="updatename(this)">';
-    cell1.innerHTML = '<input type="text" value="1">';
+    cell1.innerHTML = '<input type="number" value="1" step= 1 onwheel="this.blur()">';
     cell2.innerHTML = '<input type="button" value="X" onclick="RankRemoveRow(this)">';
     cell3.innerHTML = '<input type="button" value="+" onclick="RankAddRow(this)">';
     var opt = document.createElement("option");
@@ -82,7 +82,7 @@ function StaffAddRow(oButton) {
     var cell3 = row.insertCell(3);
     var cell4 = row.insertCell(4);
     var cell5 = row.insertCell(5);
-    cell0.innerHTML = '<input type="text" value="">';
+    cell0.innerHTML = '<input type="number" value="" onchange="validateid(this)" onwheel="this.blur()">';
     cell1.innerHTML = setlist();
     cell2.innerHTML = '<input type="text" value="">';
     cell3.innerHTML = '<input type="color" value="#ffffff">';
@@ -110,4 +110,12 @@ function setlist() {
     var div = document.createElement('div');//hack to turn a fragment into a string
     div.appendChild(fragment.cloneNode(true));
     return '<select name="Ranks">'+div.innerHTML+'</select>';
+}
+
+function validateid(id) {
+    if(id.value.length !== 17 || BigInt(id.value) < 76561197960265729n || BigInt(id.value) > 76561202255233023n ) {//javascript limitation of comparing 64 bit numbers is very blatent here... also this is both the absolute min and max steam id possible
+        id.style.backgroundColor = '#f66';//light red
+    } else {
+        id.style.backgroundColor = '#fff';
+    }
 }

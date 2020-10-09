@@ -57,7 +57,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push(temp.join(''));
     //contains the processing needed to build the dino table. we do not hard code any ids for rows, instead relying on the dino names as a key. this allows us to add to the table without needing to set id or touch this script.
     var dinotable = document.getElementById("dinos");
-    var aData = ["!CreatureLimits = ClearArray"];//accumulator table that will contain the pre-formatted strings before they are piped to the main array
+    var aData = ["!CreatureLimits=ClearArray"];//accumulator table that will contain the pre-formatted strings before they are piped to the main array
     for (i in dinotable.rows) {
         if (i === "length") {break; }
         if (i != 0) {
@@ -109,7 +109,7 @@ function Generate() {//the superfunction that builds all the configurations. any
                 aData.push(temp.join(''));
             }
             if (ptag !== "") {//if the value is blank
-                temp = ['PlayerChatTags=(SteamID=', pID, ', ChatTag="', ptag, '")'];
+                temp = ['PlayerChatTags=(SteamID=', pID, ',ChatTag="', ptag, '")'];
                 cData.push(temp.join(''));
             }
             if (pcolor !== "#ffffff") {//check if white. if it is, dont build to config. we use 6 digit in the value for the default
@@ -125,7 +125,7 @@ function Generate() {//the superfunction that builds all the configurations. any
                     g = "0x" + pcolor[3] + pcolor[4];
                     b = "0x" + pcolor[5] + pcolor[6];
                 }
-                temp = ['PlayerChatColors=(SteamID=', pID, ', ChatColor=(R=', +(r / 255).toFixed(1), ',G=', +(g / 255).toFixed(1), ',B=', +(b / 255).toFixed(1), ',A=1.0', ')'];
+                temp = ['PlayerChatColors=(SteamID=', pID, ',ChatColor=(R=', +(r / 255).toFixed(1), ',G=', +(g / 255).toFixed(1), ',B=', +(b / 255).toFixed(1), ',A=1.0', ')'];
                 bData.push(temp.join(''));
             }
         }

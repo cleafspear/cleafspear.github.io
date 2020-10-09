@@ -202,8 +202,8 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
                 }
             }
             if(!valid) {//somehow we dont have a creature set in the config so build a default
-                dinotable.rows[i].cells[1].firstChild.value = "100";
-                dinotable.rows[i].cells[2].firstChild.value = "999";
+                dinotable.rows[i].cells[1].firstChild.value = "999";
+                dinotable.rows[i].cells[2].firstChild.value = "100";
             }
         }
      }
@@ -225,7 +225,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
         var cell2 = row.insertCell(2);
         var cell3 = row.insertCell(3);
         cell0.innerHTML = '<input type="text" value="'+AdminRanks[newranks][0]+'" onchange="updatename(this)">';
-        cell1.innerHTML = '<input type="text" value='+AdminRanks[newranks][1]+'>';
+        cell1.innerHTML = '<input type="number" value='+AdminRanks[newranks][1]+' step= 1 onwheel="this.blur()">';
         if(newranks == 0) {
             cell2.innerHTML = '<input type="button" value="X" disabled>';
         } else {
@@ -309,7 +309,11 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     var cell3 = row.insertCell(3);
     var cell4 = row.insertCell(4);
     var cell5 = row.insertCell(5);
-    cell0.innerHTML = '<input type="text" value='+playersettings[newstaff][0]+'>';
+    //we do a bit of input validation now the cell is built but before we add the data.
+    if(playersettings[newstaff][0].length !== 17 || BigInt(playersettings[newstaff][0]) < 76561197960265729n || BigInt(playersettings[newstaff][0]) > 76561202255233023n ) {
+         cell1.style.backgroundColor = '#f66';//light red background to denote an error
+    }
+    cell0.innerHTML = '<input type="number" value='+playersettings[newstaff][0]+' onchange="validateid(this)" onwheel="this.blur()">';
     cell1.innerHTML = '<select name="Ranks">'+div.innerHTML+'</select>';
     cell1.firstChild.value = playersettings[newstaff][1];
     cell2.innerHTML = '<input type="text" value="'+playersettings[newstaff][2]+'">';
@@ -322,6 +326,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     cell5.innerHTML = '<input type="button" value="+" onclick="StaffAddRow(this)">';
     }
     document.getElementById('asave').value = AutosaveTime;
+    document.getElementById("Output").innerHTML='Click Generate Game.ini to output your new config here,or click Export Game.ini to download a ready to insert file';
 }
 function readdata(selector) {
     var fileList = selector.files;
