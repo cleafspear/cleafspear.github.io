@@ -8,11 +8,36 @@ body {
 .content {
   flex: 1 0 auto;
 }
-.footer {
-  flex-shrink: 0;
-padding: 10px;
+#footer {
+    position: relative;
+    overflow: hidden;
 }
+.wrap {
+    position: relative;
+    margin: 0 auto;
+    padding-bottom: 5px;
+    padding-top: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    overflow: hidden;
 
+}
+.Fsectionl {
+    float: left;
+    width: 20%;
+}
+.Fsectionr {
+    float: right;
+    text-align: end;
+    width: 20%;
+}
+.Fsectionc {
+    overflow: hidden;
+    text-align: center;
+}
+.limits {
+    text-align: center;
+}
 /*this is the W3Schools implementation of the tooltip */
 .tooltip {
   position: relative;
@@ -37,7 +62,10 @@ padding: 10px;
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
-
+.Section {
+    padding: 10px;
+    
+}
 /*disables the scroll buttons in number fields*/
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,

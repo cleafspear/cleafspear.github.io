@@ -205,7 +205,7 @@
                 <button type="button" id="Section3button" onclick="SHfuntion('Section3')">Show Admin Rank Configuration:</button>
                 <div class="Section" id="Section3" style="display: none">
                     <!-- this will rely HEAVILY on the javascript to create the entries.only the sheer basics are built here.-->
-                    <table id="Ranks">
+                    <table id="Ranks" class="limits">
                         <thead>
                             <tr>
                                 <th><div class="tooltip">Rank name<span class="tooltiptext">Server side names for setting permissions.<br>Cannot contain spaces.<br>You cannot share the same name for multiple levels.</span></div></th>
@@ -436,7 +436,7 @@
                 <button type="button" id="Section5button" onclick="SHfuntion('Section5')">Show Player Configuration:</button>
                 <div class="Section" id="Section5" style="display: none">
                     <p>Note:Leave Staff rank blank if you do not wish to assign a rank,chat tag blank to not assign a tag, and chat color to white to not assign a color</p>
-                    <table id="staff">
+                    <table id="staff" class="limits">
                         <thead>
                             <tr>
                                 <th><div class="tooltip">Steam ID
@@ -497,7 +497,14 @@
                 </div>
             </div>
         </div>
-        <footer class="footer">Built and maintained by Cleafspear#0001<br>This webapp is fully stand alone. no data is ever sent to or from the providing webserver.</footer>
+        <footer class="footer">
+            <div class='wrap'>
+            <div class='Fsectionl'>Built and maintained by Cleafspear#0001</div>
+            <div class='Fsectionr'> Issues?/Feature request? submit <a href="https://github.com/cleafspear/cleafspear.github.io/">here on github.</a></div>
+            <div class='Fsectionc'>This webapp contains no tracking for itself or 3rd party providers.</div>
+            
+            </div>
+        </footer>
     </body>
 </html>
 
