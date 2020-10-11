@@ -14,7 +14,8 @@ var MapNameOverride="Forest_Island",
     bDisableGlobalChat=false,
     CarcassRateMultiplier=1,
     CarcassSpawnRatio=1,
-    DayLength='7050',
+    DayLength=7050,
+    TunnelNetworkDespawnTime=4320,
     bUseHardGroupLimits=false,
     CreatureLimits=[],
     AdminRanks=[],
@@ -153,6 +154,9 @@ function parsedata(data) {
             case 'AutosaveTime':
                 AutosaveTime = parseInt(linedata[1],10);
                 break;
+            case 'TunnelNetworkDespawnTime'://NEW minutes to despawn tunnel networks. ticks every 5 minutes. lags by 5  minutes
+                TunnelNetworkDespawnTime = parseFloat(linedata[1]);
+                break;
             default:
                 console.log(linedata[0]+" Was Discarded")
         }
@@ -183,6 +187,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     document.getElementById('carcassratio').value = CarcassSpawnRatio;
     document.getElementById('daycycle').value = DayLength;
     document.getElementById('grouplimit').checked = bUseHardGroupLimits;
+    document.getElementById('TunnelLifetime').value = TunnelNetworkDespawnTime;
     if(bUseHardGroupLimits) {
         document.getElementById("dinoh").textContent = "Absolute Group limit";
     } else {

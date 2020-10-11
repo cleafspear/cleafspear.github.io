@@ -94,8 +94,14 @@
                     <input type="number" id ="carcassratio" value="1.0" min=0 max =2>
                     <br>
                     <label for="DayLegnth">Day Legnth:</label>
-                    <input type="text" id="daycycle" value="7050.0" >
-                    <label for="Autosave">Seconds</label>
+                    <input type="number" id="daycycle" value="7050.0" >
+                    <label for="DayLegnth">Seconds</label>
+                    <br>
+                    <label for="TunnelLifetime"><div class="tooltip">Tunnel Despawn time:
+                            <span class="tooltiptext">This determins the legnth of time a burrow network will remain after its last edit.<br>Please note, the tunnels are checked every 5 minutes, and there is a 5 minute delay when the timer hits 0 before it removes a network.</span>
+                        </div></label>
+                    <input type="number" id="TunnelLifetime" min=5 value= 4320 step=5 onwheel="this.blur()">
+                    <label for="TunnelLifetime">Minutes</label>
                 </div>
                 <button type="button" id="Section2button" onclick="SHfuntion('Section2')">Show Dino Configuration:</button>
                 <div class="Section" id="Section2" style="display: none">
