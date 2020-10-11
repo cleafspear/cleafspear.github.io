@@ -84,14 +84,14 @@
                     <input type="checkbox" id="gchat" >
                     <br>
                     <label for="carcassrate"><div class="tooltip">Carcass Spawn Rate:
-                            <span class="tooltiptext">This increases the amount of total meat spawned over time on the map</span>
+                            <span class="tooltiptext">This multiplies the amount of total meat spawned over time on the map. max is 8x normal</span>
                         </div></label>
-                    <input type="text" id ="carcassrate" value="1.0" >
+                    <input type="number" id ="carcassrate" value="1.0" min=0 max =8>
                     <br>
                     <label for="carcassratio" ><div class="tooltip">Carcass Spawn Ratio:
-                            <span class="tooltiptext">This adjust the size vs number of carcasses spawned.<br>Adjusting it lower will increase the size but lower the count spawned over time<br>Adjusting it higher will decrease the size but increase the count spawned</span>
+                            <span class="tooltiptext">This adjust the size vs number of carcasses spawned.<br>A value closer to 0 will cause carcasses to spawn large, but rarely.<br>A value closer to 2 will cause carcasses to spawn small, but often.</span>
                         </div></label>
-                    <input type="text" id ="carcassratio" value="1.0" >
+                    <input type="number" id ="carcassratio" value="1.0" min=0 max =2>
                     <br>
                     <label for="DayLegnth">Day Legnth:</label>
                     <input type="text" id="daycycle" value="7050.0" >
