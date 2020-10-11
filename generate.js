@@ -125,7 +125,7 @@ function Generate() {//the superfunction that builds all the configurations. any
                     g = "0x" + pcolor[3] + pcolor[4];
                     b = "0x" + pcolor[5] + pcolor[6];
                 }
-                temp = ['PlayerChatColors=(SteamID=', pID, ',ChatColor=(R=', +(r / 255).toFixed(1), ',G=', +(g / 255).toFixed(1), ',B=', +(b / 255).toFixed(1), ',A=1.0', ')'];
+                temp = ['PlayerChatColors=(SteamID=', pID, ',ChatColor=(R=', +(r / 255).toFixed(1), ',G=', +(g / 255).toFixed(1), ',B=', +(b / 255).toFixed(1), ',A=1.0', '))'];
                 bData.push(temp.join(''));
             }
         }
