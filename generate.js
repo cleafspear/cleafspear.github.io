@@ -76,7 +76,7 @@ function Generate() {//the superfunction that builds all the configurations. any
         if (i != 0) {
             var rname = ranks.rows[i].cells[0].firstChild.value;
             var rlevel = ranks.rows[i].cells[1].firstChild.value;
-            temp = ['AdminRanks=(AdminRank="', rname, '",RankLevel=', rlevel, '")'];
+            temp = ['AdminRanks=(AdminRank="', rname, '",RankLevel=', rlevel, ')'];
             aData.push(temp.join(''));
         }
     }
