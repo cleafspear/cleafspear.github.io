@@ -94,8 +94,14 @@
                     <input type="number" id ="carcassratio" value="1.0" min=0 max =2>
                     <br>
                     <label for="DayLegnth">Day Legnth:</label>
-                    <input type="text" id="daycycle" value="7050.0" >
-                    <label for="Autosave">Seconds</label>
+                    <input type="number" id="daycycle" value="7050.0" >
+                    <label for="DayLegnth">Seconds</label>
+                    <br>
+                    <label for="TunnelLifetime"><div class="tooltip">Tunnel Despawn time:
+                            <span class="tooltiptext">This determins the legnth of time a burrow network will remain after its last edit.<br>Please note, the tunnels are checked every 5 minutes, and there is a 5 minute delay when the timer hits 0 before it removes a network.</span>
+                        </div></label>
+                    <input type="number" id="TunnelLifetime" min=0 value= 259200 step=300 onwheel="this.blur()">
+                    <label for="TunnelLifetime">Seconds</label>
                 </div>
                 <button type="button" id="Section2button" onclick="SHfuntion('Section2')">Show Dino Configuration:</button>
                 <div class="Section" id="Section2" style="display: none">
@@ -292,7 +298,7 @@
                             </tr>
                             <tr>
                                 <td ><div class="tooltip"><div class="name">ClearCarcasses</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DestroyAllCarcasses<br>SpawnCarcass</span>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DestroyAllCarcasses<br>SpawnCarcass<br>ListCarcasses</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -447,8 +453,12 @@
                                         <span class="tooltiptext">This tag is placed right before the name in chat.use it to identify Staff/Vips/Special people!<br>Leave blank to not set a tag</span>
                                     </div></th>
                                 <th><div class="tooltip">Name/Tag Color
-                                        <span class="tooltiptext">This will color the tag and name of a user. But will not effect their chat color.<br>Click on the color to change it.<br>Accepts RGB,HSV,HexColor.<br>Leave White to not set a color.</span>
+                                        <span class="tooltiptext">This will color the tag and name of a user. But will not effect their chat color.<br>Click on the color to change it.<br>Accepts RGB,HSV,HexColor.<br>Leave White to not set a color.<br>will automatically adjust the color/value to the closest accepted by the game</span>
                                     </div></th>
+                                <th><div class="tooltip">Hex code
+                                        <span class="tooltiptext">This is the Hexcode for the Name/Tag Color<br> Allows copy/paste of colors<br>Accepts HexColor.<br>Leave #ffffff to disable<br>will automatically adjust the color/value to the closest accepted by the game
+                                    </span>
+                                    </div>
                                 <th>Delete Line</th>
                                 <th>Add Line</th>
                             </tr>
@@ -462,7 +472,8 @@
                                     <option value="DefaultAdmin" selected>DefaultAdmin</option>
                                     </select></td>
                                 <td><input type="text" value="Developer"></td>
-                                <td><input type="color" value="#FF3400"></td>
+                                <td><input type="color" value="#ff3300" onchange="ValidateColor(this)"></td>
+                                <td><input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#ff3300" style="vertical-align: middle"></td>
                                 <td><input type="button" value="X" disabled></td>
                                 <td><input type="button" value="+" onclick="StaffAddRow(this)"></td>
                             </tr>
@@ -474,7 +485,8 @@
                                     <option value="DefaultAdmin" selected>DefaultAdmin</option>
                                     </select></td>
                                 <td><input type="text" value="Cool Guy"></td>
-                                <td><input type="color" value="#00bfab"></td>
+                                <td><input type="color" value="#00b2b2" onchange="ValidateColor(this)"></td>
+                                <td><input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#00b2b2" style="vertical-align: middle"></td>
                                 <td><input type="button" value="X" onclick="StaffRemoveRow(this)"></td>
                                 <td><input type="button" value="+" onclick="StaffAddRow(this)"></td>
                             </tr>

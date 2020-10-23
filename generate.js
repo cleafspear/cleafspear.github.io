@@ -52,6 +52,9 @@ function Generate() {//the superfunction that builds all the configurations. any
     var daycycle = document.getElementById("daycycle").value;//day legnth.
     temp = ['DayLength=', daycycle, 'f'];
     output.push(temp.join(''));
+    var tunneltimer = document.getElementById('TunnelLifetime').value;//tunnel lifetime
+    temp = ['TunnelNetworkDespawnTime=',tunneltimer];
+    output.push(temp.join(''));
     var grouplimit = document.getElementById("grouplimit").checked;
     temp = ['bUseHardGroupLimits=', grouplimit];
     output.push(temp.join(''));
