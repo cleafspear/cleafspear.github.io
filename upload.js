@@ -15,7 +15,7 @@ var MapNameOverride="Forest_Island",
     CarcassRateMultiplier=1,
     CarcassSpawnRatio=1,
     DayLength=7050,
-    TunnelNetworkDespawnTime=4320,
+    TunnelNetworkDespawnTime=259200,
     bUseHardGroupLimits=false,
     CreatureLimits=[],
     AdminRanks=[],
@@ -314,6 +314,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     var cell3 = row.insertCell(3);
     var cell4 = row.insertCell(4);
     var cell5 = row.insertCell(5);
+    var cell6 = row.insertCell(6);
     //we do a bit of input validation now the cell is built but before we add the data.
     if(playersettings[newstaff][0].length !== 17 || BigInt(playersettings[newstaff][0]) < 76561197960265729n || BigInt(playersettings[newstaff][0]) > 76561202255233023n ) {
          cell1.style.backgroundColor = '#f66';//light red background to denote an error
@@ -322,13 +323,14 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     cell1.innerHTML = '<select name="Ranks">'+div.innerHTML+'</select>';
     cell1.firstChild.value = playersettings[newstaff][1];
     cell2.innerHTML = '<input type="text" value="'+playersettings[newstaff][2]+'">';
-    cell3.innerHTML = '<input type="color" value='+playersettings[newstaff][3]+'>';
+    cell3.innerHTML = '<input type="color" value='+playersettings[newstaff][3]+' onchange="ValidateColor(this)">';
+    cell4.innerHTML = '<input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="'+playersettings[newstaff][3]+'" style="vertical-align: middle">'
     if(newstaff == 0) {
-        cell4.innerHTML = '<input type="button" value="X" disabled>';
+        cell5.innerHTML = '<input type="button" value="X" disabled>';
     } else {
-        cell4.innerHTML = '<input type="button" value="X" onclick="StaffRemoveRow(this)">';
+        cell5.innerHTML = '<input type="button" value="X" onclick="StaffRemoveRow(this)">';
     }
-    cell5.innerHTML = '<input type="button" value="+" onclick="StaffAddRow(this)">';
+    cell6.innerHTML = '<input type="button" value="+" onclick="StaffAddRow(this)">';
     }
     document.getElementById('asave').value = AutosaveTime;
     document.getElementById("Output").innerHTML='Click Generate Game.ini to output your new config here,or click Export Game.ini to download a ready to insert file';
