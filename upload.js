@@ -139,16 +139,28 @@ function parsedata(data) {
                 ServerAdmins.push([id,rank])
                 break;
             case 'PlayerChatColors':
-                var id = linedata[2].slice(0,17);
-                var cr = Math.floor(parseFloat(linedata[4])*255);
-                var cg = Math.floor(parseFloat(linedata[5])*255);
-                var cb = Math.floor(parseFloat(linedata[6])*255);
+                try {
+                    var id = linedata[2].slice(0,17);
+                    var cr = Math.floor(parseFloat(linedata[4])*255);
+                    var cg = Math.floor(parseFloat(linedata[5])*255);
+                    var cb = Math.floor(parseFloat(linedata[6])*255);
+                }
+                catch(err) {
+                    console.log("error reading player chat colors, discarding line data data"+linedata);
+                    break;
+                }
                 var hexrgb = "#" + ((1 << 24) + (cr << 16) + (cg << 8) + cb).toString(16).slice(1);//we never actually use the float version of the colors, and ironically this will repair any configs that have incorrect floats setup as well
                 PlayerChatColors.push([id, hexrgb]);
                 break;
             case 'PlayerChatTags':
-                var id = linedata[2].slice(0,17);
-                var tag = linedata[3].trim().slice(1,-2).trim();
+                try {
+                    var id = linedata[2].slice(0,17);
+                    var tag = linedata[3].trim().slice(1,-2).trim();
+                }
+                 catch(err) {
+                    console.log("error reading player chat tags, discarding line data"+linedata);
+                    break;
+                }
                 PlayerChatTags.push([id,tag]);
                 break;
             case 'AutosaveTime':
