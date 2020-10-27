@@ -105,6 +105,12 @@
                 </div>
                 <button type="button" id="Section2button" onclick="SHfuntion('Section2')">Show Dino Configuration:</button>
                 <div class="Section" id="Section2" style="display: none">
+                    <label for="Mixherd">
+                        <div class="tooltip">Use Mix herd Caps
+                            <span class="tooltiptext">  -When True, calculation of group caps (both soft and hard) use all members of a group, regardless of species<br>-When False, calculation of group caps (both soft and hard) use only members of the group that match the species of the player</span>
+                        </div></label>
+                    <input type="checkbox" id="Mixherd">
+                    <br>
                     <label for="GroupLimit">
                         <div class="tooltip">Use Hard Group Limits
                             <span class="tooltiptext">Enabling this will force groups to respect the creature caps.<br>Any young that hatch into a group at cap will automatically be ejected from the group.<br>Leaving this disabled allows groups to exceed the caps,at the cost that when the adults count reaches the limit,a stress debuff will be applied.</span>
