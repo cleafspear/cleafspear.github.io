@@ -16,6 +16,7 @@ var MapNameOverride="Forest_Island",
     CarcassSpawnRatio=1,
     DayLength=7050,
     TunnelNetworkDespawnTime=259200,
+    bUseMixedHerdCaps=true,
     bUseHardGroupLimits=false,
     CreatureLimits=[],
     AdminRanks=[],
@@ -110,6 +111,9 @@ function parsedata(data) {
             case 'DayLength':
                 DayLength= parseFloat(linedata[1]);
                 break;
+            case 'bUseMixedHerdCaps':
+                bUseMixedHerdCaps= (linedata[1].toLowerCase().trim() == "true");
+                break;
             case 'bUseHardGroupLimits':
                 bUseHardGroupLimits = (linedata[1].toLowerCase().trim() == "true");
                 break;
@@ -200,6 +204,7 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     document.getElementById('daycycle').value = DayLength;
     document.getElementById('grouplimit').checked = bUseHardGroupLimits;
     document.getElementById('TunnelLifetime').value = TunnelNetworkDespawnTime;
+    document.getElementById('Mixherd').value = bUseMixedHerdCaps;
     if(bUseHardGroupLimits) {
         document.getElementById("dinoh").textContent = "Absolute Group limit";
     } else {

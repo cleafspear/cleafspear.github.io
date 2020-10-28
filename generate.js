@@ -4,60 +4,31 @@ function Generate() {//the superfunction that builds all the configurations. any
     var temp = [];//the temp array is reused for constructing entries.yes its lazy.yes, its technically ineffecent, but this code dosent need to be fast, it needs to be smartly setup and EASY to add to and modify.
     var i = 0;
     output.push('[/Script/BeastsOfBermuda.ServerGameInstance]');//Header of the file
-    var map = document.getElementById("maps").value;//maps
-    temp = ['MapNameOverride="', map, '"'];//get familiar with this setup....its going to be used a fair bit.
-    output.push(temp.join(''));//do a push after every build to not lose data.
-    var gamemode = document.getElementById("gamemode").value;//gamemode
-    temp = ['GameMode=', gamemode];
-    output.push(temp.join(''));
-    var growth = document.getElementById("growth").value;//growth limit
-    temp = ['GrowthLimit=', growth, "f"];
-    output.push(temp.join(''));
+    output.push('MapNameOverride="'+document.getElementById("maps").value+'"');
+    output.push('GameMode='+document.getElementById("gamemode").value);
+    output.push('GrowthLimit='+document.getElementById("growth").value+'f');
     //discord setup function. only push the link if the variable is set to true.
     var discordenab = document.getElementById("discordenable").checked;//discord enable and link
-    temp = ['bDisplayDiscordLink=', discordenab];
-    output.push(temp.join(''));
+    output.push('bDisplayDiscordLink='+discordenab);
     if (discordenab) {
-        var discordlink = document.getElementById("discordlink").value;
-        temp = ['DiscordLink="', discordlink, '"'];//we dont actually check of the link is valid or empty.this is entirely to the user.
-        output.push(temp.join(''));
+        output.push('DiscordLink="'+document.getElementById("discordlink").value+'"');//we dont actually check of the link is valid or empty.this is entirely to the user.
     }
     //steam setup function. only push the link if the variable is set to true.
     var steamgroup = document.getElementById("steamgroup").checked;
-    temp = ['bRequireSteamGroupToJoin=', steamgroup];
-    output.push(temp.join(''));
+    output.push('bRequireSteamGroupToJoin='+steamgroup);
     if (steamgroup) {
-        var steamname =  document.getElementById("steamname").value;
-        temp = ['SteamGroupName="', steamname, '"'];
-        output.push(temp.join(''));
+        output.push('SteamGroupName="'+document.getElementById("steamname").value+'"');
     }
-    var motd = document.getElementById("motd").checked;//motd
-    temp = ['bDisplayIntroMessage=', motd];
-    output.push(temp.join(''));
-    var console = document.getElementById("console").checked;//console enable
-    temp = ['bConsoleLocked=', console];
-    output.push(temp.join(''));
-    var slots = document.getElementById("slots").value;//admin slots
-    temp = ['ReservedAdminSlots=', slots];
-    output.push(temp.join(''));
-    var gchat = document.getElementById("gchat").checked;//global chat disable
-    temp = ['bDisableGlobalChat=', gchat];
-    output.push(temp.join(''));
-    var carcassrate = document.getElementById("carcassrate").value;//carcass spawn rate
-    temp = ['CarcassRateMultiplier=', carcassrate, 'f'];
-    output.push(temp.join(''));
-    var carcassratio = document.getElementById("carcassratio").value;//carcass ratio
-    temp = ['CarcassSpawnRatio=', carcassratio, 'f'];
-    output.push(temp.join(''));
-    var daycycle = document.getElementById("daycycle").value;//day legnth.
-    temp = ['DayLength=', daycycle, 'f'];
-    output.push(temp.join(''));
-    var tunneltimer = document.getElementById('TunnelLifetime').value;//tunnel lifetime
-    temp = ['TunnelNetworkDespawnTime=',tunneltimer];
-    output.push(temp.join(''));
-    var grouplimit = document.getElementById("grouplimit").checked;
-    temp = ['bUseHardGroupLimits=', grouplimit];
-    output.push(temp.join(''));
+    output.push('bDisplayIntroMessage='+document.getElementById("motd").checked);
+    output.push('bConsoleLocked='+document.getElementById("console").checked);
+    output.push('ReservedAdminSlots='+document.getElementById("slots").value);
+    output.push('bDisableGlobalChat='+document.getElementById("gchat").checked);
+    output.push('CarcassRateMultiplier='+document.getElementById("carcassrate").value+ 'f');
+    output.push('CarcassSpawnRatio='+document.getElementById("carcassratio").value+'f');
+    output.push('DayLength='+document.getElementById("daycycle").value+'f');
+    output.push('TunnelNetworkDespawnTime='+document.getElementById('TunnelLifetime').value);
+    output.push('bUseMixedHerdCaps='+document.getElementById('Mixherd').checked);//mixherdcaps
+    output.push('bUseHardGroupLimits='+document.getElementById("grouplimit").checked);
     //contains the processing needed to build the dino table. we do not hard code any ids for rows, instead relying on the dino names as a key. this allows us to add to the table without needing to set id or touch this script.
     var dinotable = document.getElementById("dinos");
     var aData = ["!CreatureLimits=ClearArray"];//accumulator table that will contain the pre-formatted strings before they are piped to the main array
@@ -137,9 +108,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push(bData.join('\r\n'));
     output.push(cData.join('\r\n'));
     output.push('[/Script/BeastsOfBermuda.SaveSystem]');//lazy addition for the save system
-    var asave = document.getElementById("asave").value;
-    temp = ['AutosaveTime=', asave]
-    output.push(temp.join(''));
+    output.push('AutosaveTime='+document.getElementById("asave").value);
     return output.join('\r\n');//use a newline as the joining item before outputting.
 }
 function GenertateTXT() {//will call generate and direct the output to the output window on the form.
