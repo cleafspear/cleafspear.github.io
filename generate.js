@@ -118,7 +118,7 @@ function GenertateTXT() {//will call generate and direct the output to the outpu
 }
 function GenerateFile() {//calls generate and parses the output to a game.ini text file. check documentation for all browsers for support
     var data = Generate();
-    var filename = "game.ini";//in case it EVER needs to change, here is the filename
+    var filename = "Game.ini";//in case it EVER needs to change, here is the filename
     var element = document.createElement('a');//we are going to generate and click a link to force a download to the client. this is a hack but works on all but safari
     element.setAttribute('href','data:text/plain;charset=utf-8,'+encodeURIComponent(data));
     element.setAttribute('download',filename)

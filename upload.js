@@ -24,7 +24,8 @@ var MapNameOverride="Forest_Island",
     ServerAdmins=[],
     PlayerChatColors=[],
     PlayerChatTags=[],
-    AutosaveTime=135;
+    AutosaveTime=135,
+    CompatibilityMode=false;//this will show a notice to the user that their config was loaded with paramaters that are outdated
 
 function parsedata1(data) {
     var dataarray = data.split(/\n/);
@@ -59,6 +60,7 @@ function parsedata(data) {
     PlayerChatColors=[];
     PlayerChatTags=[];
     AutosaveTime=135;
+    CompatibilityMode=false;
     console.log(data);
     data = data.replace(/\r/g,'');//in case we have carrige returns in the file,strips them before processing. we will add them back when we generate a new file
     var dataarray = data.split(/\n/);
@@ -102,6 +104,8 @@ function parsedata(data) {
             case 'bDisableGlobalChat':
                 bDisableGlobalChat= (linedata[1].toLowerCase().trim() == "true");
                 break;
+            case 'CarcassRateModifier'://for VERY OLD config imports
+                CompatibilityMode=true;
             case 'CarcassRateMultiplier':
                 CarcassRateMultiplier= parseFloat(linedata[1]);
                 break;
@@ -118,27 +122,32 @@ function parsedata(data) {
                 bUseHardGroupLimits = (linedata[1].toLowerCase().trim() == "true");
                 break;
             case '+CreatureLimits'://because its use in WAY old files and may exist in current files
+                CompatibilityMode=true;
             case 'CreatureLimits'://needs pre-processing befor pushing to the table
-                if(linedata[1] !== '(CreatureType') {
+                if(linedata[1].trim() !== '(CreatureType') {
+                    CompatibilityMode=true;
                     break;
                 }
-                var cr = linedata[2].replace(/EDinoType::|,PercentAllowed/g,'').trim();
+                var cr = linedata[2].replace(/[:,'"]|EDinoType|PercentAllowed/g,'').trim();
                 var pa = parseFloat(linedata[3]);
                 var gl = parseInt(linedata[4],10);
+                if (linedata[4].includes('bRequiresVeteran')){
+                    CompatibilityMode=true;//done to warn users that their config contains an old setting
+                }
                 CreatureLimits.push([cr,pa,gl]);
                 break;
             case 'AdminRanks':
-                var ra = linedata[2].trim().slice(1,-11).trim();
+                var ra = linedata[2].trim().slice(1,-11).trim().replace(/['"]+/g,'');//fix for when people space out data in their config files and cause offsets that leaves quotes in the string
                 var le = parseInt(linedata[3],10);
                 AdminRanks.push([ra,le]);
                 break;
             case 'AdminCommandRules':
-                var cmd = linedata[2].trim().slice(16,-12).trim();
+                var cmd = linedata[2].trim().slice(16,-12).trim().replace(/[ ,]+/g,'');//again with the pesky spaces...
                 var rank = linedata[3].trim().slice(1,-2).trim();
                 AdminCommandRules.push([cmd,rank]);
                 break;
             case 'ServerAdmins':
-                var id = linedata[2].slice(0,17);
+                var id = linedata[2].trim().slice(0,17);
                 var rank = linedata[3].trim().slice(1,-2).trim();
                 ServerAdmins.push([id,rank])
                 break;
@@ -150,7 +159,7 @@ function parsedata(data) {
                     var cb = Math.floor(parseFloat(linedata[6])*255);
                 }
                 catch(err) {
-                    console.log("error reading player chat colors, discarding line data data"+linedata);
+                    console.log("error reading player chat colors, discarding line data "+linedata);
                     break;
                 }
                 var hexrgb = "#" + ((1 << 24) + (cr << 16) + (cg << 8) + cb).toString(16).slice(1);//we never actually use the float version of the colors, and ironically this will repair any configs that have incorrect floats setup as well
@@ -172,6 +181,8 @@ function parsedata(data) {
                 break;
             case 'TunnelNetworkDespawnTime'://NEW minutes to despawn tunnel networks. ticks every 5 minutes. lags by 5  minutes
                 TunnelNetworkDespawnTime = parseFloat(linedata[1]);
+                break;
+            case '[/Script/BeastsOfBermuda.ServerGameInstance]':
                 break;
             default:
                 console.log(linedata[0]+" Was Discarded")
@@ -351,6 +362,9 @@ function buildpage(){//you must call parsedata before buildpage, otherwise it wi
     }
     document.getElementById('asave').value = AutosaveTime;
     document.getElementById("Output").innerHTML='Click Generate Game.ini to output your new config here,or click Export Game.ini to download a ready to insert file';
+    if (CompatibilityMode) {//we loaded the file in compatibility update mode. warn the user
+        confirm("Notice: your configuration file was loaded with outdated settings that are no longer compatible with the current server version. we have attempted to update them to the matching correct settings. please use the configuration export option to export an up-to-date config after verifying all your settings");
+    }
 }
 function readdata(selector) {
     var fileList = selector.files;
