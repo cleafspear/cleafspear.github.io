@@ -1,7 +1,7 @@
 //used by header buttons to set the div state as well as the button text
 function SHfuntion(loc) {
-    var select = document.getElementById(loc);
-    var but = document.getElementById(loc.concat("button"));
+    var select = document.getElementById(loc),
+        but = document.getElementById(loc.concat("button"));
     if (select.style.display === "none") {
         select.style.display = "block";
         but.textContent = "Hide".concat(but.textContent.slice(4));
@@ -30,92 +30,98 @@ function HLToggle() {
 }
 //used to build and destroy the rank level lines. passes values over to the command and player configuration
 function RankRemoveRow(oButton) {
-    var tabRanks = document.getElementById("Ranks");
-    var selections = document.getElementsByName("Ranks");//grabs all selects that use this list
-    var rIndex = oButton.parentNode.parentNode.rowIndex;//the indexs match thanks to the blank space used as a placeholder of the rows
+    var tabRanks = document.getElementById("Ranks"),
+        selections = document.getElementsByName("Ranks"),//grabs all selects that use this list
+        rIndex = oButton.parentNode.parentNode.rowIndex,//the indexs match thanks to the blank space used as a placeholder of the rows
+        select = 0;
     tabRanks.deleteRow(rIndex);
-    for (var select in selections) {
+    for (select in selections) {
         selections[select].remove(rIndex);
     }
 }
 function RankAddRow(oButton) {
-    var tab = document.getElementById("Ranks");
-    var selections = document.getElementsByName("Ranks");
-    var loc = oButton.parentNode.parentNode.rowIndex + 1;
-    var row = tab.insertRow(loc);
-    var cell0 = row.insertCell(0);//you have to define all the cells to variables before modifying them, else it will fail to populate the cells
-    var cell1 = row.insertCell(1);
-    var cell2 = row.insertCell(2);
-    var cell3 = row.insertCell(3);
+    var tab = document.getElementById("Ranks"),
+        selections = document.getElementsByName("Ranks"),
+        loc = oButton.parentNode.parentNode.rowIndex + 1,
+        row = tab.insertRow(loc),
+        cell0 = row.insertCell(0),//you have to define all the cells to variables before modifying them, else it will fail to populate the cells
+        cell1 = row.insertCell(1),
+        cell2 = row.insertCell(2),
+        cell3 = row.insertCell(3),
+        opt = document.createElement("option"),
+        select = 0;
     cell0.innerHTML = '<input type="text" value="UnnamedRank" onchange="updatename(this)">';
     cell1.innerHTML = '<input type="number" value="1" step= 1 onwheel="this.blur()">';
     cell2.innerHTML = '<input type="button" value="X" onclick="RankRemoveRow(this)">';
     cell3.innerHTML = '<input type="button" value="+" onclick="RankAddRow(this)">';
-    var opt = document.createElement("option");
     opt.innerHTML = "UnnamedRank";
     opt.value = "UnnamedRank";
-     for(var select in selections){
-         selections[select].add(opt.cloneNode(true),loc);
-     }
+    for (select in selections) {
+        selections[select].add(opt.cloneNode(true), loc);
+    }
          
 }
 function updatename(oText) {
-    var loc = oText.parentNode.parentNode.rowIndex;
-    var selections = document.getElementsByName("Ranks");
-    for(var select in selections){
-         selections[select].options[loc].value = oText.value;
-         selections[select].options[loc].innerHTML = oText.value;
-     }
+    var loc = oText.parentNode.parentNode.rowIndex,
+        selections = document.getElementsByName("Ranks"),
+        select = 0;
+    for (select in selections) {
+        selections[select].options[loc].value = oText.value;
+        selections[select].options[loc].innerHTML = oText.value;
+    }
 }
 //used to build and destroy the lines of the staff chart
 function StaffRemoveRow(oButton) {
     var tab = document.getElementById("staff");
     tab.deleteRow(oButton.parentNode.parentNode.rowIndex);
 }
-function StaffAddRow(oButton) {
-    var tab = document.getElementById("staff");
-    var loc = oButton.parentNode.parentNode.rowIndex + 1;
-    var row = tab.insertRow(loc);
-    var cell0 = row.insertCell(0);//you have to define all the cells to variables before modifying them, else it will fail to populate the cells
-    var cell1 = row.insertCell(1);
-    var cell2 = row.insertCell(2);
-    var cell3 = row.insertCell(3);
-    var cell4 = row.insertCell(4);
-    var cell5 = row.insertCell(5);
-    var cell6 = row.insertCell(6);
-    cell0.innerHTML = '<input type="number" value="" onchange="validateid(this)" onwheel="this.blur()">';
-    cell1.innerHTML = setlist();
-    cell2.innerHTML = '<input type="text" value="">';
-    cell3.innerHTML = '<input type="color" value="#ffffff" onchange="ValidateColor(this)">';
-    cell4.innerHTML = '<input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#ffffff" style="vertical-align: middle">'
-    cell5.innerHTML = '<input type="button" value="X" onclick="StaffRemoveRow(this)">';
-    cell6.innerHTML = '<input type="button" value="+" onclick="StaffAddRow(this)">';
-}
 //used by any dropdown that needs to build based on the permissions table generated by the user
 function setlist() {
-    var tab = document.getElementById("Ranks").getElementsByTagName('tbody')[0];
-    var aData = [' ']//this pushes a blank entry at the beginning of the list. allows us to select the blank when something needs it
-    var fragment = document.createDocumentFragment();//collects all entries into a fragment to not cause Dom update spam when having a large number of ranks defined
-    for (var t in tab.rows) {
-        if( t == "length") {break;}//because chrome for is dumb and adds extra data to the end of the array, starting with length
+    var tab = document.getElementById("Ranks").getElementsByTagName('tbody')[0],
+        aData = [' '],//this pushes a blank entry at the beginning of the list. allows us to select the blank when something needs it
+        fragment = document.createDocumentFragment(),//collects all entries into a fragment to not cause Dom update spam when having a large number of ranks defined
+        t = 0;
+    for (t in tab.rows) {
+        if (t == "length") {break; }//because chrome for is dumb and adds extra data to the end of the array, starting with length
         var da = tab.rows[t].cells[0].firstChild.value;
-        if(da != undefined) {//gets rid of the undefined that is grabbed from the header row
+        if (da != undefined) {//gets rid of the undefined that is grabbed from the header row
             aData.push(da);
         }
     }
-    aData.forEach(function(aData,index) {
+    aData.forEach(function (aData, index) {
         var opt = document.createElement("option");
         opt.innerHTML = aData;
         opt.value = aData;
         fragment.appendChild(opt);
-    })
+    });
     var div = document.createElement('div');//hack to turn a fragment into a string
     div.appendChild(fragment.cloneNode(true));
-    return '<select name="Ranks">'+div.innerHTML+'</select>';
+    return '<select name="Ranks">' + div.innerHTML + '</select>';
 }
 
+function StaffAddRow(oButton) {
+    var tab = document.getElementById("staff"),
+        loc = oButton.parentNode.parentNode.rowIndex + 1,
+        row = tab.insertRow(loc),
+        cell0 = row.insertCell(0),//you have to define all the cells to variables before modifying them, else it will fail to populate the cells
+        cell1 = row.insertCell(1),
+        cell2 = row.insertCell(2),
+        cell3 = row.insertCell(3),
+        cell4 = row.insertCell(4),
+        cell5 = row.insertCell(5),
+        cell6 = row.insertCell(6);
+    cell0.innerHTML = '<input type="number" value="" onchange="validateid(this)" onwheel="this.blur()">';
+    cell1.innerHTML = setlist();
+    cell2.innerHTML = '<input type="text" value="">';
+    cell3.innerHTML = '<input type="color" value="#ffffff" onchange="ValidateColor(this)">';
+    cell4.innerHTML = '<input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#ffffff" style="vertical-align: middle">';
+    cell5.innerHTML = '<input type="button" value="X" onclick="StaffRemoveRow(this)">';
+    cell6.innerHTML = '<input type="button" value="+" onclick="StaffAddRow(this)">';
+}
+
+
 function validateid(id) {
-    if(id.value.length !== 17 || BigInt(id.value) < 76561197960265729n || BigInt(id.value) > 76561202255233023n ) {//javascript limitation of comparing 64 bit numbers is very blatent here... also this is both the absolute min and max steam id possible
+    if (id.value.length !== 17 || BigInt(id.value) < 76561197960265729n || BigInt(id.value) > 76561202255233023n ) {//javascript limitation of comparing 64 bit numbers is very blatent here... also this is both the absolute min and max steam id possible
         id.style.backgroundColor = '#f66';//light red
     } else {
         id.style.backgroundColor = '#fff';

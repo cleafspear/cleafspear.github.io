@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Beast of Bermuda Config Generator</title>
-        <meta name="description" content="A Complete configuration Generator for the game Beast of bermuda, Developed by Discord user Cleafspear#0001">
+        <title>Beast of Bermuda Config Tool</title>
+        <meta name="description" content="A Complete configuration Generator and Editor for the game Beast of bermuda, Developed by Discord user Cleafspear#0001">
         <link rel="stylesheet" href="main.css">
         <script src="mainjs.js"></script>
         <script src="generate.js"></script>
@@ -13,9 +13,13 @@
     <body>
         <div class="content">
             <h1>Beast of Bermuda Config Generator</h1>
-            <b>This configuration Generator is compatible with Version 1.1.1076 of the server.</b>
+            <b>This configuration Generator is compatible with Version 1.1.1029 of the server.</b>
+=======
+            <h1>Beast of Bermuda Config Tool</h1>
+            <b>This configuration Generator/Editor is compatible with Version 1.1.1084 of the server.</b>
+>>>>>>> Stashed changes
             <br>
-            note:anything with a dashed line under it will have additional information about if if you are confused!
+            <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
             <label for="file-upload">Upload Existing Game.ini:</label>
             <input type="file" accept=".ini, .txt" onchange="readdata(this)"> <!--just a note..nothing is actually getting uploaded anywhere outside of the local client. this just lets us have the file avalible to be parsed by the script-->
@@ -107,7 +111,7 @@
                 <div class="Section" id="Section2" style="display: none">
                     <label for="Mixherd">
                         <div class="tooltip">Use Mix herd Caps
-                            <span class="tooltiptext">  -When True, calculation of group caps (both soft and hard) use all members of a group, regardless of species<br>-When False, calculation of group caps (both soft and hard) use only members of the group that match the species of the player</span>
+                            <span class="tooltiptext">  -When Checked, calculation of group caps (both soft and hard) use all members of a group, regardless of species<br>-When Unchecked, calculation of group caps (both soft and hard) use only members of the group that match the species of the player</span>
                         </div></label>
                     <input type="checkbox" id="Mixherd">
                     <br>
@@ -221,7 +225,7 @@
                         <thead>
                             <tr>
                                 <th><div class="tooltip">Rank name<span class="tooltiptext">Server side names for setting permissions.<br>Cannot contain spaces.<br>You cannot share the same name for multiple levels.</span></div></th>
-                                <th><div class="tooltip">Rank Level<span class="tooltiptext">The Numeric level of the rank.<br>Multiple names cannot be at the same level.<br>Ranks with a higher level inherit the power of lower levels.</span></div></th>
+                                <th><div class="tooltip">Rank Level<span class="tooltiptext">The Numeric level of the rank.<br>Multiple ranks cannot be at the same level.<br>Ranks with a higher level inherit the power of lower levels.</span></div></th>
                                 <th>Remove Row</th>
                                 <th>Add Row Below</th>
                             </tr>
@@ -503,15 +507,31 @@
                 <div class="Section" id="Section6" style="display: none">
                     <p>This section contains less often used configuration settings, or setting found under different headers. only change these setting if you understand the risk!</p>
                     <label for="Autosave">Ausosave frequency:</label>
-                    <input type="text" id="asave"value="135">
+                    <input type="number" id="asave"value="135" onwheel="this.blur()">
                     <label for="Autosave">Seconds</label>
+                    <p><b>Rcon (Remote Console) settings:</b></p>
+                    <label for="enableRcon"><div class="tooltip">Enable Rcon
+                        <span class="tooltiptext">This will enable Rcon output from the server to 3rd party Rcon clients</span></div></label>
+                    <input type="checkbox" id="enableRcon" onchange="SHSubSection('Rcon')">
+                    <div id="Rcon" style="display: none">
+                        <label for="RconPort"><div class="tooltip">Rcon Port Number:
+                            <span class="tooltiptext">This is the port used to communicate remotely with the server via either the dedicated RCon tool or Scripts.</span>
+                        </div></label>
+                        <input type="number" id="RconPort" value=27015 min=1024 max=65536 onwheel="this.blur()">
+                        <br>
+                        <label for="Rconip"><div class="tooltip">Rcon Ip Address:
+                                <span class="tooltiptext">This is the Ip address you want the RCon to be connected via. default is 127.0.0.1(localhost)</span>
+                            </div></label>
+                        <input type="text" id="Rconip" value="127.0.0.1" minlegnth="7" maxlength="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"><!--IPv4 only pattern matching. rcon isnt setup to do IPv6-->
+                    </div>
                 </div>
                 <button type="button" id="Finalbutton" onclick="SHfuntion('Final')">Show Configuration Outputs:</button>
                 <div class="Section" id="Final" style="display: none">
                 <input type="button" value="Generate Game.ini below" onclick="GenertateTXT()">
                 <input type="button" value="Download Game.ini" onclick="GenerateFile()">
                 <br>
-                <textarea rows="30" cols="120" style="scroll-behavior: auto ;resize: horizontal" id="Output">Click Generate Game.ini to output your config here,or click Export Game.ini to download a ready to insert file</textarea>
+                <p>Generate Game.ini will compile all the setting in the textarea below, and Download Game.ini will download a complete, ready to go file. When changing a setting, you must re-generate the ini by clicking a button above.</p>
+                <textarea rows="30" cols="120" style="scroll-behavior: auto ;resize: horizontal" id="Output">Click Generate Game.ini to output your config here,or click Download Game.ini to download a ready to insert file</textarea>
                 </div>
             </div>
         </div>
