@@ -107,8 +107,16 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push(aData.join('\r\n'));
     output.push(bData.join('\r\n'));
     output.push(cData.join('\r\n'));
-    output.push('[/Script/BeastsOfBermuda.SaveSystem]');//lazy addition for the save system
+    output.push('\r\n[/Script/BeastsOfBermuda.SaveSystem]');//lazy addition for the save system
     output.push('AutosaveTime='+document.getElementById("asave").value);
+    var rcon = document.getElementById('enableRcon').checked;
+    output.push('\r\n[/Script/BeastsOfBermuda.BBGameModeBase]');
+    output.push('bLiveMessagesToRCON=' + rcon);
+    if (rcon) {
+        output.push('\r\n[/Script/BeastsOfBermuda.RCONHandler]');
+        output.push('CommunicationPort=' + document.getElementById('RconPort').value);
+        output.push('IP4Binding="' + document.getElementById('Rconip').value + '"')
+    }
     return output.join('\r\n');//use a newline as the joining item before outputting.
 }
 function GenertateTXT() {//will call generate and direct the output to the output window on the form.
