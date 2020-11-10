@@ -69,7 +69,7 @@ function RankAddRow(oButton) {
         opt = document.createElement("option"),
         select = 0;
     cell0.innerHTML = '<input type="text" value="UnnamedRank" onchange="updatename(this)">';
-    cell1.innerHTML = '<input type="number" value="1" step= 1 onwheel="this.blur()">';
+    cell1.innerHTML = '<input type="number" value="1" step= 1 onwheel="this.blur()" style="width:50px">';
     cell2.innerHTML = '<input type="button" value="X" onclick="RankRemoveRow(this)">';
     cell3.innerHTML = '<input type="button" value="+" onclick="RankAddRow(this)">';
     opt.innerHTML = "UnnamedRank";

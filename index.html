@@ -77,7 +77,7 @@
                     <br>
                     <label for="growth">
                         <div class="tooltip">Growth Cap:<span class="tooltiptext">This limits both the natural and command set growth.<br>Setting your growth above this with commands will revert to this set max on the next growth tick.</span></div></label>
-                    <input type="number" value="20.0" id="growth" >
+                    <input type="number" value="20.0" id="growth" style="width:50px">
                     <br>
                     <label for="discordenable">Discord link Enabled:</label>
                     <input type="checkbox" id="discordenable" onchange="SHSubSection('discord')" >
@@ -109,7 +109,7 @@
                     <input type="checkbox" id="console" checked>
                     <br>
                     <label for="slots">Reserved Admin Slots:</label>
-                    <input type="number" id = "slots" value=2 step= 1>
+                    <input type="number" id = "slots" value=2 step= 1 style="width:40px">
                     <br>
                     <label for="gchat">Disable Global Chat:</label>
                     <input type="checkbox" id="gchat" >
@@ -125,13 +125,13 @@
                     <input type="number" id ="carcassratio" value="1.0" min=0 max =2>
                     <br>
                     <label for="DayLegnth">Day Legnth:</label>
-                    <input type="number" id="daycycle" value="7050.0" >
+                    <input type="number" id="daycycle" value="7050.0" style="width:50px">
                     <label for="DayLegnth">Seconds</label>
                     <br>
                     <label for="TunnelLifetime"><div class="tooltip">Tunnel Despawn time:
                             <span class="tooltiptext">This determins the legnth of time a burrow network will remain after its last edit.<br>Please note, the tunnels are checked every 5 minutes, and there is a 5 minute delay when the timer hits 0 before it removes a network.</span>
                         </div></label>
-                    <input type="number" id="TunnelLifetime" min=0 value= 259200 step=300 onwheel="this.blur()">
+                    <input type="number" id="TunnelLifetime" min=0 value= 259200 step=300 onwheel="this.blur()" style="width:50px">
                     <label for="TunnelLifetime">Seconds</label>
                 </div>
                 <div class="Section" id="Section2" style="display: none">
@@ -154,7 +154,7 @@
                         <thead>
                             <tr>
                                 <th>Creature</th>
-                                <th id="dinoh">Soft Limit</th>
+                                <th id="dinoh" style="padding-left: 20px ; padding-right: 20px">Soft Limit</th>
                                 <th><div class="tooltip">% server population
                             <span class="tooltiptext">This sets a limit for the total number of a certain creature compared to the rest of the server.<br>I.E.:50% on pteranodon means that a max of 50% of the server population can be Pteranodons. anyone that exceeds this will have their growth rate SEVERELY reduced.</span></th>
                             </tr>
@@ -162,87 +162,87 @@
                         <tbody>
                             <tr>
                                 <td>Acrocanthosaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Apatosaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Elasmosaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Kronosaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Ichthyovenator</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Lurdusaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Megalosaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Mosasaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Oryctodromeus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Pachycephalosaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Parasaurolophus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Pteranodon</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Saichania</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Tropeognathus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Tyrannosaurus</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Utahraptor</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                             <tr>
                                 <td>Velociraptor</td>
-                                <td><input type="number" value="999" step = 1></td>
+                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                         </tbody>
@@ -258,21 +258,21 @@
                         <thead>
                             <tr>
                                 <th><div class="tooltip">Rank name<span class="tooltiptext">Server side names for setting permissions.<br>Cannot contain spaces.<br>You cannot share the same name for multiple levels.</span></div></th>
-                                <th><div class="tooltip">Rank Level<span class="tooltiptext">The Numeric level of the rank.<br>Multiple ranks cannot be at the same level.<br>Ranks with a higher level inherit the power of lower levels.</span></div></th>
-                                <th>Remove Row</th>
+                                <th style="padding-left: 10px ; padding-right: 10px"><div class="tooltip" >Rank Level<span class="tooltiptext">The Numeric level of the rank.<br>Multiple ranks cannot be at the same level.<br>Ranks with a higher level inherit the power of lower levels.</span></div></th>
+                                <th style="padding-left: 10px ; padding-right: 10px">Remove Row</th>
                                 <th>Add Row Below</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><input type="text" value="NoAdmin" onchange="updatename(this)"></td>
-                                <td><input type="number" value="999" step= 1 onwheel="this.blur()"></td>
+                                <td><input type="number" value="999" step= 1 onwheel="this.blur()" style="width:50px"></td>
                                 <td><input type="button" value="X" disabled></td>
                                 <td><input type="button" value="+" onclick="RankAddRow(this)"></td>
                             </tr>
                             <tr>
                                 <td><input type="text" value="DefaultAdmin" onchange="updatename(this)"></td>
-                                <td><input type="number" value="0" step= 1 onwheel='this.blur()'></td>
+                                <td><input type="number" value="0" step= 1 onwheel='this.blur()' style="width:50px"></td>
                                 <td><input type="button" value="X" onclick="RankRemoveRow(this)"></td>
                                 <td><input type="button" value="+" onclick="RankAddRow(this)"></td>
                             </tr>
@@ -549,7 +549,7 @@
                     </div>
                     <p>This section contains less often used configuration settings, or setting found under different headers. only change these setting if you understand the risk!</p>
                     <label for="Autosave">Ausosave frequency:</label>
-                    <input type="number" id="asave"value="135" onwheel="this.blur()">
+                    <input type="number" id="asave"value="135" onwheel="this.blur()" style="width:50px">
                     <label for="Autosave">Seconds</label>
                     <p><b>Rcon (Remote Console) settings:</b></p>
                     <label for="enableRcon"><div class="tooltip">Enable Rcon

@@ -266,7 +266,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
             cell2 = row.insertCell(2),
             cell3 = row.insertCell(3);
         cell0.innerHTML = '<input type="text" value="' + AdminRanks[newranks][0] + '" onchange="updatename(this)">';
-        cell1.innerHTML = '<input type="number" value=' + AdminRanks[newranks][1] + ' step= 1 onwheel="this.blur()">';
+        cell1.innerHTML = '<input type="number" value=' + AdminRanks[newranks][1] + ' step= 1 onwheel="this.blur()" style="width:50px">';
         if (newranks === 0) {
             cell2.innerHTML = '<input type="button" value="X" disabled>';
         } else {
