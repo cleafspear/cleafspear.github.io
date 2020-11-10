@@ -1,3 +1,16 @@
+//Modal logic
+function OpenLoad() {
+    document.getElementById("fileModal").style.display = "block";
+}
+window.onclick = function(event) {
+  if (event.target == document.getElementById("fileModal")) {
+    document.getElementById("fileModal").style.display = "none";
+  }
+}
+function CloseLoad() {
+    document.getElementById("fileModal").style.display = "none";
+}
+
 //used by header buttons to set the div state as well as the button text
 function SHfuntion(loc) {
     var select = document.getElementById(loc),

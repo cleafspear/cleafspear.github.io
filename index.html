@@ -18,8 +18,27 @@
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
-            <label for="file-upload">Upload Existing Game.ini:</label>
-            <input type="file" accept=".ini, .txt" onchange="readdata(this)"> <!--just a note..nothing is actually getting uploaded anywhere outside of the local client. this just lets us have the file avalible to be parsed by the script-->
+            <button id="btnload" onclick="OpenLoad()">Load Existing Game.ini</button>
+            <!-- load file modal-->
+            <div id="fileModal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        Config Load
+                        <span class="close" onclick="CloseLoad()">Close &times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <!-- label for="file-upload">Load Existing Game.ini file:</label -->
+                        <input type="file" accept=".ini, .txt" onchange="readdata(this)"> <!--just a note..nothing is actually getting uploaded anywhere outside of the local client. this just lets us have the file avalible to be parsed by the script-->
+                        <br>
+                        Load an existing config file with the button above, or paste your config below and click Submit
+                        <br>
+                        <textarea rows="30" style="scroll-behavior: auto ;resize: horizontal" id="inputtxt" placeholder="Paste your config here"></textarea>
+                        <button id="Submit" onclick="SubmitConfig()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <br>
+            Use the buttons below to modify the config settings
             <div class="SectionContainer">
                 <button type="button" id="Section1button" onclick="SHfuntion('Section1')">Show Basic Configuration:</button>
                 <div class="Section" id="Section1" style="display: none">

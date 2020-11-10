@@ -384,19 +384,32 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         confirm("Notice: your configuration file was loaded with outdated settings that are no longer compatible with the current server version. we have attempted to update them to the matching correct settings. please use the configuration export option to export an up-to-date config after verifying all your settings");
     }
 }
+// used by the upload file 
 function readdata(selector) {
     var fileList = selector.files;
     console.log(fileList);
     if(fileList.length !== 0) {
-        var proceed = confirm("Warning!\n Uploading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?");
+        document.getElementById("fileModal").style.display = "none"
+        var proceed = confirm("Warning!\n Loading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?");
         if(proceed){//user clicked ok
             var reader = new FileReader();
             reader.onload = function(event) {
                 var content = event.target.result;
                 parsedata(content);
                 buildpage();
+                document.getElementById("btnload").innerHTML="Reload Existing Game.ini";
             };
             var data = reader.readAsText(fileList[0]);//outputs a string to parse
         }
+    }
+}
+function SubmitConfig() {
+    var proceed = confirm("Warning!\n Loading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?");
+    if(proceed){//user clicked ok
+        var content = document.getElementById("inputtxt").value;
+        parsedata(content);
+        buildpage();
+        document.getElementById("btnload").innerHTML="Reload Existing Game.ini";
+        document.getElementById("fileModal").style.display = "none"
     }
 }
