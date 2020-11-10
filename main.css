@@ -23,10 +23,13 @@ body {
   color: black;
   font-size: 16;
 }
-.modal-body {padding: 2px 16px;}
+.modal-body {
+  padding: 2px 16px;
+}
 .content {
   flex: 1 0 auto;
 }
+
 .modal-content {
   position: relative;
   background-color: #fefefe;
@@ -57,6 +60,12 @@ body {
 @keyframes animatetop {
   from {top: -300px; opacity: 0}
   to {top: 0; opacity: 1}
+}
+.section-header {
+  padding: 2px 16px ;
+  background-color: #aaa;
+  color: black;
+  font-size: 16;
 }
 #footer {
     position: relative;

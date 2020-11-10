@@ -11,6 +11,11 @@ function CloseLoad() {
     document.getElementById("fileModal").style.display = "none";
 }
 
+function topFunction() {
+  document.body.scrollTop = 0; // For Safari
+  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+}
+
 //used by header buttons to set the div state as well as the button text
 function SHfuntion(loc) {
     var select = document.getElementById(loc),

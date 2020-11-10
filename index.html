@@ -12,7 +12,6 @@
     </head>
     <body>
         <div class="content">
-
             <h1>Beast of Bermuda Config Tool</h1>
             <b>This configuration Generator/Editor is compatible with Version 1.1.1085 of the server.</b>
             <br>
@@ -39,9 +38,21 @@
             </div>
             <br>
             Use the buttons below to modify the config settings
-            <div class="SectionContainer">
+            <div class="btnContainer">
                 <button type="button" id="Section1button" onclick="SHfuntion('Section1')">Show Basic Configuration:</button>
+                <button type="button" id="Section2button" onclick="SHfuntion('Section2')">Show Dino Configuration:</button>
+                <button type="button" id="Section3button" onclick="SHfuntion('Section3')">Show Admin Rank Configuration:</button>
+                <button type="button" id="Section4button" onclick="SHfuntion('Section4')">Show Command Configuration:</button>
+                <button type="button" id="Section5button" onclick="SHfuntion('Section5')">Show Player Configuration:</button>
+                <button type="button" id="Section6button" onclick="SHfuntion('Section6')">Show Advanced Configuration:</button>
+                <button type="button" id="Finalbutton" onclick="SHfuntion('Final')">Show Configuration Outputs:</button>
+            </div>
+            <div class="SectionContainer">
                 <div class="Section" id="Section1" style="display: none">
+                    <div class="section-header">
+                        Basic Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                     <label for="maps">Map:</label>
                     <!-- selector for the map. add maps and define the internal names in these options-->
                     <select id="maps">
@@ -123,8 +134,11 @@
                     <input type="number" id="TunnelLifetime" min=0 value= 259200 step=300 onwheel="this.blur()">
                     <label for="TunnelLifetime">Seconds</label>
                 </div>
-                <button type="button" id="Section2button" onclick="SHfuntion('Section2')">Show Dino Configuration:</button>
                 <div class="Section" id="Section2" style="display: none">
+                    <div class="section-header">
+                        Dino Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                     <label for="Mixherd">
                         <div class="tooltip">Use Mix herd Caps
                             <span class="tooltiptext">  -When Checked, calculation of group caps (both soft and hard) use all members of a group, regardless of species<br>-When Unchecked, calculation of group caps (both soft and hard) use only members of the group that match the species of the player</span>
@@ -234,9 +248,12 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="button" id="Section3button" onclick="SHfuntion('Section3')">Show Admin Rank Configuration:</button>
                 <div class="Section" id="Section3" style="display: none">
                     <!-- this will rely HEAVILY on the javascript to create the entries.only the sheer basics are built here.-->
+                    <div class="section-header">
+                        Admin Rank Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                     <table id="Ranks" class="limits">
                         <thead>
                             <tr>
@@ -262,8 +279,11 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="button" id="Section4button" onclick="SHfuntion('Section4')">Show Command Configuration:</button>
                 <div class="Section" id="Section4" style="display: none">
+                    <div class="section-header">
+                        Command Permissions Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                     <table id="commands">
                         <thead>
                             <tr>
@@ -465,8 +485,11 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="button" id="Section5button" onclick="SHfuntion('Section5')">Show Player Configuration:</button>
                 <div class="Section" id="Section5" style="display: none">
+                    <div class="section-header">
+                        Player Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                     <p>Note:Leave Staff rank blank if you do not wish to assign a rank,chat tag blank to not assign a tag, and chat color to white to not assign a color</p>
                     <table id="staff" class="limits">
                         <thead>
@@ -519,8 +542,11 @@
                         </tbody>
                     </table>
                 </div>
-                <button type="button" id="Section6button" onclick="SHfuntion('Section6')">Show Advanced Configuration:</button>
                 <div class="Section" id="Section6" style="display: none">
+                    <div class="section-header">
+                        Advanced Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                     <p>This section contains less often used configuration settings, or setting found under different headers. only change these setting if you understand the risk!</p>
                     <label for="Autosave">Ausosave frequency:</label>
                     <input type="number" id="asave"value="135" onwheel="this.blur()">
@@ -541,8 +567,11 @@
                         <input type="text" id="Rconip" value="127.0.0.1" minlegnth="7" maxlength="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"><!--IPv4 only pattern matching. rcon isnt setup to do IPv6-->
                     </div>
                 </div>
-                <button type="button" id="Finalbutton" onclick="SHfuntion('Final')">Show Configuration Outputs:</button>
                 <div class="Section" id="Final" style="display: none">
+                    <div class="section-header">
+                        Configuration Output
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                 <input type="button" value="Generate Game.ini below" onclick="GenertateTXT()">
                 <input type="button" value="Download Game.ini" onclick="GenerateFile()">
                 <br>
