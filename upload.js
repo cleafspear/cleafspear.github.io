@@ -29,7 +29,8 @@ var MapNameOverride = "Forest_Island",
     bLiveMessagesToRCON = false,
     CommunicationPort = 27015,
     IP4Binding = "127.0.0.1",
-    CompatibilityMode = false;//this will show a notice to the user that their config was loaded with paramaters that are outdated
+    CompatibilityMode = false,//this will show a notice to the user that their config was loaded with paramaters that are outdated
+    ErrorState = false;//used in case a parse error the user must know about generates and opens the console
 
 function parsedata(data) {
     MapNameOverride = "Forest_Island";
@@ -58,12 +59,15 @@ function parsedata(data) {
     CommunicationPort = 27015;
     IP4Binding = "127.0.0.1";
     CompatibilityMode = false;
+    ErrorState = false;
     //console.log(data);
     var index = 0;
     data = data.replace(/\r/g, '');//in case we have carrige returns in the file,strips them before processing. we will add them back when we generate a new file
     var dataarray = data.split(/\n/);
+    InternalDebug('DBG: Reading File Header');
+    InternalDebug('DBG: ' + dataarray[0]);
     if (dataarray[0] !== "[/Script/BeastsOfBermuda.ServerGameInstance]") {//grab the first line and verify this IS a config file for BoB.warn if there is an issue.
-        alert("This file dose not appear to be a properly formatted Beast of Bermuda Configuration file. we will still attempt to parse it however. please check for errors.");
+        alert("This file dose not appear to be a properly formatted Beast of Bermuda Configuration file. we will still attempt to parse it however. please check for warnings in the Debug console.");
     }//we have a file with a proper header! now to start running throught the array and parsing everything.
     for (index = 0; index < dataarray.length; index++) {
         var linedata = dataarray[index].split("=");//every line has to have an = in it to be valid.
@@ -73,7 +77,7 @@ function parsedata(data) {
             MapNameOverride = linedata[1].trim().replace(/['"]+/g, '');//regex to nuke any quotes within the map name
             break;
         case 'GameMode':
-            GameMode = linedata[1].trim().replace(/['"]|EGameModes::/g, '');//will nuke quites and the preceading gamemodes config var used in older configs
+            GameMode = linedata[1].trim().replace(/['"]|EGameModes::/g, '');//will nuke quotes and the preceading gamemodes config var used in older configs
             break;
         case 'GrowthLimit':
             GrowthLimit = parseFloat(linedata[1]);
@@ -103,6 +107,7 @@ function parsedata(data) {
             bDisableGlobalChat = (linedata[1].toLowerCase().trim() === "true");
             break;
         case 'CarcassRateModifier'://for VERY OLD config imports
+            InternalDebug('WARN: Found CarcassRateModifier, this is a 2019 config option.it will be ported')
             CompatibilityMode = true;
         case 'CarcassRateMultiplier':
             CarcassRateMultiplier = parseFloat(linedata[1]);
@@ -121,8 +126,11 @@ function parsedata(data) {
             break;
         case '+CreatureLimits'://because its use in WAY old files and may exist in current files
             CompatibilityMode = true;
+            InternalDebug('WARN: the + in creature limits may cause an error in the config interpreter!');
+            InternalDebug('WARN: '+ linedata);
         case 'CreatureLimits'://needs pre-processing befor pushing to the table
             if (linedata[1].trim() !== '(CreatureType') {
+                InternalDebug('WARN:'+ linedata + ' Is Invalid');
                 CompatibilityMode = true;
                 break;
             }
@@ -130,7 +138,9 @@ function parsedata(data) {
                 pa = parseFloat(linedata[3]),
                 gl = parseInt(linedata[4], 10);
             if (linedata[4].includes('bRequiresVeteran')) {
-                CompatibilityMode = true;//done to warn users that their config contains an old setting
+                InternalDebug("ERROR: bRequiresVeteran is no longer supported and WILL cause the config to fail");
+                InternalDebug('ERROR: '+ linedata)
+                ErrorState = true;//done to warn users that their config contains a incorrect setting that will break it
             }
             CreatureLimits.push([cr, pa, gl]);
             break;
@@ -145,18 +155,20 @@ function parsedata(data) {
             AdminCommandRules.push([cmd, rank]);
             break;
         case 'ServerAdmins':
-            var id = linedata[2].trim().slice(0, 17),
+            var id = linedata[2].trim().slice(0, 17).replace(/[^0-9]+/g, ""),//regex to replace "anything but numbers", someone thought a name was valid as an id
                 rank = linedata[3].trim().slice(1, -2).trim();
             ServerAdmins.push([id, rank]);
             break;
         case 'PlayerChatColors':
             try {
-                var id = linedata[2].slice(0, 17),
+                var id = linedata[2].slice(0, 17).replace(/[^0-9]+/g, ""),
                     cr = Math.floor(parseFloat(linedata[4]) * 255),
                     cg = Math.floor(parseFloat(linedata[5]) * 255),
                     cb = Math.floor(parseFloat(linedata[6]) * 255);
             } catch (err) {
-                console.log("error reading player chat colors, discarding line data " + linedata);
+                
+                InternalDebug("ERROR: failed reading player chat colors, discarding: " + linedata);
+                ErrorState = true;
                 break;
             }
             var hexrgb = "#" + ((1 << 24) + (cr << 16) + (cg << 8) + cb).toString(16).slice(1);//we never actually use the float version of the colors, and ironically this will repair any configs that have incorrect floats setup as well
@@ -164,10 +176,11 @@ function parsedata(data) {
             break;
         case 'PlayerChatTags':
             try {
-                var id = linedata[2].slice(0, 17),
+                var id = linedata[2].slice(0, 17).replace(/[^0-9]+/g, ""),
                     tag = linedata[3].trim().slice(1, -2).trim();
             } catch (err) {
-                console.log("error reading player chat tags, discarding line data" + linedata);
+                InternalDebug("ERROR: failed reading player chat tag, discarding: " + linedata);
+                ErrorState = true;
                 break;
             }
             PlayerChatTags.push([id, tag]);
@@ -184,6 +197,10 @@ function parsedata(data) {
         case '[/Script/BeastsOfBermuda.BBGameModeBase]':
             console.log("Consuming Header " + linedata[0]);
             break;
+        case '!PlayerChatColors':
+        case '!PlayerChatTags':
+        case '!CreatureLimits'://these consume the lines that are valid so that they dont hit the logger
+            break;
         case 'bLiveMessagesToRCON':
             bLiveMessagesToRCON = (linedata[1].toLowerCase().trim() === "true");
         case 'CommunicationPort':
@@ -193,14 +210,29 @@ function parsedata(data) {
             IP4Binding = linedata[1].trim().replace(/['"]+/g, '');
             break;
         default:
-            console.log(linedata[0] + " Was Discarded");
+            if (linedata != ""){
+                InternalDebug("WARN: " + linedata[0] +" is not a valid config option!");
+                console.log(linedata[0] + " Was Discarded");
+            }
         }
     }
+    InternalDebug("DBG: file load complete, parsing and building page data")
 }
 function buildpage() {//you must call parsedata before buildpage, otherwise it will build with default Data
-    document.getElementById('maps').value = MapNameOverride;//the fact this works so well is scary in a way
+    if (!document.getElementById('maps').contains(MapNameOverride)){
+        InternalDebug("ERROR: Map name is invalid! provided: "+ MapNameOverride)
+        ErrorState = true;
+    }
+    document.getElementById('maps').value = MapNameOverride;//the fact this works so well is scary in a way, as well as set blank when an option is incorrect
+    if (!document.getElementById('gamemode').contains(GameMode)){
+        InternalDebug("ERROR: GameMode is invalid! provided: "+ GameMode)
+        ErrorState = true;
+    }
     document.getElementById('gamemode').value = GameMode;
     document.getElementById('growth').value = GrowthLimit;
+    if (bDisplayDiscordLink & DiscordLink == '') {
+        InternalDebug("WARN: Discord was enabled but there is no link!")
+    }
     document.getElementById('discordenable').checked = bDisplayDiscordLink;
     if (bDisplayDiscordLink) {
         document.getElementById('discord').style.display = 'block';
@@ -208,12 +240,16 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         document.getElementById('discord').style.display = 'none';
     }
     document.getElementById('discordlink').value = DiscordLink;
+    if (bRequireSteamGroupToJoin & SteamGroupName == '') {
+        InternalDebug("WARN: Steam was enabled but there is no Group link!")
+    }
     document.getElementById('steamgroup').checked = bRequireSteamGroupToJoin;
     if (bRequireSteamGroupToJoin) {
         document.getElementById('steam').style.display = 'block';
     } else {
         document.getElementById('steam').style.display = 'none';
     }
+    document.getElementById('steamname').value = SteamGroupName;
     document.getElementById('motd').checked = bDisplayIntroMessage;
     document.getElementById('console').checked = bConsoleLocked;
     document.getElementById('slots').value = ReservedAdminSlots;
@@ -235,6 +271,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         if (i !== 0) {
             var dname = dinotable.rows[i].cells[0].innerHTML,
                 valid = false; //we use this to verify it was actually set after searching the config. if after searching we dont find it, we set a default in its place
+            if (dname == 'Creature'){continue;}//so we dont attempt to process the first row
             for (crname in CreatureLimits) {
                 if (CreatureLimits[crname][0] === dname) {
                     valid = true;
@@ -245,6 +282,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
             if (!valid) {//somehow we dont have a creature set in the config so build a default
                 dinotable.rows[i].cells[1].firstChild.value = "999";
                 dinotable.rows[i].cells[2].firstChild.value = "100";
+                InternalDebug("WARN: Creature "+ dname +" was not found in the config, loading defaults");
             }
         }
     }
@@ -259,6 +297,13 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     opt.innerHTML = ' ';//generates the "blank" option. when not of the future code selects another, will be the default
     opt.value = ' ';
     rankfragment.appendChild(opt);
+    if (AdminRanks.length == 0){//somehow we have NO loaded admin ranks.
+        InternalDebug('ERROR:No ranks where loaded from file! inserting a default rank');
+        ErrorState = true;
+        AdminRanks = [["Default",0]];//its a nested array for the data. 
+    }
+        var NamedRanks = [],
+            RankPowers = [];
     for (newranks in AdminRanks) {
         var row = ranks.insertRow(-1),
             cell0 = row.insertCell(0),
@@ -277,6 +322,16 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         opt.innerHTML = AdminRanks[newranks][0];
         opt.value = AdminRanks[newranks][0];
         rankfragment.appendChild(opt);
+        if (NamedRanks.includes(AdminRanks[newranks][0])){
+            InternalDebug('ERROR: Duplicate rank name '+ AdminRanks[newranks][0] + " of power " + AdminRanks[newranks][1] + " found. Please correct");
+            ErrorState = true;
+        }
+        NamedRanks.push(AdminRanks[newranks][0]);
+         if (RankPowers.includes(AdminRanks[newranks][1])){
+            InternalDebug('ERROR: Duplicate rank power on '+ AdminRanks[newranks][0] + " of power " + AdminRanks[newranks][1] + " found. Please correct");
+            ErrorState = true;
+        }
+        RankPowers.push(AdminRanks[newranks][1]);
     }
     //permission settings. if a permission isnt set, we force it to be blank.
     var commands = document.getElementById("commands");
@@ -296,10 +351,12 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
                 }
             }
             if(!valid) {
+                InternalDebug('WARN: ' + cname + " was missing from the config. setting to blank")
                 crank.value = ' ';
             }
         }
     }
+
     var stafftab = document.getElementById("staff").getElementsByTagName('tbody')[0];//this one is going to be a bit messy. we need to run through 3 diffrent arrays, verify and avoid duplicates, and process each row at a time.
     //we zipper the 3 diffrent arrays first so we only have to deal with 1 at the end
     var playersettings =[];
@@ -337,6 +394,11 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     }
     //now with everything zippered together, we can finally buld the interface
     var staffcount = stafftab.rows.length;
+    if (playersettings.length == 0){//we have NO configured players.
+        InternalDebug("ERROR: No players where defined in the config. inserting a placeholder line");
+        ErrorState = true;
+        playersettings = [[0,' ','',"#ffffff"]];
+    }
     for(rowid = 0;rowid < staffcount; rowid++) {
         stafftab.deleteRow(-1);
     }
@@ -351,11 +413,11 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
             cell4 = row.insertCell(4),
             cell5 = row.insertCell(5),
             cell6 = row.insertCell(6);
-    //we do a bit of input validation now the cell is built but before we add the data.
-        if(playersettings[newstaff][0].length !== 17 || BigInt(playersettings[newstaff][0]) < 76561197960265729n || BigInt(playersettings[newstaff][0]) > 76561202255233023n ) {
-         cell1.style.backgroundColor = '#f66';//light red background to denote an error
-        }
         cell0.innerHTML = '<input type="number" value=' + playersettings[newstaff][0] + ' onchange="validateid(this)" onwheel="this.blur()">';
+        if(playersettings[newstaff][0].length !== 17 || BigInt(playersettings[newstaff][0]) < 76561197960265729n || BigInt(playersettings[newstaff][0]) > 76561202255233023n ) {
+            cell0.firstChild.style.backgroundColor = '#f66';//light red background to denote an error
+            InternalDebug("WARN: "+ playersettings[newstaff][0] + ' is an invalid steam id')
+        }
         cell1.innerHTML = '<select name="Ranks">' + div.innerHTML + '</select>';
         cell1.firstChild.value = playersettings[newstaff][1];
         cell2.innerHTML = '<input type="text" value="' + playersettings[newstaff][2] + '">';
@@ -380,9 +442,16 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById('RconPort').value = CommunicationPort;
     document.getElementById('Rconip').value = IP4Binding;
     document.getElementById("Output").innerHTML = 'Click Generate Game.ini to output your new config here,or click Download Game.ini to download a ready to insert file';
-    if (CompatibilityMode) {//we loaded the file in compatibility update mode. warn the user
-        confirm("Notice: your configuration file was loaded with outdated settings that are no longer compatible with the current server version. we have attempted to update them to the matching correct settings. please use the configuration export option to export an up-to-date config after verifying all your settings");
+    if (ErrorState){
+        confirm("Warning: your configuration file had errors that will cause issues on the server or the file to not load.We have opened the console at the bottom of the page so that you may review the errors generated");
+        document.getElementById('Console').style.display = "block";
+        document.getElementById('ConsoleButton').innerHTML ="Close Debug Console";
+    }else {
+        if (CompatibilityMode) {//we loaded the file in compatibility update mode. warn the user
+            confirm("Notice: your configuration file was loaded with outdated settings that are no longer compatible with the current server version. we have attempted to update them to the matching correct settings. please use the configuration export option to export an up-to-date config after verifying all your settings");
+        }
     }
+    InternalDebug("DBG: Finished loading, updating page")
 }
 // used by the upload file 
 function readdata(selector) {
@@ -412,4 +481,12 @@ function SubmitConfig() {
         document.getElementById("btnload").innerHTML="Reload Existing Game.ini";
         document.getElementById("fileModal").style.display = "none"
     }
+}
+HTMLSelectElement.prototype.contains = function( value ) {//adds a oneliner prototype for JS
+    for ( var i = 0, l = this.options.length; i < l; i++ ) {
+        if ( this.options[i].value == value ) {
+            return true;
+        }
+    }
+    return false;
 }

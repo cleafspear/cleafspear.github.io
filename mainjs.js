@@ -75,6 +75,7 @@ function RankAddRow(oButton) {
     opt.innerHTML = "UnnamedRank";
     opt.value = "UnnamedRank";
     for (select in selections) {
+        if (select = 'length'){break;}
         selections[select].add(opt.cloneNode(true), loc);
     }
          
@@ -84,6 +85,7 @@ function updatename(oText) {
         selections = document.getElementsByName("Ranks"),
         select = 0;
     for (select in selections) {
+        if (select = 'length'){break;}
         selections[select].options[loc].value = oText.value;
         selections[select].options[loc].innerHTML = oText.value;
     }
@@ -137,7 +139,6 @@ function StaffAddRow(oButton) {
     cell6.innerHTML = '<input type="button" value="+" onclick="StaffAddRow(this)">';
 }
 
-
 function validateid(id) {
     if (id.value.length !== 17 || BigInt(id.value) < 76561197960265729n || BigInt(id.value) > 76561202255233023n ) {//javascript limitation of comparing 64 bit numbers is very blatent here... also this is both the absolute min and max steam id possible
         id.style.backgroundColor = '#f66';//light red
@@ -145,6 +146,7 @@ function validateid(id) {
         id.style.backgroundColor = '#fff';
     }
 }
+
 function ValidateColor(colorbutton) {
     var pcolor = colorbutton.value;
     var r = "0x00";
@@ -164,4 +166,24 @@ function ValidateColor(colorbutton) {
      var cb = Math.floor(parseFloat(+(b / 255).toFixed(1))*255);
     colorbutton.parentElement.parentElement.cells[3].firstChild.value = "#" + ((1 << 24) + (cr << 16) + (cg << 8) + cb).toString(16).slice(1);
     colorbutton.parentElement.parentElement.cells[4].firstChild.value = "#" + ((1 << 24) + (cr << 16) + (cg << 8) + cb).toString(16).slice(1);
+}
+
+function ToggleConsole() {
+        var select = document.getElementById('Console');
+        var button = document.getElementById('ConsoleButton');
+    if (select.style.display === "none") {
+        button.innerHTML ="Close Debug Console";
+        select.style.display = "block";
+    } else {
+        button.innerHTML ="Open Debug Console";
+        select.style.display = "none";
+    }
+}
+function InternalDebug(message) {
+    var logger = document.getElementById('ConsoleArea');
+        if (typeof message == 'object') {
+            logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + "&#13;&#10;";//innerhtml dosent read \r\n here. so we use the code rep for it 
+        } else {
+            logger.innerHTML += message + "&#13;&#10;";
+        }
 }
