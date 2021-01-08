@@ -75,7 +75,7 @@ function RankAddRow(oButton) {
     opt.innerHTML = "UnnamedRank";
     opt.value = "UnnamedRank";
     for (select in selections) {
-        if (select = 'length'){break;}
+        if (select == 'entries'){break;}
         selections[select].add(opt.cloneNode(true), loc);
     }
          
@@ -85,7 +85,7 @@ function updatename(oText) {
         selections = document.getElementsByName("Ranks"),
         select = 0;
     for (select in selections) {
-        if (select = 'length'){break;}
+        if (select == 'entries'){break;}
         selections[select].options[loc].value = oText.value;
         selections[select].options[loc].innerHTML = oText.value;
     }
