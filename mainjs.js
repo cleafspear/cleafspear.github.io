@@ -54,6 +54,7 @@ function RankRemoveRow(oButton) {
         select = 0;
     tabRanks.deleteRow(rIndex);
     for (select in selections) {
+        if (select == 'entries' || select == 'item'){break;}//chrome why //firefox why
         selections[select].remove(rIndex);
     }
 }
@@ -75,7 +76,7 @@ function RankAddRow(oButton) {
     opt.innerHTML = "UnnamedRank";
     opt.value = "UnnamedRank";
     for (select in selections) {
-        if (select == 'entries'){break;}
+        if (select == 'entries' || select == 'item'){break;}//chrome why entries. and firefox...item?
         selections[select].add(opt.cloneNode(true), loc);
     }
          
@@ -85,7 +86,7 @@ function updatename(oText) {
         selections = document.getElementsByName("Ranks"),
         select = 0;
     for (select in selections) {
-        if (select == 'entries'){break;}
+        if (select == 'entries' || select == 'item'){break;}//chrome why entries. and firefox...item?
         selections[select].options[loc].value = oText.value;
         selections[select].options[loc].innerHTML = oText.value;
     }
@@ -102,7 +103,8 @@ function setlist() {
         fragment = document.createDocumentFragment(),//collects all entries into a fragment to not cause Dom update spam when having a large number of ranks defined
         t = 0;
     for (t in tab.rows) {
-        if (t == "length") {break; }//because chrome for is dumb and adds extra data to the end of the array, starting with length
+        if (t == "length" || t == 'item') {break; }//because chrome for is dumb and adds extra data to the end of the array, starting with length and firefox....why item in an index?
+        
         var da = tab.rows[t].cells[0].firstChild.value;
         if (da != undefined) {//gets rid of the undefined that is grabbed from the header row
             aData.push(da);

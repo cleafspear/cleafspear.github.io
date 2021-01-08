@@ -65,7 +65,7 @@ function parsedata(data) {
     data = data.replace(/\r/g, '');//in case we have carrige returns in the file,strips them before processing. we will add them back when we generate a new file
     var dataarray = data.split(/\n/);
     InternalDebug('DBG: Reading File Header');
-    InternalDebug('DBG: ' + dataarray[0]);
+    InternalDebug('DBG: header recived: ' + dataarray[0]);
     if (dataarray[0] !== "[/Script/BeastsOfBermuda.ServerGameInstance]") {//grab the first line and verify this IS a config file for BoB.warn if there is an issue.
         alert("This file dose not appear to be a properly formatted Beast of Bermuda Configuration file. we will still attempt to parse it however. please check for warnings in the Debug console.");
     }//we have a file with a proper header! now to start running throught the array and parsing everything.
@@ -195,8 +195,6 @@ function parsedata(data) {
         case '[/Script/BeastsOfBermuda.SaveSystem]':
         case '[/Script/BeastsOfBermuda.RCONHandler]':
         case '[/Script/BeastsOfBermuda.BBGameModeBase]':
-            console.log("Consuming Header " + linedata[0]);
-            break;
         case '!PlayerChatColors':
         case '!PlayerChatTags':
         case '!CreatureLimits'://these consume the lines that are valid so that they dont hit the logger
@@ -267,7 +265,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     }
     var dinotable = document.getElementById("dinos");//this is the same code we use to grab the values from the dino table to generate the ini
     for (i in dinotable.rows) {
-        if (i === "length") {break; }
+        if (i === "length" || i === 'item') {break; }
         if (i !== 0) {
             var dname = dinotable.rows[i].cells[0].innerHTML,
                 valid = false; //we use this to verify it was actually set after searching the config. if after searching we dont find it, we set a default in its place
@@ -337,7 +335,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     var commands = document.getElementById("commands");
     for (i in commands.rows) {
         var valid = false;
-        if (i === "length") {break; }
+        if (i === "length" || i === 'item') {break; }
         if (i != 0) {
             var cname = commands.rows[i].cells[0].firstChild.firstChild.innerHTML,
                 crank = commands.rows[i].cells[1].firstChild;
@@ -482,7 +480,7 @@ function SubmitConfig() {
         document.getElementById("fileModal").style.display = "none"
     }
 }
-HTMLSelectElement.prototype.contains = function( value ) {//adds a oneliner prototype for JS
+HTMLSelectElement.prototype.contains = function( value ) {//adds a oneliner prototype for JS selections
     for ( var i = 0, l = this.options.length; i < l; i++ ) {
         if ( this.options[i].value == value ) {
             return true;

@@ -33,7 +33,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     var dinotable = document.getElementById("dinos");
     var aData = ["!CreatureLimits=ClearArray"];//accumulator table that will contain the pre-formatted strings before they are piped to the main array
     for (i in dinotable.rows) {
-        if (i === "length") {break; }
+        if (i === 'length' || i === 'item') {break; }
         if (i != 0) {
             var dname = dinotable.rows[i].cells[0].innerHTML;
             var dcount = dinotable.rows[i].cells[1].firstChild.value;
@@ -46,7 +46,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     var ranks = document.getElementById("Ranks");
     aData = [];//wipe clean for another round
     for (i in ranks.rows) {
-        if (i === "length") {break; }
+        if (i === "length" || i === 'item') {break; }
         if (i != 0) {
             var rname = ranks.rows[i].cells[0].firstChild.value;
             var rlevel = ranks.rows[i].cells[1].firstChild.value;
@@ -58,7 +58,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     aData = [];
     var commands = document.getElementById("commands");//permission level data
     for (i in commands.rows) {
-        if (i === "length") {break; }
+        if (i === "length" || i === 'item') {break; }
         if (i != 0) {
             var cname = commands.rows[i].cells[0].firstChild.firstChild.innerHTML;
             var crank = commands.rows[i].cells[1].firstChild.value;
@@ -72,7 +72,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     var bData = ['!PlayerChatColors=ClearArray'];//used to contain the chat color array
     var cData = ['!PlayerChatTags=ClearArray'];//used to contain the chat tag array
     for (i in staff.rows) {
-        if (i === "length") {break; }
+        if (i === "length" || i === 'item') {break; }
         if (i != 0) {//skips headers
             var pID = staff.rows[i].cells[0].firstChild.value;
             var prank = staff.rows[i].cells[1].firstChild.value;
