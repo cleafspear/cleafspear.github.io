@@ -419,7 +419,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
             cell7.innerHTML = '<a href="#" target="_blank"></a>';
         } else {  //we pull the player name from the id and check and see if its valid
             var xhr = new XMLHttpRequest();
-            var APIURL = 'http://raptorsystems.site/?id='+playersettings[newstaff][0]  //this API site is a NODE JS steam api site. 
+            var APIURL = 'https://raptorsystems.site/?id='+playersettings[newstaff][0]  //this API site is a NODE JS steam api site. 
             xhr.open('GET',APIURL,false);//done in sync for now. will redo later
             console.log("sending request for "+ playersettings[newstaff][0]);
             xhr.send();

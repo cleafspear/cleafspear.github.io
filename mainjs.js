@@ -164,7 +164,7 @@ function validateid(id) {
                 id.parentElement.parentElement.cells[7].firstChild.innerHTML = "";
              }
         }
-        var APIURL = 'http://raptorsystems.site/?id='+id.value //this API site is a NODE JS steam api site. 
+        var APIURL = 'https://raptorsystems.site/?id='+id.value //this API site is a NODE JS steam api site. 
         xhr.open('GET',APIURL,true);
         xhr.send();
     }
