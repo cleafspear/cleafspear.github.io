@@ -413,57 +413,10 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
             cell6 = row.insertCell(6),
             cell7 = row.insertCell(7);
         cell0.innerHTML = '<input type="number" value=' + playersettings[newstaff][0] + ' onchange="validateid(this)" onwheel="this.blur()">';
-        if(playersettings[newstaff][0].length !== 17 || BigInt(playersettings[newstaff][0]) < 76561197960265729n || BigInt(playersettings[newstaff][0]) > 76561202255233023n ) {
-            cell0.firstChild.style.backgroundColor = '#f66';//light red background to denote an error
-            InternalDebug("WARN: "+ playersettings[newstaff][0] + ' is an invalid steam id')
-            cell7.innerHTML = '<a href="#" target="_blank"></a>';
-        } else {  //we pull the player name from the id and check and see if its valid
-            var xhr = new XMLHttpRequest();
-            var APIURL = 'https://raptorsystems.site/?id='+playersettings[newstaff][0]  //this API site is a NODE JS steam api site. 
-            xhr.open('GET',APIURL,false);//done in sync for now. will redo later
-            console.log("sending request for "+ playersettings[newstaff][0]);
-            xhr.send();
-            cell7.innerHTML = '<a href="#" target="_blank">#</a>';
-            //var ready = false;
-                if (xhr.readyState !=4) return;
-                if (xhr.status == 200) {
-                    var data = JSON.parse(xhr.responseText);
-                    cell7.firstChild.href = data['url'];
-                    cell7.firstChild.innerHTML = data['nickname'];
-                }
-                if (xhr.status == 404) {
-                    cell0.firstChild.style.backgroundColor = '#f66';
-                    cell7.innerHTML = '<a href="#" target="_blank"></a>';
-                }
-            
-            /* xhr.onreadystatechange = function() {
-                console.log('ready state is '+ this.readyState);
-                if (this.readyState !=4) return;
-                if (this.status == 200) {
-                    var data = JSON.parse(this.responseText);
-                    cell7.innerHTML = '<a href="'&data['url']&'" target="_blank">'&data['nickname']&'</a>';
-                }
-                if (this.status == 404) {
-                    cell0.firstChild.style.backgroundColor = '#f66';
-                    cell7.innerHTML = '<a href="#" target="_blank"></a>';
-                }
-                ready = true;//let the main loop know we are finished with this call to continue
-            }
-            xhr.ontimeout = function() {
-                cell7.innerHTML = '<a href="#" target="_blank">Timed Out</a>';
-                ready = true;
-            }
-            function sleep(milliseconds) {
-                const date = Date.now();
-                    let currentDate = null;
-                    do {
-                        currentDate = Date.now();
-                    } while (currentDate - date < milliseconds);
-            }
-            while (!ready){//wait for the api or to timeout.
-                sleep(2);
-            } */ 
-        }
+        cell7.innerHTML = '<a href="#" target="_blank">Retrieving Steam Name...</a>';
+        validateid(cell0.firstChild);
+        //update to use the self contained function.why didnt i think to do this before?
+
         cell1.innerHTML = '<select name="Ranks">' + div.innerHTML + '</select>';
         cell1.firstChild.value = playersettings[newstaff][1];
         cell2.innerHTML = '<input type="text" value="' + playersettings[newstaff][2] + '">';
