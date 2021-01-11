@@ -410,22 +410,70 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
             cell3 = row.insertCell(3),
             cell4 = row.insertCell(4),
             cell5 = row.insertCell(5),
-            cell6 = row.insertCell(6);
+            cell6 = row.insertCell(6),
+            cell7 = row.insertCell(7);
         cell0.innerHTML = '<input type="number" value=' + playersettings[newstaff][0] + ' onchange="validateid(this)" onwheel="this.blur()">';
         if(playersettings[newstaff][0].length !== 17 || BigInt(playersettings[newstaff][0]) < 76561197960265729n || BigInt(playersettings[newstaff][0]) > 76561202255233023n ) {
             cell0.firstChild.style.backgroundColor = '#f66';//light red background to denote an error
             InternalDebug("WARN: "+ playersettings[newstaff][0] + ' is an invalid steam id')
+            cell7.innerHTML = '<a href="#" target="_blank"></a>';
+        } else {  //we pull the player name from the id and check and see if its valid
+            var xhr = new XMLHttpRequest();
+            var APIURL = 'http://raptorsystems.site/?id='+playersettings[newstaff][0]  //this API site is a NODE JS steam api site. 
+            xhr.open('GET',APIURL,false);//done in sync for now. will redo later
+            console.log("sending request for "+ playersettings[newstaff][0]);
+            xhr.send();
+            cell7.innerHTML = '<a href="#" target="_blank">#</a>';
+            //var ready = false;
+                if (xhr.readyState !=4) return;
+                if (xhr.status == 200) {
+                    var data = JSON.parse(xhr.responseText);
+                    cell7.firstChild.href = data['url'];
+                    cell7.firstChild.innerHTML = data['nickname'];
+                }
+                if (xhr.status == 404) {
+                    cell0.firstChild.style.backgroundColor = '#f66';
+                    cell7.innerHTML = '<a href="#" target="_blank"></a>';
+                }
+            
+            /* xhr.onreadystatechange = function() {
+                console.log('ready state is '+ this.readyState);
+                if (this.readyState !=4) return;
+                if (this.status == 200) {
+                    var data = JSON.parse(this.responseText);
+                    cell7.innerHTML = '<a href="'&data['url']&'" target="_blank">'&data['nickname']&'</a>';
+                }
+                if (this.status == 404) {
+                    cell0.firstChild.style.backgroundColor = '#f66';
+                    cell7.innerHTML = '<a href="#" target="_blank"></a>';
+                }
+                ready = true;//let the main loop know we are finished with this call to continue
+            }
+            xhr.ontimeout = function() {
+                cell7.innerHTML = '<a href="#" target="_blank">Timed Out</a>';
+                ready = true;
+            }
+            function sleep(milliseconds) {
+                const date = Date.now();
+                    let currentDate = null;
+                    do {
+                        currentDate = Date.now();
+                    } while (currentDate - date < milliseconds);
+            }
+            while (!ready){//wait for the api or to timeout.
+                sleep(2);
+            } */ 
         }
         cell1.innerHTML = '<select name="Ranks">' + div.innerHTML + '</select>';
         cell1.firstChild.value = playersettings[newstaff][1];
         cell2.innerHTML = '<input type="text" value="' + playersettings[newstaff][2] + '">';
         cell3.innerHTML = '<input type="color" value=' + playersettings[newstaff][3] + ' onchange="ValidateColor(this)">';
         cell4.innerHTML = '<input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="' + playersettings[newstaff][3] + '" style="vertical-align: middle">';
-        if(newstaff == 0) {
-            cell5.innerHTML = '<input type="button" value="X" disabled>';
-        } else {
+/*        if(newstaff == 0) {
+            cell5.innerHTML = '<input type="button" value="X" disabled>'; removed since you may want to remove the first user in the row
+        } else {*/
             cell5.innerHTML = '<input type="button" value="X" onclick="StaffRemoveRow(this)">';
-        }
+//        }
         cell6.innerHTML = '<input type="button" value="+" onclick="StaffAddRow(this)">';
     }
     document.getElementById('asave').value = AutosaveTime;
@@ -456,8 +504,9 @@ function readdata(selector) {
     var fileList = selector.files;
     console.log(fileList);
     if(fileList.length !== 0) {
+        document.getElementById('loadHeader').style.display = "block"
         document.getElementById("fileModal").style.display = "none"
-        var proceed = confirm("Warning!\n Loading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?");
+        var proceed = confirm("Warning!\n Loading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?\nThis may take a few seconds!");
         if(proceed){//user clicked ok
             var reader = new FileReader();
             reader.onload = function(event) {
@@ -466,12 +515,14 @@ function readdata(selector) {
                 buildpage();
                 document.getElementById("btnload").innerHTML="Reload Existing Game.ini";
             };
+            document.getElementById('loadHeader').style.display = "none"
             var data = reader.readAsText(fileList[0]);//outputs a string to parse
         }
     }
 }
 function SubmitConfig() {
-    var proceed = confirm("Warning!\n Loading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?");
+    document.getElementById('loadHeader').style.display = "block"
+    var proceed = confirm("Warning!\n Loading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?\nThis may take a few seconds!");
     if(proceed){//user clicked ok
         var content = document.getElementById("inputtxt").value;
         parsedata(content);
@@ -479,6 +530,7 @@ function SubmitConfig() {
         document.getElementById("btnload").innerHTML="Reload Existing Game.ini";
         document.getElementById("fileModal").style.display = "none"
     }
+    document.getElementById('loadHeader').style.display = 'none'
 }
 HTMLSelectElement.prototype.contains = function( value ) {//adds a oneliner prototype for JS selections
     for ( var i = 0, l = this.options.length; i < l; i++ ) {

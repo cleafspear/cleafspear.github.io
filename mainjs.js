@@ -131,7 +131,8 @@ function StaffAddRow(oButton) {
         cell3 = row.insertCell(3),
         cell4 = row.insertCell(4),
         cell5 = row.insertCell(5),
-        cell6 = row.insertCell(6);
+        cell6 = row.insertCell(6),
+        cell7 = row.insertCell(7);
     cell0.innerHTML = '<input type="number" value="" onchange="validateid(this)" onwheel="this.blur()">';
     cell1.innerHTML = setlist();
     cell2.innerHTML = '<input type="text" value="">';
@@ -139,13 +140,33 @@ function StaffAddRow(oButton) {
     cell4.innerHTML = '<input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#ffffff" style="vertical-align: middle">';
     cell5.innerHTML = '<input type="button" value="X" onclick="StaffRemoveRow(this)">';
     cell6.innerHTML = '<input type="button" value="+" onclick="StaffAddRow(this)">';
+    cell7.innerHTML = '<a href="#" target="_blank"></a>';
 }
 
 function validateid(id) {
     if (id.value.length !== 17 || BigInt(id.value) < 76561197960265729n || BigInt(id.value) > 76561202255233023n ) {//javascript limitation of comparing 64 bit numbers is very blatent here... also this is both the absolute min and max steam id possible
         id.style.backgroundColor = '#f66';//light red
+        id.parentElement.parentElement.cells[7].firstChild.innerHTML = "";
     } else {
         id.style.backgroundColor = '#fff';
+        var link = id.parentElement.parentElement.cells[7].firstChild;
+        //we contact the api server here to get the steam name/link to put in the <a> tag
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState !=4) return;
+            if (this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                link.href = data['url'];
+                link.innerHTML = data['nickname'];
+            }
+             if (this.status == 404) {
+                id.style.backgroundColor = '#f66';//the id is invalid because it dosent exist
+                id.parentElement.parentElement.cells[7].firstChild.innerHTML = "";
+             }
+        }
+        var APIURL = 'http://raptorsystems.site/?id='+id.value //this API site is a NODE JS steam api site. 
+        xhr.open('GET',APIURL,true);
+        xhr.send();
     }
 }
 

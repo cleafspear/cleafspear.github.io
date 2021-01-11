@@ -11,6 +11,9 @@
         <script type="text/javascript" src="upload.js"></script>
     </head>
     <body>
+        <div id="loadHeader" style="display: none">
+            <p style="align-self: center ; text-align: center; background-color: red">LOADING DATA, Please wait while we read and populate the data from your config</p>
+        </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
             <b>This configuration Generator/Editor is compatible with Version 1.1.1085 of the server.</b>
@@ -510,6 +513,7 @@
                                     </div>
                                 <th>Delete Line</th>
                                 <th>Add Line</th>
+                                <th>Steam Profile</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -525,6 +529,7 @@
                                 <td><input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#ff3300" style="vertical-align: middle"></td>
                                 <td><input type="button" value="X" disabled></td>
                                 <td><input type="button" value="+" onclick="StaffAddRow(this)"></td>
+                                <td><a href="https://steamcommunity.com/id/Predatoria/" target="_blank">Predatoria</a></td>
                             </tr>
                             <tr>
                                 <td><input type="number" value="76561197998584510" onchange="validateid(this)" onwheel="this.blur()"></td>
@@ -538,6 +543,7 @@
                                 <td><input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#00b2b2" style="vertical-align: middle"></td>
                                 <td><input type="button" value="X" onclick="StaffRemoveRow(this)"></td>
                                 <td><input type="button" value="+" onclick="StaffAddRow(this)"></td>
+                                <td><a href="https://steamcommunity.com/id/Vipe_lc/" target="_blank">Vipe</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -584,7 +590,9 @@
             <div class='wrap'>
                 <div class='Fsectionl'>Built and maintained by Cleafspear#0001<br><a id="ConsoleButton" 
 role="button" href="#" onclick="ToggleConsole()">Open Debug Console</a></div>
-                <div class='Fsectionr'> Issues?/Feature request? submit <a href="https://github.com/cleafspear/cleafspear.github.io/" target="_blank">here on github.</a></div>
+                <div class='Fsectionr'> Issues?/Feature request? submit <a href="https://github.com/cleafspear/cleafspear.github.io/" target="_blank">here on github.</a>
+                <br>
+                This site uses a private SteamAPI to get steam names</div>
                 <div class='Fsectionc'>This webapp contains no tracking for itself or 3rd party providers.<br>This page is covered under the <a href="https://opensource.org/licenses/MIT" target="_blank">Open Source MIT licence</a></div>
                 <div id="Console" style="display: none">
                     Console Output:
