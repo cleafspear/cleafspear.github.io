@@ -147,6 +147,7 @@ function validateid(id) {
     if (id.value.length !== 17 || BigInt(id.value) < 76561197960265729n || BigInt(id.value) > 76561202255233023n ) {//javascript limitation of comparing 64 bit numbers is very blatent here... also this is both the absolute min and max steam id possible
         id.style.backgroundColor = '#f66';//light red
         id.parentElement.parentElement.cells[7].firstChild.innerHTML = "";
+        InternalDebug("WARN: " +id.value+ "is not a valid steam id");
     } else {
         id.style.backgroundColor = '#fff';
         var link = id.parentElement.parentElement.cells[7].firstChild;
@@ -162,6 +163,7 @@ function validateid(id) {
              if (this.status == 404) {
                 id.style.backgroundColor = '#f66';//the id is invalid because it dosent exist
                 id.parentElement.parentElement.cells[7].firstChild.innerHTML = "";
+                 InternalDebug("WARN: " +id.value+ "is not a valid steam id");
              }
         }
         var APIURL = 'https://raptorsystems.site/?id='+id.value //this API site is a NODE JS steam api site. 
