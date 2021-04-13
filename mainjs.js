@@ -46,6 +46,45 @@ function HLToggle() {
         Tname.textContent = "Absolute Group limit";
     }
 }
+//general function to recompute the value based on a time multiplyer
+function RecomputeTime(loc, caller){
+    var select = document.getElementById(loc),
+        mult = caller.value,
+        oldmult = select.getAttribute("data-state"),
+        val = select.value,
+        decompVal = 0,
+        recompVal = 0;
+    switch(oldmult) {
+        case "0":
+            decompVal = val;
+            break;
+        case "1":
+            decompVal = val*60;
+            break;
+        case "2":
+            decompVal = val*3600;
+            break;
+        case "3":
+            decompVal = val*86400;
+            break;
+    };
+    switch(mult) {
+        case "0":
+            recompVal = decompVal;
+            break;
+        case "1":
+            recompVal = decompVal/60;
+            break;
+        case "2":
+            recompVal = decompVal/3600;
+            break;
+        case "3":
+            recompVal = decompVal/86400;
+            break;
+    };
+    select.setAttribute("data-state",mult);
+    select.value = recompVal;
+}
 //used to build and destroy the rank level lines. passes values over to the command and player configuration
 function RankRemoveRow(oButton) {
     var tabRanks = document.getElementById("Ranks"),

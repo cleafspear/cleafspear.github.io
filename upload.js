@@ -13,10 +13,12 @@ var MapNameOverride = "Forest_Island",
     bConsoleLocked = true,
     ReservedAdminSlots = 2,
     bDisableGlobalChat = false,
+    bDisableLocalChat = false,
     CarcassRateMultiplier = 1,
     CarcassSpawnRatio = 1,
     DayLength = 7050,
     TunnelNetworkDespawnTime = 259200,
+    bSpawnForestFires= true,
     bUseMixedHerdCaps = true,
     bUseHardGroupLimits = false,
     CreatureLimits = [],
@@ -44,9 +46,12 @@ function parsedata(data) {
     bConsoleLocked = true;
     ReservedAdminSlots = 2;
     bDisableGlobalChat = false;
+    bDisableLocalChat = false;
     CarcassRateMultiplier = 1;
     CarcassSpawnRatio = 1;
     DayLength = '7050';
+    TunnelNetworkDespawnTime = 259200,
+    bSpawnForestFires= true,
     bUseHardGroupLimits = false;
     CreatureLimits = [];
     AdminRanks = [];
@@ -106,6 +111,9 @@ function parsedata(data) {
         case 'bDisableGlobalChat':
             bDisableGlobalChat = (linedata[1].toLowerCase().trim() === "true");
             break;
+        case 'bDisableLocalChat':
+            bDisableLocalChat = (linedata[1].toLowerCase().trim() === "true");
+            break;
         case 'CarcassRateModifier'://for VERY OLD config imports
             InternalDebug('WARN: Found CarcassRateModifier, this is a 2019 config option.it will be ported')
             CompatibilityMode = true;
@@ -117,6 +125,9 @@ function parsedata(data) {
             break;
         case 'DayLength':
             DayLength = parseFloat(linedata[1]);
+            break;
+        case 'bSpawnForestFires':
+            bSpawnForestFires = (linedata[1].toLowerCase().trim() === "true");
             break;
         case 'bUseMixedHerdCaps':
             bUseMixedHerdCaps = (linedata[1].toLowerCase().trim() === "true");
@@ -252,11 +263,18 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById('console').checked = bConsoleLocked;
     document.getElementById('slots').value = ReservedAdminSlots;
     document.getElementById('gchat').checked = bDisableGlobalChat;
+    document.getElementById('lchat').checked = bDisableLocalChat;
     document.getElementById('carcassrate').value = CarcassRateMultiplier;
     document.getElementById('carcassratio').value = CarcassSpawnRatio;
     document.getElementById('daycycle').value = DayLength;
+    document.getElementById('DayMulti').value = 0;
+    document.getElementById('daycycle').setAttribute("data-state",0);
     document.getElementById('grouplimit').checked = bUseHardGroupLimits;
+    document.getElementById('grouplimit').checked = bUseHardGroupLimits;
+    document.getElementById('TunnelMulti').value = 0;
+    document.getElementById('TunnelLifetime').setAttribute("data-state",0);
     document.getElementById('TunnelLifetime').value = TunnelNetworkDespawnTime;
+    document.getElementById('fire').checked = bSpawnForestFires;
     document.getElementById('Mixherd').value = bUseMixedHerdCaps;
     if (bUseHardGroupLimits) {
         document.getElementById("dinoh").textContent = "Absolute Group limit";
@@ -362,6 +380,11 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     for(admins in ServerAdmins) {
         playersettings.push([ServerAdmins[admins][0],ServerAdmins[admins][1],'','#ffffff']);//push each entry but pre-add a blank tag and blank color to the data
     }
+/**        if(playersettings.includes(ServerAdmins[admins][0])){
+            InternalDebug('found duplicate admin id '+ServerAdmins[admins][0]+' with rank '+ServerAdmins[admins][1]+ ' ! please fix duplicates!');//warn for now.
+            }//we have a duplicate entry in the admin list.
+        playersettings.push([ServerAdmins[admins][0],ServerAdmins[admins][1],'','#ffffff']);//push each entry but pre-add a blank tag and blank color to the data*
+    }**/
     for(count in PlayerChatTags) {
         var valid = false;
         for(players in playersettings){

@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.1.1135 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version DEV of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -116,6 +116,9 @@
                     <label for="gchat">Disable Global Chat:</label>
                     <input type="checkbox" id="gchat" >
                     <br>
+                    <label for="lchat">Disable Local Chat:</label>
+                    <input type="checkbox" id="lchat" >
+                    <br>
                     <label for="carcassrate"><div class="tooltip">Carcass Spawn Rate:
                             <span class="tooltiptext">This multiplies the amount of total meat spawned over time on the map. max is 8x normal</span>
                         </div></label>
@@ -127,14 +130,27 @@
                     <input type="number" id ="carcassratio" value="1.0" min=0 max =2>
                     <br>
                     <label for="DayLegnth">Day Legnth:</label>
-                    <input type="number" id="daycycle" value="7050.0" style="width:50px">
-                    <label for="DayLegnth">Seconds</label>
+                    <input type="number" id="daycycle" value="2" data-state=2 style="width:50px" onwheel="this.blur()" >
+                    <select id="DayMulti" onchange="RecomputeTime('daycycle', this)">
+                        <option value = 0>Seconds</option>
+                        <option value = 1>Minutes</option>
+                        <option value = 2 selected>Hours</option>
+                        <option value = 3>Days</option>
+                    </select>
                     <br>
                     <label for="TunnelLifetime"><div class="tooltip">Tunnel Despawn time:
                             <span class="tooltiptext">This determins the legnth of time a burrow network will remain after its last edit.<br>Please note, the tunnels are checked every 5 minutes, and there is a 5 minute delay when the timer hits 0 before it removes a network.</span>
                         </div></label>
-                    <input type="number" id="TunnelLifetime" min=0 value= 259200 step=300 onwheel="this.blur()" style="width:50px">
-                    <label for="TunnelLifetime">Seconds</label>
+                    <input type="number" id="TunnelLifetime" min=0 value= 3 step=1 data-state=3 onwheel="this.blur()" style="width:50px">
+                    <select id="TunnelMulti" onchange="RecomputeTime('TunnelLifetime', this)">
+                        <option value = 0>Seconds</option>
+                        <option value = 1>Minutes</option>
+                        <option value = 2>Hours</option>
+                        <option value = 3 selected>Days</option>
+                    </select>
+                    <br>
+                    <label for="fire"><div class="tooltip">Enable Forest fires:<span class="tooltiptext">This will effect storm and admin spawned fires.</span></div></label>
+                    <Input type="checkbox" id= "fire" checked>
                 </div>
                 <div class="Section" id="Section2" style="display: none">
                     <div class="section-header">
@@ -437,6 +453,16 @@
                             <tr>
                                 <td ><div class="tooltip"><div class="name">GrowEntity</div>
                                         <span class="tooltiptext">Allows the usage of the following commands:<br>SetInBurrow <br>SetModelAngles <br>SetGrowthLevel <br>AddGrowthTime <br>FillAllStats <br>SetStats <br>SetScore</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">Groups</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DisbandAllGroups</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>

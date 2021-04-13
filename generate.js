@@ -23,10 +23,44 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('bConsoleLocked='+document.getElementById("console").checked);
     output.push('ReservedAdminSlots='+document.getElementById("slots").value);
     output.push('bDisableGlobalChat='+document.getElementById("gchat").checked);
+    output.push('bDisableLocalChat='+document.getElementById("lchat").checked);
     output.push('CarcassRateMultiplier='+document.getElementById("carcassrate").value+ 'f');
     output.push('CarcassSpawnRatio='+document.getElementById("carcassratio").value+'f');
-    output.push('DayLength='+document.getElementById("daycycle").value+'f');
-    output.push('TunnelNetworkDespawnTime='+document.getElementById('TunnelLifetime').value);
+    tmptime= document.getElementById("daycycle").value;
+    mult = document.getElementById("DayMulti").value;
+    switch(mult) {
+        case "0":
+            tmptime = tmptime;
+            break;
+        case "1":
+            tmptime = tmptime*60;
+            break;
+        case "2":
+            tmptime = tmptime*3600;
+            break;
+        case "3":
+            tmptime = tmptime*86400;
+            break;
+    };
+    output.push('DayLength='+tmptime+'f'); 
+    tmptime= document.getElementById("TunnelLifetime").value;
+    mult = document.getElementById("TunnelMulti").value;
+    switch(mult) {
+        case "0":
+            tmptime = tmptime;
+            break;
+        case "1":
+            tmptime = tmptime*60;
+            break;
+        case "2":
+            tmptime = tmptime*3600;
+            break;
+        case "3":
+            tmptime = tmptime*86400;
+            break;
+    };
+    output.push('TunnelNetworkDespawnTime='+tmptime);
+    output.push('bSpawnForestFires='+document.getElementById('fire').checked);//FIRE!!!!
     output.push('bUseMixedHerdCaps='+document.getElementById('Mixherd').checked);//mixherdcaps
     output.push('bUseHardGroupLimits='+document.getElementById("grouplimit").checked);
     //contains the processing needed to build the dino table. we do not hard code any ids for rows, instead relying on the dino names as a key. this allows us to add to the table without needing to set id or touch this script.
