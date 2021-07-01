@@ -1,3 +1,6 @@
+//Dynamically generated content variables. used on page load to build some of the creature list as well as a single location to validate entries against
+const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
+const MixedAllowed = ['Apatosaurus','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
 //Modal logic
 function OpenLoad() {
     document.getElementById("fileModal").style.display = "block";
@@ -46,11 +49,42 @@ function HLToggle() {
         Tname.textContent = "Absolute Group limit";
     }
 }
+function addMPRow(dButton){
+    var tabMP = document.getElementById("MPTable"),
+        loc = dButton.parentNode.parentNode.rowIndex + 1,
+        row = tabMP.insertRow(loc),
+        cell0 = row.insertCell(0),
+        cell1 = row.insertCell(1),
+        cell2 = row.insertCell(2);
+    cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
+    cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
+    cell2.innerHTML = '<div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Apatosaurus" onclick="AddMPCreature(this)"><input type="button" value="Lurdusaurus" onclick="AddMPCreature(this)"><input type="button" value="Oryctodromeus" onclick="AddMPCreature(this)"><input type="button" value="Pachycephalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Parasaurolophus" onclick="AddMPCreature(this)"><input type="button" value="Saichania" onclick="AddMPCreature(this)"></div>';
+}
+function RemoveMPRow(dButton){
+    var tabMP = document.getElementById("MPTable"),
+        rIndex = dButton.parentNode.parentNode.rowIndex;
+    tabMP.deleteRow(rIndex);
+    if(rIndex == 1 && tabMP.rows.length == 1 ){
+        row = tabMP.insertRow(-1),
+        cell0 = row.insertCell(0),
+        cell1 = row.insertCell(1),
+        cell2 = row.insertCell(2);
+    cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
+    cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
+    cell2.innerHTML = '<div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Apatosaurus" onclick="AddMPCreature(this)"><input type="button" value="Lurdusaurus" onclick="AddMPCreature(this)"><input type="button" value="Oryctodromeus" onclick="AddMPCreature(this)"><input type="button" value="Pachycephalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Parasaurolophus" onclick="AddMPCreature(this)"><input type="button" value="Saichania" onclick="AddMPCreature(this)"></div>';
+    }
+}
+function AddMPCreature(dSelect){
+    var RowData = dSelect.parentNode.parentNode.parentNode.innerHTML;
+}
+function RemoveMPCreature(dSelect){
+    
+}
 //general function to recompute the value based on a time multiplyer
 function RecomputeTime(loc, caller){
     var select = document.getElementById(loc),
         mult = caller.value,
-        oldmult = select.getAttribute("data-state"),
+        oldmult = select.getAttribute("data-state"),//custom datavalue tied to the html object
         val = select.value,
         decompVal = 0,
         recompVal = 0;
@@ -205,7 +239,7 @@ function validateid(id) {
                  InternalDebug("WARN: " +id.value+ "is not a valid steam id");
              }
         }
-        var APIURL = 'https://raptorsystems.site/?id='+id.value //this API site is a NODE JS steam api site. 
+        var APIURL = 'https://raptorsystems.site/?id='+id.value //this API site is a NODE JS steam api site ran by Cleafspear. 
         xhr.open('GET',APIURL,true);
         xhr.send();
     }
@@ -251,3 +285,19 @@ function InternalDebug(message) {
             logger.innerHTML += message + "&#13;&#10;";
         }
 }
+function ReadyPage(){//this function is to replace a lot of the hand coded parts of the page with a runtime dynamic system.basically making updating parts a 1 line instead of multiline update. users should not be effected since all page data is already in ram. does cause a DOM update after load but performance hits should be negligable
+    var DinoTable = document.getElementById("dinos")
+    DinoTable.deleteRow(-1);
+    for(index = 0; index < Creatures.length; index++)   {
+        var row = DinoTable.insertRow(-1),
+            cell0 = row.insertCell(0),
+            cell1 = row.insertCell(1),
+            cell2 = row.insertCell(2);
+        cell0.innerHTML=Creatures[index];
+        cell1.innerHTML='<input type="number" value="999" step = 1 style="width:50px">';
+        cell2.innerHTML='<input type="number" value="100.0" min = 0 max = 100>';
+    }
+}
+document.addEventListener('DOMContentLoaded', function(event) {
+  ReadyPage();
+})

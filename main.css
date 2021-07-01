@@ -121,6 +121,23 @@ body {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  min-width: 150px;
+  z-index: 1;
+}
+.dropdown-content input {
+  color: black;
+  text-decoration: none;
+  display: block;
+}
+.dropdown:hover .dropdown-content {display: block;}
+
 .Section {
     padding: 10px;
     

@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.1.1231 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version DEV of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -179,92 +179,32 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Acrocanthosaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Apatosaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Elasmosaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Kronosaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Ichthyovenator</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Lurdusaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Megalosaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Mosasaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Oryctodromeus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Pachycephalosaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Parasaurolophus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Pteranodon</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Saichania</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Tropeognathus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Tyrannosaurus</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Utahraptor</td>
-                                <td><input type="number" value="999" step = 1 style="width:50px"></td>
-                                <td><input type="number" value="100.0" min = 0 max = 100></td>
-                            </tr>
-                            <tr>
-                                <td>Velociraptor</td>
+                                <td>JavaScript Required</td>
                                 <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
                         </tbody>
                     </table>
+                <div>
+                    <b>Mix-Herd Configuration</b>
+                    <table id = "MPTable">
+                        <thead>
+                            <tr>
+                                <th>Add Row</th>
+                                <th>Remove Row</th>
+                                <th>Creatures</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><input type="button" value="+" onclick="addMPRow(this)"></td>
+                                <td><input type="button" value="x" onclick="RemoveMPRow(this)"></td>
+                                <td><input type="button" value="Apatosaurus" onclick=""><input type="button" value="Lurdusaurus" onclick=""><input type="button" value="Oryctodromeus" onclick=""><input type="button" value="Pachycephalosaurus" onclick=""><input type="button" value="Parasaurolophus" onclick=""><input type="button" value="Saichania" onclick=""><div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Apatosaurus" onclick="AddMPCreature(this)"><input type="button" value="Lurdusaurus" onclick="AddMPCreature(this)"><input type="button" value="Oryctodromeus" onclick="AddMPCreature(this)"><input type="button" value="Pachycephalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Parasaurolophus" onclick="AddMPCreature(this)"><input type="button" value="Saichania" onclick="AddMPCreature(this)"></div>
+</div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 </div>
                 <div class="Section" id="Section3" style="display: none">
                     <!-- this will rely HEAVILY on the javascript to create the entries.only the sheer basics are built here.-->
@@ -597,6 +537,64 @@
                             </div></label>
                         <input type="text" id="Rconip" value="127.0.0.1" minlegnth="7" maxlength="15" pattern="^((\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$"><!--IPv4 only pattern matching. rcon isnt setup to do IPv6-->
                     </div>
+                    <p><b>Discord Webhooks settings:</b></p>
+                    <label for="DiscordInt"><div class="tooltip">Enable Discord Webhooks
+                        <span class="tooltiptext">This will enable the Discord intergration. this is a WebHooks based system, you will need to use Channel Webhooks for this to work!</span></div></label>
+                    <input type="checkbox" id="EnableDiscord" onchange="SHSubSection('DiscordIntergration')">
+                    <div id="DiscordIntergration" style="display: none">
+                        <br>
+                        <label ><div class="tooltip">Chat Log:
+                                <span class="tooltiptext">This is the webhook to the channel you want Chat to go to.</span>
+                            </div></label>
+                        <input type="checkbox" id="ChatLogDiscordEnable" onchange="SHSubSection('DiscordChat')">
+                        <div id = "DiscordChat" style="display: none">
+                            <label ><div class="tooltip">Chat Log Hook:
+                                <span class="tooltiptext">This is the webhook to the channel you want Chat to go to.</span>
+                            </div></label>
+                            <input type="text" id="ChatLogDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <br>
+                            <label ><div class="tooltip">Chat Log Icon:
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord.</span>
+                                </div></label>
+                            <input type="text" id="ChatLogDiscordIcon" value = "">
+                        </div>
+                        <br>
+                        <label ><div class="tooltip">Connection Log:
+                                <span class="tooltiptext">This is the webhook to the channel you want Chat to go to.</span>
+                            </div></label>
+                        
+                        <input type="checkbox" id="ConnectionLogDiscordEnable" onchange="SHSubSection('DiscordConnect')">
+                        
+                        <div id = "DiscordConnect" style="display: none">
+                            <label ><div class="tooltip">Connection Log Hook:
+                                <span class="tooltiptext">This is the webhook to the channel you want Connects/disconnects to go to.</span>
+                            </div></label>
+                        <input type="text" id="ConnectLogDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <br>
+                            <label ><div class="tooltip">Connection Log Icon:
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord.</span>
+                                </div></label>
+                            <input type="text" id="ConnectionLogDiscordIcon" value = "">
+                        </div>
+                        <br>
+                        <label ><div class="tooltip">Command Log:
+                                <span class="tooltiptext">This is the webhook to the channel you want Commands to go to.</span>
+                            </div></label>
+                        
+                        <input type="checkbox" id="CommandLogDiscordEnable" onchange="SHSubSection('DiscordCommands')">
+                        <div id = "DiscordCommands" style="display: none">
+                            <label ><div class="tooltip">Command Log Hook:
+                                <span class="tooltiptext">This is the webhook to the channel you want Admin Commands to go to.</span>
+                            </div></label>
+                            <input type="text" id="AdminCmdDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <br>
+                        
+                            <label ><div class="tooltip">Command Log Icon:
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord.</span>
+                                </div></label>
+                            <input type="text" id="AdminCmdDiscordIcon" value = "">
+                        </div>
+                    </div>
                 </div>
                 <div class="Section" id="Final" style="display: none">
                     <div class="section-header">
@@ -617,7 +615,7 @@
 role="button" href="#" onclick="ToggleConsole()">Open Debug Console</a></div>
                 <div class='Fsectionr'> Issues?/Feature request? submit <a href="https://github.com/cleafspear/cleafspear.github.io/" target="_blank">here on github.</a>
                 <br>
-                This site uses a private SteamAPI to get steam names</div>
+                Steam API Provided by Raptor Systems US</div>
                 <div class='Fsectionc'>This webapp contains no tracking for itself or 3rd party providers.<br>This page is covered under the <a href="https://opensource.org/licenses/MIT" target="_blank">Open Source MIT licence</a></div>
                 <div id="Console" style="display: none">
                     Console Output:
