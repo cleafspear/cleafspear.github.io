@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Beast of Bermuda Config Tool</title>
-        <meta name="description" content="A Complete configuration Generator and Editor for the game Beast of bermuda, Developed by Discord user Cleafspear#0001">
+        <meta name="description" content="The Offical configuration Generator and Editor for the game Beasts of Bermuda, Developed by Discord user Cleafspear#0001">
         <link rel="stylesheet" href="main.css">
         <script type="text/javascript" src="mainjs.js"></script>
         <script type="text/javascript" src="generate.js"></script>
@@ -179,7 +179,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>JavaScript Required</td>
+                                <td>Debug Row</td>
                                 <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
                             </tr>
@@ -187,20 +187,27 @@
                     </table>
                 <div>
                     <b>Mix-Herd Configuration</b>
+                    <br>
+                    <label for="GroupValidate">
+                        <div class="tooltip">Ignore Grouping Validation on Login
+                            <span class="tooltiptext">Enabling this will allow creatures that are not in a valid group listed below to rejoin the group on login. if disabled, any invalid creatures that do not match a grouping below will be kicked from their group</span>
+                        </div></label>
+                    <input type="checkbox" id="bForceIgnoreGroupSpeciesCheckOnLogin">
                     <table id = "MPTable">
                         <thead>
                             <tr>
                                 <th>Add Row</th>
                                 <th>Remove Row</th>
-                                <th>Creatures</th>
+                                <th><div class="tooltip">Creatures
+                            <span class="tooltiptext">To add a Creature to a list, click a Creature in the Add Creature dropdown on that row.<br>To remove a Creature, click the Creature in the list</span>
+                        </div></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><input type="button" value="+" onclick="addMPRow(this)"></td>
                                 <td><input type="button" value="x" onclick="RemoveMPRow(this)"></td>
-                                <td><input type="button" value="Apatosaurus" onclick=""><input type="button" value="Lurdusaurus" onclick=""><input type="button" value="Oryctodromeus" onclick=""><input type="button" value="Pachycephalosaurus" onclick=""><input type="button" value="Parasaurolophus" onclick=""><input type="button" value="Saichania" onclick=""><div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Apatosaurus" onclick="AddMPCreature(this)"><input type="button" value="Lurdusaurus" onclick="AddMPCreature(this)"><input type="button" value="Oryctodromeus" onclick="AddMPCreature(this)"><input type="button" value="Pachycephalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Parasaurolophus" onclick="AddMPCreature(this)"><input type="button" value="Saichania" onclick="AddMPCreature(this)"></div>
-</div></td>
+                                <td><div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Apatosaurus" onclick="AddMPCreature(this)"><input type="button" value="Lurdusaurus" onclick="AddMPCreature(this)"><input type="button" value="Oryctodromeus" onclick="AddMPCreature(this)"><input type="button" value="Pachycephalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Parasaurolophus" onclick="AddMPCreature(this)"><input type="button" value="Saichania" onclick="AddMPCreature(this)"></div></div><input type="button" value="Apatosaurus" onclick="this.remove()"><input type="button" value="Lurdusaurus" onclick="this.remove()"><input type="button" value="Oryctodromeus" onclick="this.remove()"><input type="button" value="Pachycephalosaurus" onclick="this.remove()"><input type="button" value="Parasaurolophus" onclick="this.remove()"><input type="button" value="Saichania" onclick="this.remove()"></td>
                             </tr>
                         </tbody>
                     </table>
@@ -251,18 +258,8 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">ServerMutePlayer</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br> MutePlayer<br>UnMutePlayer <br>ListPunishedPlayers <br>GetPunishedPlayers</span>
-                                    </div></td>
-                                <td><select  name="Ranks">
-                                    <option value=" "> </option>
-                                    <option value="NoAdmin">NoAdmin</option>
-                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
-                                    </select></td>
-                            </tr>
-                            <tr>
-                                <td ><div class="tooltip"><div class="name">KickPlayer</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br> KickPlayer</span>
+                                <td ><div class="tooltip"><div class="name">Announce</div>
+                                        <span class="tooltiptext">Allows the usage of Announce</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -281,18 +278,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">RespawnPlayer</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Respawn<br>RestoreDeadEntity<br>ResurrectPlayer</span>
-                                    </div></td>
-                                <td><select  name="Ranks">
-                                    <option value=" "> </option>
-                                    <option value="NoAdmin">NoAdmin</option>
-                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
-                                    </select></td>
-                            </tr>
-                            <tr>
-                                <td ><div class="tooltip"><div class="name">ControlWeather</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Lightning<br>SetDayLength<br>SetWeather ReqWeather<br>ForceStorm<br>ToggleWeatherData<br>PauseWeather<br>SetTimeOfDay<br>MoveTornado<br>KillTornado<br>The following command needs additional perms:<br>SpawnTornado<br>Spawnfire</span>
+                                <td ><div class="tooltip"><div class="name">CheckServerData</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>ReqTunnelNodes <br>ReqTunnelEntrances <br>ReqTunnelMeshes <br>ReqTunnelDecorativeMeshes <br>ReqTunnelCollisionMeshes <br>ReqTunnelDespawnTimes <br>ReqTunnelActors</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -321,26 +308,6 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">CheckServerData</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>ReqTunnelNodes <br>ReqTunnelEntrances <br>ReqTunnelMeshes <br>ReqTunnelDecorativeMeshes <br>ReqTunnelCollisionMeshes <br>ReqTunnelDespawnTimes <br>ReqTunnelActors</span>
-                                    </div></td>
-                                <td><select  name="Ranks">
-                                    <option value=" "> </option>
-                                    <option value="NoAdmin">NoAdmin</option>
-                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
-                                    </select></td>
-                            </tr>
-                            <tr>
-                                <td ><div class="tooltip"><div class="name">ModifyServerData</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands: <br>DeleteTunnelNetwork <br>RemoveTunnelNetworkDirtPaddies <br>PurgeOrphanData <br>WipePlayerData <br>RemoveAllCarcasses <br>ResetAllFish <br>ResetFish <br>ForceServerSave <br>ForceServerFlush <br>ForceServerLoad</span>
-                                    </div></td>
-                                <td><select  name="Ranks">
-                                    <option value=" "> </option>
-                                    <option value="NoAdmin">NoAdmin</option>
-                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
-                                    </select></td>
-                            </tr>
-                            <tr>
                                 <td ><div class="tooltip"><div class="name">ControlServer</div>
                                         <span class="tooltiptext">Allows the usage of ServerConsoleCommand</span>
                                     </div></td>
@@ -351,18 +318,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">RestartMap</div>
-                                        <span class="tooltiptext">Allows the usage of RestartLevel</span>
-                                    </div></td>
-                                <td><select  name="Ranks">
-                                    <option value=" "> </option>
-                                    <option value="NoAdmin" selected>NoAdmin</option>
-                                    <option value="DefaultAdmin">DefaultAdmin</option>
-                                    </select></td>
-                            </tr>
-                            <tr>
-                                <td ><div class="tooltip"><div class="name">PossessEntity</div>
-                                        <span class="tooltiptext">Allows the usage of PossessEntity and admin mixpacking</span>
+                                <td ><div class="tooltip"><div class="name">ControlWeather</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Lightning<br>SetDayLength<br>SetWeather ReqWeather<br>ForceStorm<br>ToggleWeatherData<br>PauseWeather<br>SetTimeOfDay<br>MoveTornado<br>KillTornado<br>The following command needs additional perms:<br>SpawnTornado<br>Spawnfire</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -371,8 +328,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">SpawnEntity</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SpawnEntity <br>SpawnEgg <br>MoveTornado <br>KillTornado <br>GiveEgg <br>DestroyEntity<br>The following command needs additional perms:<br>SpawnTornado</span>
+                                <td ><div class="tooltip"><div class="name">GroupInvitesOnly</div>
+                                        <span class="tooltiptext">Allows Admin Mixpacking</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -381,8 +338,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">UseObserver</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SetViewHitboxes <br>EnterSpectate <br>LeaveSpectate <br>TogglePlayerNameTags</span>
+                                <td ><div class="tooltip"><div class="name">Groups</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DisbandAllGroups<br> Admin Mixpacking</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -401,8 +358,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">Groups</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DisbandAllGroups</span>
+                                <td ><div class="tooltip"><div class="name">KickPlayer</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br> KickPlayer</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -411,8 +368,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">Teleport</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Teleport <br>TeleportAt <br>TeleportToP <br>TeleportToMe<br>TeleportPtoP</span>
+                                <td ><div class="tooltip"><div class="name">ModifyEggsAndNesting</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SetGender <br>DisplayHeredity <br>MatePlayers <br>SetFriendship <br>DisplayFriendships <br>DisplayEggs</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -421,8 +378,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">Announce</div>
-                                        <span class="tooltiptext">Allows the usage of Announce</span>
+                                <td ><div class="tooltip"><div class="name">ModifyServerData</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands: <br>DeleteTunnelNetwork <br>RemoveTunnelNetworkDirtPaddies <br>PurgeOrphanData <br>WipePlayerData <br>RemoveAllCarcasses <br>ResetAllFish <br>ResetFish <br>ForceServerSave <br>ForceServerFlush <br>ForceServerLoad</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -441,8 +398,68 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">ModifyEggsAndNesting</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SetGender <br>DisplayHeredity <br>MatePlayers <br>SetFriendship <br>DisplayFriendships <br>DisplayEggs</span>
+                                <td ><div class="tooltip"><div class="name">PossessEntity</div>
+                                        <span class="tooltiptext">Allows the usage of PossessEntity</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">RespawnPlayer</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Respawn<br>RestoreDeadEntity<br>ResurrectPlayer</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">RestartMap</div>
+                                        <span class="tooltiptext">Allows the usage of RestartLevel</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin" selected>NoAdmin</option>
+                                    <option value="DefaultAdmin">DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">ServerMutePlayer</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br> MutePlayer<br>UnMutePlayer <br>ListPunishedPlayers <br>GetPunishedPlayers</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">SpawnEntity</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SpawnEntity <br>SpawnEgg <br>MoveTornado <br>KillTornado <br>GiveEgg <br>DestroyEntity<br>The following command needs additional perms:<br>SpawnTornado</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">Teleport</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Teleport <br>TeleportAt <br>TeleportToP <br>TeleportToMe<br>TeleportPtoP</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">UseObserver</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>SetViewHitboxes <br>EnterSpectate <br>LeaveSpectate <br>TogglePlayerNameTags</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -540,59 +557,91 @@
                     <p><b>Discord Webhooks settings:</b></p>
                     <label for="DiscordInt"><div class="tooltip">Enable Discord Webhooks
                         <span class="tooltiptext">This will enable the Discord intergration. this is a WebHooks based system, you will need to use Channel Webhooks for this to work!</span></div></label>
-                    <input type="checkbox" id="EnableDiscord" onchange="SHSubSection('DiscordIntergration')">
+                    <input type="checkbox" id="GameReporter" onchange="SHSubSection('DiscordIntergration')">
                     <div id="DiscordIntergration" style="display: none">
                         <br>
+                        
                         <label ><div class="tooltip">Chat Log:
                                 <span class="tooltiptext">This is the webhook to the channel you want Chat to go to.</span>
                             </div></label>
-                        <input type="checkbox" id="ChatLogDiscordEnable" onchange="SHSubSection('DiscordChat')">
+                        <input type="checkbox" id="bUseChatWebhook" onchange="SHSubSection('DiscordChat')">
                         <div id = "DiscordChat" style="display: none">
                             <label ><div class="tooltip">Chat Log Hook:
-                                <span class="tooltiptext">This is the webhook to the channel you want Chat to go to.</span>
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
                             </div></label>
-                            <input type="text" id="ChatLogDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <input type="text" id="ChatReportDiscordWebhook" value = "" onchange="SanatizeInput(this)">
                             <br>
                             <label ><div class="tooltip">Chat Log Icon:
-                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord.</span>
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
-                            <input type="text" id="ChatLogDiscordIcon" value = "">
+                            <input type="text" id="ChatReportIconURL" value = "">
+                        </div>
+                        <br>
+                        <label ><div class="tooltip">Combat Log:
+                                <span class="tooltiptext">This is the webhook to the channel you want the Combat Log to go to.</span>
+                            </div></label>
+                        <input type="checkbox" id="bUseCombatActivityWebhook" onchange="SHSubSection('DinoCombat')">
+                        <div id = "DinoCombat" style="display: none">
+                            <label ><div class="tooltip">Combat Log Hook:
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
+                            </div></label>
+                            <input type="text" id="CombatActivityDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <br>
+                            <label ><div class="tooltip">Combat Log Icon:
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
+                                </div></label>
+                            <input type="text" id="CombatActivityDiscordIconURL" value = "">
                         </div>
                         <br>
                         <label ><div class="tooltip">Connection Log:
-                                <span class="tooltiptext">This is the webhook to the channel you want Chat to go to.</span>
+                                <span class="tooltiptext">This is the webhook to the channel you want Connects/Disconnects to go to.</span>
                             </div></label>
-                        
-                        <input type="checkbox" id="ConnectionLogDiscordEnable" onchange="SHSubSection('DiscordConnect')">
-                        
+                        <input type="checkbox" id="bUseLoginReportWebhook" onchange="SHSubSection('DiscordConnect')">
                         <div id = "DiscordConnect" style="display: none">
                             <label ><div class="tooltip">Connection Log Hook:
-                                <span class="tooltiptext">This is the webhook to the channel you want Connects/disconnects to go to.</span>
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
                             </div></label>
-                        <input type="text" id="ConnectLogDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                        <input type="text" id="LoginDiscordWebhook" value = "" onchange="SanatizeInput(this)">
                             <br>
                             <label ><div class="tooltip">Connection Log Icon:
-                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord.</span>
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
-                            <input type="text" id="ConnectionLogDiscordIcon" value = "">
+                            <input type="text" id="LoginDiscordIconURL" value = "">
                         </div>
                         <br>
-                        <label ><div class="tooltip">Command Log:
-                                <span class="tooltiptext">This is the webhook to the channel you want Commands to go to.</span>
-                            </div></label>
                         
-                        <input type="checkbox" id="CommandLogDiscordEnable" onchange="SHSubSection('DiscordCommands')">
+                        <label ><div class="tooltip">Command Log:
+                                <span class="tooltiptext">This is the webhook to the channel you want Admin Commands to go to.</span>
+                            </div></label>
+                        <input type="checkbox" id="bUseAdminCommandUsageWebhook" onchange="SHSubSection('DiscordCommands')">
                         <div id = "DiscordCommands" style="display: none">
                             <label ><div class="tooltip">Command Log Hook:
-                                <span class="tooltiptext">This is the webhook to the channel you want Admin Commands to go to.</span>
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
                             </div></label>
                             <input type="text" id="AdminCmdDiscordWebhook" value = "" onchange="SanatizeInput(this)">
                             <br>
                         
                             <label ><div class="tooltip">Command Log Icon:
-                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord.</span>
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
                             <input type="text" id="AdminCmdDiscordIcon" value = "">
+                        </div>
+                        <br>
+                        <label ><div class="tooltip">Grouping Log:
+                                <span class="tooltiptext">This is the webhook to the channel you want Grouping actions to go to.</span>
+                            </div></label>
+                        <input type="checkbox" id="bUseGroupActivityWebhook" onchange="SHSubSection('DiscordGroup')">
+                        <div id = "DiscordGroup" style="display: none">
+                            <label ><div class="tooltip">Grouping Log Hook:
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
+                            </div></label>
+                            <input type="text" id="GroupActivityDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <br>
+                        
+                            <label ><div class="tooltip">Grouping Log Icon:
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
+                                </div></label>
+                            <input type="text" id="GroupActivityDiscordIconURL" value = "">
                         </div>
                     </div>
                 </div>

@@ -75,10 +75,13 @@ function RemoveMPRow(dButton){
     }
 }
 function AddMPCreature(dSelect){
-    var RowData = dSelect.parentNode.parentNode.parentNode.innerHTML;
-}
-function RemoveMPCreature(dSelect){
-    
+    var creature = dSelect.value;
+    var btn = document.createElement('input');
+    btn.type= 'button';
+    btn.setAttribute('onclick','this.remove()')
+    btn.value = creature;
+    dSelect.parentNode.parentNode.parentNode.insertAdjacentElement ('beforeend',btn);
+
 }
 //general function to recompute the value based on a time multiplyer
 function RecomputeTime(loc, caller){

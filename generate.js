@@ -77,6 +77,34 @@ function Generate() {//the superfunction that builds all the configurations. any
         }//lazy skip of the header data
     }
     output.push(aData.join('\r\n'));//join using newlines to create a single entry in the output. already formatted and ready to go
+    output.push('bForceIgnoreGroupSpeciesCheckOnLogin='+document.getElementById('bForceIgnoreGroupSpeciesCheckOnLogin').checked);
+    var MPTable = document.getElementById('MPTable');
+    var allocatedrows = 0;
+    var bData = [];
+    for (i in MPTable.rows) {
+        if (i === 'length' || i === 'item') {break; }
+        if (i != 0) {
+            var drow = MPTable.rows[i].cells[2].childNodes //grabs all buttons from the row and turns it into an array
+            if(drow.length != 1) {
+                allocatedrows = allocatedrows + 1;
+                aData = ['+AllowedSpeciesGroups=(Group=('];
+                temp = [];
+                for( y in drow ) {
+                    if (y === 'entries' ||y === 'length' || y === 'item') {break; }
+                    if(drow[y].tagName.toLowerCase() != 'input'){continue;}
+                    var dinompn = drow[y].value;
+                    temp.push('EDinoType::'+dinompn);
+                }
+                aData.push(temp.join(',')+'))');
+                bData.push(aData.join(""));
+            }
+        }
+    }
+    if (allocatedrows != 0){
+        output.push('!AllowedSpeciesGroups=ClearArray')
+        output.push(bData.join('\r\n'));
+    }
+
     var ranks = document.getElementById("Ranks");
     aData = [];//wipe clean for another round
     for (i in ranks.rows) {
@@ -150,6 +178,24 @@ function Generate() {//the superfunction that builds all the configurations. any
         output.push('\r\n[/Script/BeastsOfBermuda.RCONHandler]');
         output.push('CommunicationPort=' + document.getElementById('RconPort').value);
         output.push('IP4Binding="' + document.getElementById('Rconip').value + '"')
+    }
+    if(document.getElementById('GameReporter')){
+        output.push('\r\n[GameReporter]');
+        output.push('bUseChatWebhook='+document.getElementById('bUseChatWebhook').checked);
+        output.push('ChatReportDiscordWebhook="'+document.getElementById('ChatReportDiscordWebhook').value+'"');
+        output.push('ChatReportIconURL="'+document.getElementById('ChatReportIconURL').value+'"');
+        output.push('bUseCombatActivityWebhook='+document.getElementById('bUseCombatActivityWebhook').checked);
+        output.push('CombatActivityDiscordWebhook="'+document.getElementById('CombatActivityDiscordWebhook').value+'"');
+        output.push('CombatActivityDiscordIconURL="'+document.getElementById('CombatActivityDiscordIconURL').value+'"');
+        output.push('bUseLoginReportWebhook='+document.getElementById('bUseLoginReportWebhook').checked);
+        output.push('LoginDiscordWebhook="'+document.getElementById('LoginDiscordWebhook').value+'"');
+        output.push('LoginDiscordIconURL="'+document.getElementById('LoginDiscordIconURL').value+'"');
+        output.push('bUseAdminCommandUsageWebhook='+document.getElementById('bUseAdminCommandUsageWebhook').checked);
+        output.push('AdminCmdDiscordWebhook="'+document.getElementById('AdminCmdDiscordWebhook').value+'"');
+        output.push('AdminCmdDiscordIcon="'+document.getElementById('AdminCmdDiscordIcon').value+'"');
+        output.push('bUseGroupActivityWebhook='+document.getElementById('bUseGroupActivityWebhook').checked);
+        output.push('GroupActivityDiscordWebhook="'+document.getElementById('GroupActivityDiscordWebhook').value+'"');
+        output.push('GroupActivityDiscordIconURL="'+document.getElementById('GroupActivityDiscordIconURL').value+'"');
     }
     return output.join('\r\n');//use a newline as the joining item before outputting.
 }
