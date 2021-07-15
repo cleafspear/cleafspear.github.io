@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version DEV of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.1.1285 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -567,14 +567,14 @@
                         <input type="checkbox" id="bUseChatWebhook" onchange="SHSubSection('DiscordChat')">
                         <div id = "DiscordChat" style="display: none">
                             <label ><div class="tooltip">Chat Log Hook:
-                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
-                            <input type="text" id="ChatReportDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <input type="text" id="ChatReportDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
                             <br>
                             <label ><div class="tooltip">Chat Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
-                            <input type="text" id="ChatReportIconURL" value = "">
+                            <input type="text" id="ChatReportIconURL" value = "" style="width:1000px">
                         </div>
                         <br>
                         <label ><div class="tooltip">Combat Log:
@@ -583,14 +583,14 @@
                         <input type="checkbox" id="bUseCombatActivityWebhook" onchange="SHSubSection('DinoCombat')">
                         <div id = "DinoCombat" style="display: none">
                             <label ><div class="tooltip">Combat Log Hook:
-                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
-                            <input type="text" id="CombatActivityDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <input type="text" id="CombatActivityDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
                             <br>
                             <label ><div class="tooltip">Combat Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
-                            <input type="text" id="CombatActivityDiscordIconURL" value = "">
+                            <input type="text" id="CombatActivityDiscordIconURL" value = "" style="width:1000px">
                         </div>
                         <br>
                         <label ><div class="tooltip">Connection Log:
@@ -599,14 +599,14 @@
                         <input type="checkbox" id="bUseLoginReportWebhook" onchange="SHSubSection('DiscordConnect')">
                         <div id = "DiscordConnect" style="display: none">
                             <label ><div class="tooltip">Connection Log Hook:
-                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
-                        <input type="text" id="LoginDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                        <input type="text" id="LoginDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
                             <br>
                             <label ><div class="tooltip">Connection Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
-                            <input type="text" id="LoginDiscordIconURL" value = "">
+                            <input type="text" id="LoginDiscordIconURL" value = "" style="width:1000px">
                         </div>
                         <br>
                         
@@ -616,15 +616,15 @@
                         <input type="checkbox" id="bUseAdminCommandUsageWebhook" onchange="SHSubSection('DiscordCommands')">
                         <div id = "DiscordCommands" style="display: none">
                             <label ><div class="tooltip">Command Log Hook:
-                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
-                            <input type="text" id="AdminCmdDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <input type="text" id="AdminCmdDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
                             <br>
                         
                             <label ><div class="tooltip">Command Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
-                            <input type="text" id="AdminCmdDiscordIcon" value = "">
+                            <input type="text" id="AdminCmdDiscordIcon" value = "" style="width:1000px">
                         </div>
                         <br>
                         <label ><div class="tooltip">Grouping Log:
@@ -633,15 +633,15 @@
                         <input type="checkbox" id="bUseGroupActivityWebhook" onchange="SHSubSection('DiscordGroup')">
                         <div id = "DiscordGroup" style="display: none">
                             <label ><div class="tooltip">Grouping Log Hook:
-                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on config save.</span>
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
-                            <input type="text" id="GroupActivityDiscordWebhook" value = "" onchange="SanatizeInput(this)">
+                            <input type="text" id="GroupActivityDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
                             <br>
                         
                             <label ><div class="tooltip">Grouping Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
-                            <input type="text" id="GroupActivityDiscordIconURL" value = "">
+                            <input type="text" id="GroupActivityDiscordIconURL" value = "" style="width:1000px">
                         </div>
                     </div>
                 </div>

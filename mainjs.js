@@ -1,6 +1,7 @@
 //Dynamically generated content variables. used on page load to build some of the creature list as well as a single location to validate entries against
 const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
 const MixedAllowed = ['Apatosaurus','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
+var AddCreatureButton = document.createDocumentFragment();
 //Modal logic
 function OpenLoad() {
     document.getElementById("fileModal").style.display = "block";
@@ -58,7 +59,7 @@ function addMPRow(dButton){
         cell2 = row.insertCell(2);
     cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
     cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
-    cell2.innerHTML = '<div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Apatosaurus" onclick="AddMPCreature(this)"><input type="button" value="Lurdusaurus" onclick="AddMPCreature(this)"><input type="button" value="Oryctodromeus" onclick="AddMPCreature(this)"><input type="button" value="Pachycephalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Parasaurolophus" onclick="AddMPCreature(this)"><input type="button" value="Saichania" onclick="AddMPCreature(this)"></div>';
+    cell2.appendChild(AddCreatureButton.cloneNode(true));
 }
 function RemoveMPRow(dButton){
     var tabMP = document.getElementById("MPTable"),
@@ -71,14 +72,14 @@ function RemoveMPRow(dButton){
         cell2 = row.insertCell(2);
     cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
     cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
-    cell2.innerHTML = '<div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Apatosaurus" onclick="AddMPCreature(this)"><input type="button" value="Lurdusaurus" onclick="AddMPCreature(this)"><input type="button" value="Oryctodromeus" onclick="AddMPCreature(this)"><input type="button" value="Pachycephalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Parasaurolophus" onclick="AddMPCreature(this)"><input type="button" value="Saichania" onclick="AddMPCreature(this)"></div>';
+    cell2.appendChild(AddCreatureButton.cloneNode(true));
     }
 }
 function AddMPCreature(dSelect){
     var creature = dSelect.value;
     var btn = document.createElement('input');
     btn.type= 'button';
-    btn.setAttribute('onclick','this.remove()')
+    btn.setAttribute('onclick','this.remove()');
     btn.value = creature;
     dSelect.parentNode.parentNode.parentNode.insertAdjacentElement ('beforeend',btn);
 
@@ -268,7 +269,9 @@ function ValidateColor(colorbutton) {
     colorbutton.parentElement.parentElement.cells[3].firstChild.value = "#" + ((1 << 24) + (cr << 16) + (cg << 8) + cb).toString(16).slice(1);
     colorbutton.parentElement.parentElement.cells[4].firstChild.value = "#" + ((1 << 24) + (cr << 16) + (cg << 8) + cb).toString(16).slice(1);
 }
-
+function SanatizeHookInput(input){
+    input.value = input.value.replace('https://discord.com/api/webhooks/','');
+}
 function ToggleConsole() {
         var select = document.getElementById('Console');
         var button = document.getElementById('ConsoleButton');
@@ -300,6 +303,24 @@ function ReadyPage(){//this function is to replace a lot of the hand coded parts
         cell1.innerHTML='<input type="number" value="999" step = 1 style="width:50px">';
         cell2.innerHTML='<input type="number" value="100.0" min = 0 max = 100>';
     }
+    //this creates the "add creature" button dynamically and saves it to the global var for use elsewhere
+    var innerdiv = document.createElement("div");
+    innerdiv.className = "dropdown-content";
+    for(MPIndex in MixedAllowed){
+        button = document.createElement("input")
+        button.type = 'button';
+        button.setAttribute('onclick','AddMPCreature(this)')
+        button.value = MixedAllowed[MPIndex];
+        innerdiv.appendChild(button);
+    }
+    hoverbutton = document.createElement("button");
+    hoverbutton.className = 'dropbtn'
+    hoverbutton.innerHTML = 'Add Creature'
+    outerdiv = document.createElement("div");
+    outerdiv.className = "dropdown";
+    outerdiv.appendChild(hoverbutton);
+    outerdiv.appendChild(innerdiv);
+    AddCreatureButton.appendChild(outerdiv);
 }
 document.addEventListener('DOMContentLoaded', function(event) {
   ReadyPage();

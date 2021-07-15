@@ -87,7 +87,7 @@ function Generate() {//the superfunction that builds all the configurations. any
             var drow = MPTable.rows[i].cells[2].childNodes //grabs all buttons from the row and turns it into an array
             if(drow.length != 1) {
                 allocatedrows = allocatedrows + 1;
-                aData = ['+AllowedSpeciesGroups=(Group=('];
+                aData = ['AllowedSpeciesGroups=(Group=('];
                 temp = [];
                 for( y in drow ) {
                     if (y === 'entries' ||y === 'length' || y === 'item') {break; }
