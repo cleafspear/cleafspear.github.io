@@ -1,7 +1,6 @@
 //written by Cleafspear#0001 on discord. contact him to update
 //define all variables here with defaults. anything with an array, leave blank
 //variables are GLOBAL to ALL FUNCTIONS on here.  you cannot redefine them elsewhere
-
 var MapNameOverride = "Forest_Island",
     GameMode = 'Free_Roam',
     GrowthLimit = 100,
@@ -18,10 +17,13 @@ var MapNameOverride = "Forest_Island",
     CarcassSpawnRatio = 1,
     DayLength = 7050,
     TunnelNetworkDespawnTime = 259200,
-    bSpawnForestFires= true,
+    bSpawnForestFires = true,
     bUseMixedHerdCaps = true,
     bUseHardGroupLimits = false,
     CreatureLimits = [],
+    bForceIgnoreGroupSpeciesCheckOnLogin = false,
+    AllowedSpeciesGroupsH = false,
+    AllowedSpeciesGroups = [],
     AdminRanks = [],
     AdminCommandRules = [],
     ServerAdmins = [],
@@ -31,6 +33,22 @@ var MapNameOverride = "Forest_Island",
     bLiveMessagesToRCON = false,
     CommunicationPort = 27015,
     IP4Binding = "127.0.0.1",
+    GameReporter = false,
+    bUseChatWebhook = false,
+    ChatReportDiscordWebhook = "",
+    ChatReportIconURL = "",
+    bUseCombatActivityWebhook = false,
+    CombatActivityDiscordWebhook = "",
+    CombatActivityDiscordIconURL = "",
+    bUseLoginReportWebhook = false,
+    LoginDiscordWebhook = "",
+    LoginDiscordIconURL = "",
+    bUseAdminCommandUsageWebhook = false,
+    AdminCmdDiscordWebhook = "",
+    AdminCmdDiscordIcon = "",
+    bUseGroupActivityWebhook = false,
+    GroupActivityDiscordWebhook = "",
+    GroupActivityDiscordIconURL = "",
     CompatibilityMode = false,//this will show a notice to the user that their config was loaded with paramaters that are outdated
     ErrorState = false;//used in case a parse error the user must know about generates and opens the console
 
@@ -50,10 +68,13 @@ function parsedata(data) {
     CarcassRateMultiplier = 1;
     CarcassSpawnRatio = 1;
     DayLength = '7050';
-    TunnelNetworkDespawnTime = 259200,
-    bSpawnForestFires= true,
+    TunnelNetworkDespawnTime = 259200;
+    bSpawnForestFires = true;
     bUseHardGroupLimits = false;
     CreatureLimits = [];
+    bForceIgnoreGroupSpeciesCheckOnLogin = false;
+    AllowedSpeciesGroupsH = false;
+    AllowedSpeciesGroups = [];
     AdminRanks = [];
     AdminCommandRules = [];
     ServerAdmins = [];
@@ -63,6 +84,22 @@ function parsedata(data) {
     bLiveMessagesToRCON = false;
     CommunicationPort = 27015;
     IP4Binding = "127.0.0.1";
+    GameReporter = false;
+    bUseChatWebhook = false;
+    ChatReportDiscordWebhook = "";
+    ChatReportIconURL = "";
+    bUseCombatActivityWebhook = false;
+    CombatActivityDiscordWebhook = "";
+    CombatActivityDiscordIconURL = "";
+    bUseLoginReportWebhook = false;
+    LoginDiscordWebhook = "";
+    LoginDiscordIconURL = "";
+    bUseAdminCommandUsageWebhook = false;
+    AdminCmdDiscordWebhook = "";
+    AdminCmdDiscordIcon = "";
+    bUseGroupActivityWebhook = false;
+    GroupActivityDiscordWebhook = "";
+    GroupActivityDiscordIconURL = "";
     CompatibilityMode = false;
     ErrorState = false;
     //console.log(data);
@@ -155,6 +192,20 @@ function parsedata(data) {
             }
             CreatureLimits.push([cr, pa, gl]);
             break;
+        case 'bForceIgnoreGroupSpeciesCheckOnLogin ':
+            bForceIgnoreGroupSpeciesCheckOnLogin = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case '!AllowedSpeciesGroups':
+            AllowedSpeciesGroupsH = true;
+            break;
+        case '+AllowedSpeciesGroups':
+            InternalDebug('WARN:'+ linedata + ' Cannot have the +. we will automatically remove this ');
+            CompatibilityMode = true;
+        case 'AllowedSpeciesGroups':
+            if(linedata[1] == '(Group'){
+                AllowedSpeciesGroups.push(linedata[2].replace(/[:)('" ]|EDinoType|/g, '').split(','));
+            }
+            break;
         case 'AdminRanks':
             var ra = linedata[2].trim().slice(1, -11).trim().replace(/['"]+/g, ''),//fix for when people space out data in their config files and cause offsets that leaves quotes in the string
                 le = parseInt(linedata[3], 10);
@@ -212,11 +263,60 @@ function parsedata(data) {
             break;
         case 'bLiveMessagesToRCON':
             bLiveMessagesToRCON = (linedata[1].toLowerCase().trim() === "true");
+            break;
         case 'CommunicationPort':
             CommunicationPort = parseInt(linedata[1], 10);
             break;
         case 'IP4Binding':
             IP4Binding = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case '[GameReporter]':
+            GameReporter = true;
+            break;
+        case 'bUseChatWebhook':
+            bUseChatWebhook = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'ChatReportDiscordWebhook':
+            ChatReportDiscordWebhook = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'ChatReportIconURL':
+            ChatReportIconURL = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'bUseCombatActivityWebhook':
+            bUseCombatActivityWebhook = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'CombatActivityDiscordWebhook':
+            CombatActivityDiscordWebhook = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'CombatActivityDiscordIconURL':
+            CombatActivityDiscordIconURL = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'bUseLoginReportWebhook':
+            bUseLoginReportWebhook = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'LoginDiscordWebhook':
+            LoginDiscordWebhook = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'LoginDiscordIconURL':
+            LoginDiscordIconURL = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'bUseAdminCommandUsageWebhook':
+            bUseAdminCommandUsageWebhook = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'AdminCmdDiscordWebhook':
+            AdminCmdDiscordWebhook = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'AdminCmdDiscordIconURL':
+            AdminCmdDiscordIcon = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'bUseGroupActivityWebhook':
+            bUseGroupActivityWebhook = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'GroupActivityDiscordWebhook':
+                GroupActivityDiscordWebhook = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'GroupActivityDiscordIconURL':
+            GroupActivityDiscordIconURL = linedata[1].trim().replace(/['"]+/g, '');
             break;
         default:
             if (linedata != ""){
@@ -299,6 +399,44 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
                 dinotable.rows[i].cells[1].firstChild.value = "999";
                 dinotable.rows[i].cells[2].firstChild.value = "100";
                 InternalDebug("WARN: Creature "+ dname +" was not found in the config, loading defaults");
+            }
+        }
+    }
+    document.getElementById('bForceIgnoreGroupSpeciesCheckOnLogin').checked = bForceIgnoreGroupSpeciesCheckOnLogin;
+    var mixpack = document.getElementById("MPTable").getElementsByTagName('tbody')[0]
+    for (rowid = 0; rowid < mixpack.rows.length; rowid++) {
+        mixpack.deleteRow(-1);
+    }
+    var mixfragment1 = document.createDocumentFragment();//we are going to be making allthe buttons here 
+    if(!AllowedSpeciesGroupsH & (AllowedSpeciesGroups.length === 0 )){ //case where theres no configuration at all for creatures. builds a default config
+        var row = mixpack.insertRow(-1),
+        cell0 = row.insertCell(0),
+        cell1 = row.insertCell(1),
+        cell2 = row.insertCell(2);
+        cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
+        cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
+        cell2.appendChild(AddCreatureButton.cloneNode(true));
+    } else {
+        for(i in AllowedSpeciesGroups){
+            var row = mixpack.insertRow(-1),
+            cell0 = row.insertCell(0),
+            cell1 = row.insertCell(1),
+            cell2 = row.insertCell(2);
+            cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
+            cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
+            cell2.appendChild(AddCreatureButton.cloneNode(true));
+            for(y in AllowedSpeciesGroups[i]){
+                if (y === "length" || y === 'item') {break; };
+                if(!MixedAllowed.includes(AllowedSpeciesGroups[i][y])){
+                    InternalDebug("WARN: Creature "+ dname +" is not allowed in mixpack configs and has been removed.");
+                    CompatibilityMode = true;
+                    continue;
+                }
+                var btn = document.createElement('input');
+                btn.type= 'button';
+                btn.setAttribute('onclick','this.remove()');
+                btn.value = AllowedSpeciesGroups[i][y];
+                cell2.appendChild(btn);
             }
         }
     }
@@ -463,6 +601,54 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById("Output").innerHTML='Click Generate Game.ini to output your new config here,or click Export Game.ini to download a ready to insert file';
     document.getElementById('RconPort').value = CommunicationPort;
     document.getElementById('Rconip').value = IP4Binding;
+    document.getElementById('Rconip').value = IP4Binding;
+    document.getElementById('GameReporter').checked = GameReporter;
+    if (GameReporter){
+        document.getElementById('DiscordIntergration').style.display = 'block';
+    } else {
+        document.getElementById('DiscordIntergration').style.display = 'none';
+    }
+    document.getElementById('bUseChatWebhook').checked = bUseChatWebhook;
+    if (bUseChatWebhook){
+        document.getElementById('DiscordChat').style.display = 'block';
+    } else {
+        document.getElementById('DiscordChat').style.display = 'none';
+    }
+    document.getElementById('ChatReportDiscordWebhook').value = ChatReportDiscordWebhook;
+    document.getElementById('ChatReportIconURL').value = ChatReportIconURL;
+    document.getElementById('bUseCombatActivityWebhook').checked = bUseCombatActivityWebhook;
+    if (bUseCombatActivityWebhook){
+        document.getElementById('DinoCombat').style.display = 'block';
+    } else {
+        document.getElementById('DinoCombat').style.display = 'none';
+    }
+    document.getElementById('CombatActivityDiscordWebhook').value = CombatActivityDiscordWebhook;
+    document.getElementById('CombatActivityDiscordIconURL').value = CombatActivityDiscordIconURL;
+    document.getElementById('bUseLoginReportWebhook').checked = bUseLoginReportWebhook;
+    if (bUseLoginReportWebhook){
+        document.getElementById('DiscordConnect').style.display = 'block';
+    } else {
+        document.getElementById('DiscordConnect').style.display = 'none';
+    }
+    document.getElementById('LoginDiscordWebhook').value = ChatReportDiscordWebhook;
+    document.getElementById('LoginDiscordIconURL').value = ChatReportIconURL;
+    
+    document.getElementById('bUseAdminCommandUsageWebhook').checked = bUseAdminCommandUsageWebhook;
+    if (bUseAdminCommandUsageWebhook){
+        document.getElementById('DiscordCommands').style.display = 'block';
+    } else {
+        document.getElementById('DiscordCommands').style.display = 'none';
+    }
+    document.getElementById('AdminCmdDiscordWebhook').value = AdminCmdDiscordWebhook;
+    document.getElementById('AdminCmdDiscordIcon').value = AdminCmdDiscordIcon;
+    document.getElementById('bUseGroupActivityWebhook').checked = bUseGroupActivityWebhook;
+    if (bUseGroupActivityWebhook){
+        document.getElementById('DiscordGroup').style.display = 'block';
+    } else {
+        document.getElementById('DiscordGroup').style.display = 'none';
+    }
+    document.getElementById('GroupActivityDiscordWebhook').value = GroupActivityDiscordWebhook;
+    document.getElementById('GroupActivityDiscordIconURL').value = GroupActivityDiscordIconURL;
     document.getElementById("Output").innerHTML = 'Click Generate Game.ini to output your new config here,or click Download Game.ini to download a ready to insert file';
     if (ErrorState){
         confirm("Warning: your configuration file had errors that will cause issues on the server or the file to not load.We have opened the console at the bottom of the page so that you may review the errors generated");
