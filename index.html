@@ -85,8 +85,8 @@
                     <input type="checkbox" id="discordenable" onchange="SHSubSection('discord')" >
                     <br>
                     <div id="discord" style="display: none">
-                        <label><div class="tooltip">Discord Join ID:<span class="tooltiptext">this is the code after discord.gg/thiscodehere.<br>Do not include the discord.gg/</span></div></label>
-                        <input type="text" id="discordlink">
+                        <label><div class="tooltip">Discord Join ID:<span class="tooltiptext">this is the code after discord.gg/thiscodehere.<br>Will automatically remove the discord.gg/</span></div></label>
+                        <input type="text" id="discordlink" onchange="SanatizeInvite(this)">
                         <br>
                     </div>
                     <label for="steamgroup">Steam Group Required:</label>
@@ -570,6 +570,9 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                             <input type="text" id="ChatReportDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('ChatReportDiscordWebhook','ChatReportIconURL','Chat Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                             <label ><div class="tooltip">Chat Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
@@ -586,6 +589,9 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                             <input type="text" id="CombatActivityDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('CombatActivityDiscordWebhook','CombatActivityDiscordIconURL','Combat Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                             <label ><div class="tooltip">Combat Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
@@ -602,6 +608,9 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                         <input type="text" id="LoginDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('LoginDiscordWebhook','LoginDiscordIconURL','Login Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                             <label ><div class="tooltip">Connection Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
@@ -619,6 +628,9 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                             <input type="text" id="AdminCmdDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('AdminCmdDiscordWebhook','AdminCmdDiscordIcon','Command Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                         
                             <label ><div class="tooltip">Command Log Icon:
@@ -636,6 +648,9 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                             <input type="text" id="GroupActivityDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('GroupActivityDiscordWebhook','GroupActivityDiscordIconURL','Grouping Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                         
                             <label ><div class="tooltip">Grouping Log Icon:

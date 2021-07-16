@@ -129,6 +129,11 @@ function parsedata(data) {
             break;
         case 'DiscordLink':
             DiscordLink = linedata[1].replace(/['"]+/g, '');
+            if(DiscordLink.includes("https://discord.gg/",0)){
+                CompatibilityMode = true;
+                InternalDebug("Config contains an improper config link for discord. we have corrected this for you.")
+                DiscordLink = DiscordLink.replace("https://discord.gg/", '');
+            }
             break;
         case 'bRequireSteamGroupToJoin':
             bRequireSteamGroupToJoin = (linedata[1].toLowerCase().trim() === "true");
@@ -199,7 +204,7 @@ function parsedata(data) {
             AllowedSpeciesGroupsH = true;
             break;
         case '+AllowedSpeciesGroups':
-            InternalDebug('WARN:'+ linedata + ' Cannot have the +. we will automatically remove this ');
+            InternalDebug('WARN:'+ linedata + ' Cannot have the +. we will automatically remove this for you');
             CompatibilityMode = true;
         case 'AllowedSpeciesGroups':
             if(linedata[1] == '(Group'){

@@ -50,6 +50,9 @@ function HLToggle() {
         Tname.textContent = "Absolute Group limit";
     }
 }
+function SanatizeInvite(input){
+    input.value = input.value.replace('https://discord.gg/','');
+}
 function addMPRow(dButton){
     var tabMP = document.getElementById("MPTable"),
         loc = dButton.parentNode.parentNode.rowIndex + 1,
@@ -271,6 +274,28 @@ function ValidateColor(colorbutton) {
 }
 function SanatizeHookInput(input){
     input.value = input.value.replace('https://discord.com/api/webhooks/','');
+}
+function TestWebhook(target,iconurl,webhookType){
+    var webhook = document.getElementById(target).value,
+        icon = document.getElementById(iconurl).value;
+     var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState !=4) return;
+            if (this.status == 204) {
+                InternalDebug("NOTE: Webhook Test Sucessful for "+webhookType+". please verify on discord that the message is there");
+            }else{
+                InternalDebug("WARN: " +webhookType+ " Contains an error. this webhook will fail!");
+             }
+        }
+        var APIURL = 'https://discord.com/api/webhooks/'+webhook
+        xhr.open('POST',APIURL);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        params = {
+            username: "",
+            avatar_url: icon,
+            content: "If you see this message, your webhook configuration is correct for the "+webhookType+". if you have set an icon, please verify it as well."
+        }
+        xhr.send(JSON.stringify(params));
 }
 function ToggleConsole() {
         var select = document.getElementById('Console');
