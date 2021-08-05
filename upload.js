@@ -114,7 +114,7 @@ function parsedata(data) {
     for (index = 0; index < dataarray.length; index++) {
         var linedata = dataarray[index].split("=");//every line has to have an = in it to be valid.
         var selector = linedata[0];
-        switch (linedata[0]) {//we trim any whitespaces to avoid needing to add multiple case statements
+        switch (linedata[0]) {
         case 'MapNameOverride':
             MapNameOverride = linedata[1].trim().replace(/['"]+/g, '');//regex to nuke any quotes within the map name
             break;
@@ -191,7 +191,7 @@ function parsedata(data) {
                 pa = parseFloat(linedata[3]),
                 gl = parseInt(linedata[4], 10);
             if (linedata[4].includes('bRequiresVeteran')) {
-                InternalDebug("ERROR: bRequiresVeteran is no longer supported and WILL cause the config to fail");
+                InternalDebug("ERROR: bRequiresVeteran is no longer supported and MAY cause the config to fail");
                 InternalDebug('ERROR: '+ linedata)
                 ErrorState = true;//done to warn users that their config contains a incorrect setting that will break it
             }

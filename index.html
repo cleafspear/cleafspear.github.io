@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.1.1285 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.1.1311 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -157,12 +157,6 @@
                         Dino Configuration
                         <span class="close" onclick="topFunction()">Top ↑</span>
                     </div>
-                    <label for="Mixherd">
-                        <div class="tooltip">Use Mix herd Caps
-                            <span class="tooltiptext">  -When Checked, calculation of group caps (both soft and hard) use all members of a group, regardless of species<br>-When Unchecked, calculation of group caps (both soft and hard) use only members of the group that match the species of the player</span>
-                        </div></label>
-                    <input type="checkbox" id="Mixherd">
-                    <br>
                     <label for="GroupLimit">
                         <div class="tooltip">Use Hard Group Limits
                             <span class="tooltiptext">Enabling this will force groups to respect the creature caps.<br>Any young that hatch into a group at cap will automatically be ejected from the group.<br>Leaving this disabled allows groups to exceed the caps,at the cost that when the adults count reaches the limit,a stress debuff will be applied.</span>
@@ -187,6 +181,12 @@
                     </table>
                 <div>
                     <b>Mix-Herd Configuration</b>
+                    <br>
+                    <label for="Mixherd">
+                        <div class="tooltip">Use Mix herd Caps
+                            <span class="tooltiptext">  -When Checked, calculation of group caps (both soft and hard) use all members of a group, regardless of species<br>-When Unchecked, calculation of group caps (both soft and hard) use only members of the group that match the species of the player</span>
+                        </div></label>
+                    <input type="checkbox" id="Mixherd">
                     <br>
                     <label for="GroupValidate">
                         <div class="tooltip">Ignore Grouping Validation on Login
@@ -288,8 +288,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">ClearCarcasses</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DestroyAllCarcasses<br>SpawnCarcass<br>ListCarcasses</span>
+                                <td ><div class="tooltip"><div class="name">ClearBones</div>
+                                        <span class="tooltiptext">allows the usage of ClearAllBones</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -298,8 +298,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">ClearBones</div>
-                                        <span class="tooltiptext">allows the usage of ClearAllBones</span>
+                                <td ><div class="tooltip"><div class="name">ClearCarcasses</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DestroyAllCarcasses<br>SpawnCarcass<br>ListCarcasses</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -319,7 +319,7 @@
                             </tr>
                             <tr>
                                 <td ><div class="tooltip"><div class="name">ControlWeather</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Lightning<br>SetDayLength<br>SetWeather ReqWeather<br>ForceStorm<br>ToggleWeatherData<br>PauseWeather<br>SetTimeOfDay<br>MoveTornado<br>KillTornado<br>The following command needs additional perms:<br>SpawnTornado<br>Spawnfire</span>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Lightning<br>SetDayLength<br>SetWeather ReqWeather<br>ForceStorm<br>Spawnfire<br>ToggleWeatherData<br>PauseWeather<br>SetTimeOfDay<br>MoveTornado<br>KillTornado<br>The following command needs additional perms:<br>SpawnTornado</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
