@@ -179,7 +179,7 @@ function Generate() {//the superfunction that builds all the configurations. any
         output.push('CommunicationPort=' + document.getElementById('RconPort').value);
         output.push('IP4Binding="' + document.getElementById('Rconip').value + '"')
     }
-    if(document.getElementById('GameReporter')){
+    if(document.getElementById('GameReporter').checked){
         output.push('\r\n[GameReporter]');
         output.push('bUseChatWebhook='+document.getElementById('bUseChatWebhook').checked);
         output.push('ChatReportDiscordWebhook="'+document.getElementById('ChatReportDiscordWebhook').value+'"');
