@@ -1,6 +1,6 @@
 //Dynamically generated content variables. used on page load to build some of the creature list as well as a single location to validate entries against
-const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
-const MixedAllowed = ['Apatosaurus','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
+const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Coahuilaceratops','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
+const MixedAllowed = ['Apatosaurus','Coahuilaceratops','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
 var AddCreatureButton = document.createDocumentFragment();
 //Modal logic
 function OpenLoad() {
