@@ -197,7 +197,7 @@ function parsedata(data) {
             }
             CreatureLimits.push([cr, pa, gl]);
             break;
-        case 'bForceIgnoreGroupSpeciesCheckOnLogin ':
+        case 'bForceIgnoreGroupSpeciesCheckOnLogin':
             bForceIgnoreGroupSpeciesCheckOnLogin = (linedata[1].toLowerCase().trim() === "true");
             break;
         case '!AllowedSpeciesGroups':
