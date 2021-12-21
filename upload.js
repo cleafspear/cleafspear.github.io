@@ -3,7 +3,7 @@
 //variables are GLOBAL to ALL FUNCTIONS on here.  you cannot redefine them elsewhere
 var MapNameOverride = "Forest_Island",
     GameMode = 'Free_Roam',
-    GrowthLimit = 100,
+    GrowthLimit = 0,//Depreciated in 1.1.1404, used in conversion to new configs
     bDisplayDiscordLink = false,
     DiscordLink = "",
     bRequireSteamGroupToJoin = false,
@@ -16,6 +16,21 @@ var MapNameOverride = "Forest_Island",
     CarcassRateMultiplier = 1,
     CarcassSpawnRatio = 1,
     DayLength = 7050,
+    bCapStormSurge = true,
+    SpeedModifier = 1,
+    IntensityModifier = 1,
+    StormSpacingMultiplier = 1,
+    StormSurgeMultiplier = 1,
+    RainCommonness = 5,
+    FogCommonness = 2,
+    OvercastCommonness = 2,
+    DryLightningCommonness = 1,
+    bDisableResurrections = false,
+    bDisableReincarnations = false,
+    bStormsCauseStress = true,
+    bSpawnsTornados = true,
+    GrowthLimitsH = false,
+    GrowthLimits = [],
     TunnelNetworkDespawnTime = 259200,
     bSpawnForestFires = true,
     bUseMixedHerdCaps = true,
@@ -49,58 +64,101 @@ var MapNameOverride = "Forest_Island",
     bUseGroupActivityWebhook = false,
     GroupActivityDiscordWebhook = "",
     GroupActivityDiscordIconURL = "",
+    ChatWebhookFormatStyle='"[:x01]<{PlayerInfo}>[:x01] <ChatMode={ChatMode}> **>** _{msg}_"',
+    LoginReportFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] joined server _{Server}_\n----"',
+    LogoutReportFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] left server _{Server}_, played for {Hours} hours and {Minutes}"',
+    AdminCommandUsageFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] used command [:x01]{Cmd}[:x01]\n----"',
+    OceanHeightAdd= 0,
+    GrowthRate= "EGrowthRate::Normal",
+    FoodDrainDifficulty= "EGameDifficulty::Normal",
+	WaterDrainDifficulty="EGameDifficulty::Normal",
+	WaterDirtinessDifficulty="EGameDifficulty::Normal",
+	FoliageSpawnSpeed="EGrowthRate::Normal",
+	MaxTalentsAllowed= -1,
+	SkinLockGrowthTreshold = .7,
+	bPortalsDisabled= false,
+	bDisableCharacterDeath=false,
     CompatibilityMode = false,//this will show a notice to the user that their config was loaded with paramaters that are outdated
     ErrorState = false;//used in case a parse error the user must know about generates and opens the console
 
 function parsedata(data) {
-    MapNameOverride = "Forest_Island";
-    GameMode = 'Free_Roam';
-    GrowthLimit = 100;
-    bDisplayDiscordLink = false;
-    DiscordLink = "";
-    bRequireSteamGroupToJoin = false;
-    SteamGroupName = "";
-    bDisplayIntroMessage = false;
-    bConsoleLocked = true;
-    ReservedAdminSlots = 2;
-    bDisableGlobalChat = false;
-    bDisableLocalChat = false;
-    CarcassRateMultiplier = 1;
-    CarcassSpawnRatio = 1;
-    DayLength = '7050';
-    TunnelNetworkDespawnTime = 259200;
-    bSpawnForestFires = true;
-    bUseHardGroupLimits = false;
-    CreatureLimits = [];
-    bForceIgnoreGroupSpeciesCheckOnLogin = false;
-    AllowedSpeciesGroupsH = false;
-    AllowedSpeciesGroups = [];
-    AdminRanks = [];
-    AdminCommandRules = [];
-    ServerAdmins = [];
-    PlayerChatColors = [];
-    PlayerChatTags = [];
-    AutosaveTime = 135;
-    bLiveMessagesToRCON = false;
-    CommunicationPort = 27015;
-    IP4Binding = "127.0.0.1";
-    GameReporter = false;
-    bUseChatWebhook = false;
-    ChatReportDiscordWebhook = "";
-    ChatReportIconURL = "";
-    bUseCombatActivityWebhook = false;
-    CombatActivityDiscordWebhook = "";
-    CombatActivityDiscordIconURL = "";
-    bUseLoginReportWebhook = false;
-    LoginDiscordWebhook = "";
-    LoginDiscordIconURL = "";
-    bUseAdminCommandUsageWebhook = false;
-    AdminCmdDiscordWebhook = "";
-    AdminCmdDiscordIcon = "";
-    bUseGroupActivityWebhook = false;
-    GroupActivityDiscordWebhook = "";
-    GroupActivityDiscordIconURL = "";
-    CompatibilityMode = false;
+    MapNameOverride = "Forest_Island",
+    GameMode = 'Free_Roam',
+    GrowthLimit = 0,
+    bDisplayDiscordLink = false,
+    DiscordLink = "",
+    bRequireSteamGroupToJoin = false,
+    SteamGroupName = "",
+    bDisplayIntroMessage = false,
+    bConsoleLocked = true,
+    ReservedAdminSlots = 2,
+    bDisableGlobalChat = false,
+    bDisableLocalChat = false,
+    CarcassRateMultiplier = 1,
+    CarcassSpawnRatio = 1,
+    DayLength = 7050,
+    bCapStormSurge = true,
+    SpeedModifier = 1,
+    IntensityModifier = 1,
+    StormSpacingMultiplier = 1,
+    StormSurgeMultiplier = 1,
+    RainCommonness = 5,
+    FogCommonness = 2,
+    OvercastCommonness = 2,
+    DryLightningCommonness = 1,
+    bDisableResurrections = false,
+    bDisableReincarnations = false,
+    bStormsCauseStress = true,
+    bSpawnsTornados = true,
+    GrowthLimitsH = false,
+    GrowthLimits = [],
+    TunnelNetworkDespawnTime = 259200,
+    bSpawnForestFires = true,
+    bUseHardGroupLimits = false,
+    CreatureLimits = [],
+    bForceIgnoreGroupSpeciesCheckOnLogin = false,
+    AllowedSpeciesGroupsH = false,
+    AllowedSpeciesGroups = [],
+    AdminRanks = [],
+    AdminCommandRules = [],
+    ServerAdmins = [],
+    PlayerChatColors = [],
+    PlayerChatTags = [],
+    AutosaveTime = 135,
+    bLiveMessagesToRCON = false,
+    CommunicationPort = 27015,
+    IP4Binding = "127.0.0.1",
+    GameReporter = false,
+    bUseChatWebhook = false,
+    ChatReportDiscordWebhook = "",
+    ChatReportIconURL = "",
+    bUseCombatActivityWebhook = false,
+    CombatActivityDiscordWebhook = "",
+    CombatActivityDiscordIconURL = "",
+    bUseLoginReportWebhook = false,
+    LoginDiscordWebhook = "",
+    LoginDiscordIconURL = "",
+    bUseAdminCommandUsageWebhook = false,
+    AdminCmdDiscordWebhook = "",
+    AdminCmdDiscordIcon = "",
+    bUseGroupActivityWebhook = false,
+    GroupActivityDiscordWebhook = "",
+    GroupActivityDiscordIconURL = "",
+    ChatWebhookFormatStyle='"[:x01]<{PlayerInfo}>[:x01] <ChatMode={ChatMode}> **>** _{msg}_"',
+    LoginReportFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] joined server _{Server}_\n----"',
+    LogoutReportFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] left server _{Server}_, played for {Hours} hours and {Minutes}"',
+    AdminCommandUsageFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] used command [:x01]{Cmd}[:x01]\n----"',
+    OceanHeightAdd= 0,
+    GrowthRate= "EGrowthRate::Normal",
+    FoodDrainDifficulty= "EGameDifficulty::Normal",
+	WaterDrainDifficulty="EGameDifficulty::Normal",
+	WaterDirtinessDifficulty="EGameDifficulty::Normal",
+	FoliageSpawnSpeed="EGrowthRate::Normal",
+	MaxTalentsAllowed= -1,
+	SkinLockGrowthTreshold = .7,
+	bDisableCharacterDeath=false,
+    CompatibilityMode = false,
+	bPortalsDisabled= false,
     ErrorState = false;
     //console.log(data);
     var index = 0;
@@ -121,17 +179,19 @@ function parsedata(data) {
         case 'GameMode':
             GameMode = linedata[1].trim().replace(/['"]|EGameModes::/g, '');//will nuke quotes and the preceading gamemodes config var used in older configs
             break;
-        case 'GrowthLimit':
+        case 'GrowthLimit'://Depreciated but supported for inporting old configs
             GrowthLimit = parseFloat(linedata[1]);
+            CompatibilityMode = true;
+            InternalDebug("WARN:	Your config contains the older Growth limit value. We will convert you to the new per-Creature limits");
             break;
         case 'bDisplayDiscordLink':
-            bDisplayDiscordLink = (linedata[1].toLowerCase().trim() === "true");//lazy hack to turn a string to a boolean value while accounting for any unncessicary spaces
+            bDisplayDiscordLink = (linedata[1].toLowerCase().trim() === "true")//lazy hack to turn a string to a boolean value while accounting for any unncessicary spaces
             break;
         case 'DiscordLink':
             DiscordLink = linedata[1].replace(/['"]+/g, '');
             if(DiscordLink.includes("https://discord.gg/",0)){
                 CompatibilityMode = true;
-                InternalDebug("Config contains an improper config link for discord. we have corrected this for you.")
+                InternalDebug("WARN:Config contains an improper config link for discord. we have corrected this for you.")
                 DiscordLink = DiscordLink.replace("https://discord.gg/", '');
             }
             break;
@@ -171,11 +231,70 @@ function parsedata(data) {
         case 'bSpawnForestFires':
             bSpawnForestFires = (linedata[1].toLowerCase().trim() === "true");
             break;
+        case 'bCapStormSurge':
+            bCapStormSurge = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'SpeedModifier':
+            SpeedModifier = parseFloat(linedata[1]);
+            break;
+        case 'IntensityModifier':
+            IntensityModifier = parseFloat(linedata[1]);
+            break;
+        case 'StormSpacingMultiplier':
+            StormSpacingMultiplier = parseFloat(linedata[1]);
+            break;
+        case 'StormSurgeMultiplier':
+            StormSurgeMultiplier = parseFloat(linedata[1]);
+            break;
+        case 'RainCommonness':
+            RainCommonness = parseInt(linedata[1],10);
+            break;
+        case 'FogCommonness':
+            FogCommonness = parseInt(linedata[1],10);
+            break;
+        case 'OvercastCommonness':
+            OvercastCommonness = parseInt(linedata[1],10);
+            break;
+        case 'DryLightningCommonness':
+            DryLightningCommonness = parseInt(linedata[1],10);
+            break;
+        case 'bStormsCauseStress':
+            bStormsCauseStress = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'bSpawnsTornados':
+            bSpawnsTornados = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'bDisableResurrections':
+            bDisableResurrections = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'bDisableReincarnations':
+            bDisableReincarnations = (linedata[1].toLowerCase().trim() === "true");
+            break;
         case 'bUseMixedHerdCaps':
             bUseMixedHerdCaps = (linedata[1].toLowerCase().trim() === "true");
             break;
         case 'bUseHardGroupLimits':
             bUseHardGroupLimits = (linedata[1].toLowerCase().trim() === "true");
+            break;
+		case 'SkinLockGrowthThreshold':
+            SkinLockGrowthTreshold = parseFloat(linedata[1]);
+            break;
+        case '!GrowthLimits':
+            GrowthLimitsH = true;
+            break;
+        case '+GrowthLimits':
+            CompatibilityMode = true;
+            InternalDebug('WARN: the + in Growth limits may cause an error in the config interpreter!');
+            InternalDebug('WARN: '+ linedata);
+        case 'GrowthLimits':
+             if (linedata[1].trim() !== '(Type') {
+                InternalDebug('WARN:'+ linedata + ' Is Invalid');
+                CompatibilityMode = true;
+                break;
+            }
+            var cr = linedata[2].replace(/[:,'"]|EDinoType|Limit/g, '').trim(),
+                pa = parseFloat(linedata[3]);
+            GrowthLimits.push([cr,pa]);
             break;
         case '+CreatureLimits'://because its use in WAY old files and may exist in current files
             CompatibilityMode = true;
@@ -194,8 +313,13 @@ function parsedata(data) {
                 InternalDebug("ERROR: bRequiresVeteran is no longer supported and MAY cause the config to fail");
                 InternalDebug('ERROR: '+ linedata)
                 ErrorState = true;//done to warn users that their config contains a incorrect setting that will break it
-            }
-            CreatureLimits.push([cr, pa, gl]);
+            } else {//done this way as if its this old, the additional data isnt in its proper location
+				var mi = 0.7,
+					ma = 1;
+				if(!linedata[4] == null){ mi = parseFloat(linedata[4])};
+				if(!linedata[5] == null){ ma = parseFloat(linedata[5])};
+			}
+            CreatureLimits.push([cr, pa, gl, mi, ma]);
             break;
         case 'bForceIgnoreGroupSpeciesCheckOnLogin':
             bForceIgnoreGroupSpeciesCheckOnLogin = (linedata[1].toLowerCase().trim() === "true");
@@ -255,13 +379,15 @@ function parsedata(data) {
         case 'AutosaveTime':
             AutosaveTime = parseInt(linedata[1], 10);
             break;
-        case 'TunnelNetworkDespawnTime'://NEW minutes to despawn tunnel networks. ticks every 5 minutes. lags by 5  minutes
+        case 'TunnelNetworkDespawnTime':// minutes to despawn tunnel networks. ticks every 5 minutes. lags by 5  minutes
             TunnelNetworkDespawnTime = parseFloat(linedata[1]);
             break;
         case '[/Script/BeastsOfBermuda.ServerGameInstance]':
         case '[/Script/BeastsOfBermuda.SaveSystem]':
+        case '[/Script/BeastsOfBermuda.WeatherControllerBase]':
         case '[/Script/BeastsOfBermuda.RCONHandler]':
         case '[/Script/BeastsOfBermuda.BBGameModeBase]':
+		case '[Skins]':
         case '!PlayerChatColors':
         case '!PlayerChatTags':
         case '!CreatureLimits'://these consume the lines that are valid so that they dont hit the logger
@@ -311,7 +437,7 @@ function parsedata(data) {
         case 'AdminCmdDiscordWebhook':
             AdminCmdDiscordWebhook = linedata[1].trim().replace(/['"]+/g, '');
             break;
-        case 'AdminCmdDiscordIconURL':
+        case 'AdminCmdDiscordIcon':
             AdminCmdDiscordIcon = linedata[1].trim().replace(/['"]+/g, '');
             break;
         case 'bUseGroupActivityWebhook':
@@ -323,6 +449,45 @@ function parsedata(data) {
         case 'GroupActivityDiscordIconURL':
             GroupActivityDiscordIconURL = linedata[1].trim().replace(/['"]+/g, '');
             break;
+        case 'ChatWebhookFormatStyle':
+            ChatWebhookFormatStyle = linedata[1].trim().replace(/[']+/g, '');
+            break;
+        case 'LoginReportFormatStyle':
+            LoginReportFormatStyle = linedata[1].trim().replace(/[']+/g, '');
+            break;
+        case 'LogoutReportFormatStyle':
+            LogoutReportFormatStyle = linedata[1].trim().replace(/[']+/g, '');
+            break;
+        case 'AdminCommandUsageFormatStyle':
+            AdminCommandUsageFormatStyle = linedata[1].trim().replace(/[']+/g, '');
+            break;
+        case 'OceanHeightAdd':
+            OceanHeightAdd = parseFloat(linedata[1]);
+            break;
+        case 'GrowthRate':
+            GrowthRate = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'FoodDrainDifficulty':
+            FoodDrainDifficulty = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+		case 'WaterDrainDifficulty':
+            WaterDrainDifficulty = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+		case 'WaterDirtinessDifficulty':
+            WaterDirtinessDifficulty = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+		case 'FoliageSpawnSpeed':
+            FoliageSpawnSpeed = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+		case 'MaxTalentsAllowed':
+            MaxTalentsAllowed = parseInt(linedata[1],10);
+            break;
+		case 'bPortalsDisabled':
+			bPortalsDisabled = (linedata[1].toLowerCase().trim() === "true");
+			break;
+		case 'bDisableCharacterDeath':
+			bDisableCharacterDeath = (linedata[1].toLowerCase().trim() === "true");
+			break;
         default:
             if (linedata != ""){
                 InternalDebug("WARN: " + linedata[0] +" is not a valid config option!");
@@ -343,9 +508,32 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         ErrorState = true;
     }
     document.getElementById('gamemode').value = GameMode;
-    document.getElementById('growth').value = GrowthLimit;
     if (bDisplayDiscordLink & DiscordLink == '') {
         InternalDebug("WARN: Discord was enabled but there is no link!")
+    }
+    
+    if (!document.getElementById('FoodDrainDifficulty').contains(FoodDrainDifficulty)){
+        InternalDebug("ERROR: FoodDrainDifficulty is invalid! provided: "+ FoodDrainDifficulty)
+        ErrorState = true;
+    }
+    document.getElementById('FoodDrainDifficulty').value = FoodDrainDifficulty;
+	
+	if (!document.getElementById('WaterDrainDifficulty').contains(WaterDrainDifficulty)){
+        InternalDebug("ERROR: WaterDrainDifficulty is invalid! provided: "+ WaterDrainDifficulty)
+        ErrorState = true;
+    }
+    document.getElementById('WaterDrainDifficulty').value = WaterDrainDifficulty;
+	
+	if (!document.getElementById('WaterDirtinessDifficulty').contains(WaterDrainDifficulty)){
+        InternalDebug("ERROR: WaterDirtinessDifficulty is invalid! provided: "+ WaterDrainDifficulty)
+        ErrorState = true;
+    }
+	
+    document.getElementById('WaterDirtinessDifficulty').value = WaterDirtinessDifficulty;
+    
+    if (!document.getElementById('gamemode').contains(GameMode)){
+        InternalDebug("ERROR: GameMode is invalid! provided: "+ GameMode)
+        ErrorState = true;
     }
     document.getElementById('discordenable').checked = bDisplayDiscordLink;
     if (bDisplayDiscordLink) {
@@ -363,7 +551,16 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     } else {
         document.getElementById('steam').style.display = 'none';
     }
+    
+    if (!document.getElementById('GrowthRate').contains(GrowthRate)){
+        InternalDebug("ERROR: GrowthRate is invalid! provided: "+ GrowthRate)
+        ErrorState = true;
+    }
+    document.getElementById('GrowthRate').value = GrowthRate;
+    document.getElementById('FoliageSpawnSpeed').value = FoliageSpawnSpeed;
+	document.getElementById('MaxTalentsAllowed').value = MaxTalentsAllowed;
     document.getElementById('steamname').value = SteamGroupName;
+    document.getElementById('OceanHeightAdd').value = OceanHeightAdd;
     document.getElementById('motd').checked = bDisplayIntroMessage;
     document.getElementById('console').checked = bConsoleLocked;
     document.getElementById('slots').value = ReservedAdminSlots;
@@ -380,6 +577,23 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById('TunnelLifetime').setAttribute("data-state",0);
     document.getElementById('TunnelLifetime').value = TunnelNetworkDespawnTime;
     document.getElementById('fire').checked = bSpawnForestFires;
+    document.getElementById('StormS').checked = bCapStormSurge;
+    document.getElementById('TunnelLifetime').value = TunnelNetworkDespawnTime;
+    document.getElementById('bSpawnsTornados').checked = bSpawnsTornados;
+    document.getElementById('bStormsCauseStress').checked = bStormsCauseStress;
+    document.getElementById('SpeedMod').value = SpeedModifier;
+    document.getElementById('IntensityModifier').value = IntensityModifier;
+    document.getElementById('StormSpacingMultiplier').value = StormSpacingMultiplier;
+    document.getElementById('StormSurgeMultiplier').value = StormSurgeMultiplier;
+    document.getElementById('RainCommonness').value = RainCommonness;
+    document.getElementById('FogCommonness').value = FogCommonness;
+    document.getElementById('OvercastCommonness').value = OvercastCommonness;
+    document.getElementById('DryLightningCommonness').value = DryLightningCommonness;
+    document.getElementById('bDisableResurrections').checked = bDisableResurrections;
+    document.getElementById('bDisableReincarnations').checked = bDisableReincarnations;
+	document.getElementById('bDisableCharacterDeath').checked = bDisableCharacterDeath;
+	document.getElementById('SkinLockGrowthTreshold').value = SkinLockGrowthTreshold;
+	document.getElementById('bPortalsDisabled').checked = bPortalsDisabled;
     document.getElementById('Mixherd').value = bUseMixedHerdCaps;
     if (bUseHardGroupLimits) {
         document.getElementById("dinoh").textContent = "Absolute Group limit";
@@ -398,13 +612,37 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
                     valid = true;
                     dinotable.rows[i].cells[1].firstChild.value = CreatureLimits[crname][2];//the datatable and how they are laid out on the html are swapped. 
                     dinotable.rows[i].cells[2].firstChild.value = CreatureLimits[crname][1];
+                    break;
+					dinotable.rows[i].cells[4].firstChild.value = CreatureLimits[crname][3];
+					dinotable.rows[i].cells[5].firstChild.value = CreatureLimits[crname][4];
                 }
             }
             if (!valid) {//somehow we dont have a creature set in the config so build a default
                 dinotable.rows[i].cells[1].firstChild.value = "999";
                 dinotable.rows[i].cells[2].firstChild.value = "100";
+				dinotable.rows[i].cells[4].firstChild.value = "0.7";
+				dinotable.rows[i].cells[5].firstChild.value = "1.0";
                 InternalDebug("WARN: Creature "+ dname +" was not found in the config, loading defaults");
             }
+            valid = false;//variable reuse for this new part that adds the new growth system
+            for (grname in GrowthLimits) {
+                if (GrowthLimits[grname][0] == dname) {
+                    valid = true;
+                    if(GrowthLimits[grname][1] <= 20) {dinotable.rows[i].cells[3].firstChild.value = GrowthLimits[grname][1];} else {
+						dinotable.rows[i].cells[3].firstChild.value = 20;
+						InternalDebug("WARN: Creature "+ dname +" growth exceeded game max, setting to game max");
+					}
+                    break;
+                }
+            }
+            if(!valid && !GrowthLimit == 0 && GrowthLimit <= 20){
+                InternalDebug("WARN: Creature "+ dname +" was missing its growth value, but there is a legacy Growth limit set. Porting to Creature");
+                dinotable.rows[i].cells[3].firstChild.value = GrowthLimit;
+            } else if(!valid && GrowthLimit == 0){//IN THEROY THIS SHOULD NEVER HAPPEN!!!! growth limits are REQUIRED in older configs!
+                InternalDebug("WARN: Creature "+ dname +" was missing its growth value and there was no Legacy growth set. setting to default");
+                dinotable.rows[i].cells[3].firstChild.value = 20;
+            }
+			
         }
     }
     document.getElementById('bForceIgnoreGroupSpeciesCheckOnLogin').checked = bForceIgnoreGroupSpeciesCheckOnLogin;
@@ -417,23 +655,44 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         var row = mixpack.insertRow(-1),
         cell0 = row.insertCell(0),
         cell1 = row.insertCell(1),
-        cell2 = row.insertCell(2);
+        cell2 = row.insertCell(2),
+		cell3 = row.insertCell(3);
         cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
         cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
-        cell2.appendChild(AddCreatureButton.cloneNode(true));
+		cell2.innerHTML = '<input type="button" value="C" onclick="Setrow(this)" style="background-color:coral"><input type="button" value="H" onclick="Setrow(this)"><input type="button" value="A" onclick="Setrow(this)"><input type="button" value="F" onclick="Setrow(this)">';
+        cell3.appendChild(AddCreatureCarnButton.cloneNode(true));
     } else {
         for(i in AllowedSpeciesGroups){
             var row = mixpack.insertRow(-1),
             cell0 = row.insertCell(0),
             cell1 = row.insertCell(1),
-            cell2 = row.insertCell(2);
-            cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
+			cell2 = row.insertCell(2),
+			cell3 = row.insertCell(3);
+			cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
             cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
-            cell2.appendChild(AddCreatureButton.cloneNode(true));
+			cell2.innerHTML = '<input type="button" value="C" onclick="Setrow(this)"><input type="button" value="H" onclick="Setrow(this)"><input type="button" value="A" onclick="Setrow(this)"><input type="button" value="F" onclick="Setrow(this)">';
+			var MixedAllowed = []
+			if(Carnivores.includes(AllowedSpeciesGroups[i][0])){
+				MixedAllowed = Carnivores;
+				cell2.children[0].style.backgroundColor="coral";
+				cell3.appendChild(AddCreatureCarnButton.cloneNode(true));
+			} else if(Herbivores.includes(AllowedSpeciesGroups[i][0])){
+				MixedAllowed = Herbivores;
+				cell2.children[1].style.backgroundColor="aquamarine";
+				cell3.appendChild(AddCreatureHerbButton.cloneNode(true));
+			} else if(Aquatics.includes(AllowedSpeciesGroups[i][0])){
+				MixedAllowed = Aquatics;
+				cell2.children[2].style.backgroundColor="aqua";
+				cell3.appendChild(AddCreatureAquaButton.cloneNode(true));
+			} else if(Flyers.includes(AllowedSpeciesGroups[i][0])){
+				MixedAllowed = Flyers;
+				cell2.children[3].style.backgroundColor="darkturquoise";
+				cell3.appendChild(AddCreatureFlyerButton.cloneNode(true));
+			}
             for(y in AllowedSpeciesGroups[i]){
                 if (y === "length" || y === 'item') {break; };
                 if(!MixedAllowed.includes(AllowedSpeciesGroups[i][y])){
-                    InternalDebug("WARN: Creature "+ dname +" is not allowed in mixpack configs and has been removed.");
+                    InternalDebug("WARN: Creature "+ dname +" is not allowed in this mixpacks config and has been removed.");
                     CompatibilityMode = true;
                     continue;
                 }
@@ -441,7 +700,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
                 btn.type= 'button';
                 btn.setAttribute('onclick','this.remove()');
                 btn.value = AllowedSpeciesGroups[i][y];
-                cell2.appendChild(btn);
+                cell3.appendChild(btn);
             }
         }
     }
@@ -622,6 +881,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById('ChatReportDiscordWebhook').value = ChatReportDiscordWebhook;
     document.getElementById('ChatReportIconURL').value = ChatReportIconURL;
     document.getElementById('bUseCombatActivityWebhook').checked = bUseCombatActivityWebhook;
+    document.getElementById('ChatWebhookFormatStyle').value = ChatWebhookFormatStyle;
     if (bUseCombatActivityWebhook){
         document.getElementById('DinoCombat').style.display = 'block';
     } else {
@@ -637,7 +897,8 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     }
     document.getElementById('LoginDiscordWebhook').value = ChatReportDiscordWebhook;
     document.getElementById('LoginDiscordIconURL').value = ChatReportIconURL;
-    
+    document.getElementById('LoginReportFormatStyle').value = LoginReportFormatStyle;
+    document.getElementById('LogoutReportFormatStyle').value = LogoutReportFormatStyle;
     document.getElementById('bUseAdminCommandUsageWebhook').checked = bUseAdminCommandUsageWebhook;
     if (bUseAdminCommandUsageWebhook){
         document.getElementById('DiscordCommands').style.display = 'block';
@@ -647,6 +908,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById('AdminCmdDiscordWebhook').value = AdminCmdDiscordWebhook;
     document.getElementById('AdminCmdDiscordIcon').value = AdminCmdDiscordIcon;
     document.getElementById('bUseGroupActivityWebhook').checked = bUseGroupActivityWebhook;
+    document.getElementById('AdminCommandUsageFormatStyle').value = AdminCommandUsageFormatStyle;
     if (bUseGroupActivityWebhook){
         document.getElementById('DiscordGroup').style.display = 'block';
     } else {

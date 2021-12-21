@@ -6,12 +6,18 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('[/Script/BeastsOfBermuda.ServerGameInstance]');//Header of the file
     output.push('MapNameOverride="'+document.getElementById("maps").value+'"');
     output.push('GameMode='+document.getElementById("gamemode").value);
-    output.push('GrowthLimit='+document.getElementById("growth").value+'f');
+    output.push('FoodDrainDifficulty='+document.getElementById("FoodDrainDifficulty").value);
+	output.push('WaterDrainDifficulty='+document.getElementById("WaterDrainDifficulty").value);
+	output.push('WaterDirtinessDifficulty='+document.getElementById("WaterDirtinessDifficulty").value);
+    output.push('GrowthRate='+document.getElementById("GrowthRate").value);
+	output.push('FoliageSpawnSpeed='+document.getElementById("FoliageSpawnSpeed").value);
+	output.push('MaxTalentsAllowed='+document.getElementById("MaxTalentsAllowed").value);
+    //output.push('GrowthLimit='+document.getElementById("growth").value+'f');//DEPRECIATED
     //discord setup function. only push the link if the variable is set to true.
     var discordenab = document.getElementById("discordenable").checked;//discord enable and link
     output.push('bDisplayDiscordLink='+discordenab);
     if (discordenab) {
-        output.push('DiscordLink="'+document.getElementById("discordlink").value+'"');//we dont actually check of the link is valid or empty.this is entirely to the user.
+        output.push('DiscordLink="'+document.getElementById("discordlink").value+'"');//we dont actually check of the link is valid or empty.this is done preemptively by another function
     }
     //steam setup function. only push the link if the variable is set to true.
     var steamgroup = document.getElementById("steamgroup").checked;
@@ -60,23 +66,31 @@ function Generate() {//the superfunction that builds all the configurations. any
             break;
     };
     output.push('TunnelNetworkDespawnTime='+tmptime);
+    output.push('bDisableResurrections='+document.getElementById("bDisableResurrections").checked);
+    output.push('bDisableReincarnations='+document.getElementById("bDisableReincarnations").checked);
     output.push('bSpawnForestFires='+document.getElementById('fire').checked);//FIRE!!!!
     output.push('bUseMixedHerdCaps='+document.getElementById('Mixherd').checked);//mixherdcaps
     output.push('bUseHardGroupLimits='+document.getElementById("grouplimit").checked);
     //contains the processing needed to build the dino table. we do not hard code any ids for rows, instead relying on the dino names as a key. this allows us to add to the table without needing to set id or touch this script.
     var dinotable = document.getElementById("dinos");
-    var aData = ["!CreatureLimits=ClearArray"];//accumulator table that will contain the pre-formatted strings before they are piped to the main array
+    var aData = ["!CreatureLimits=ClearArray"],//accumulator table that will contain the pre-formatted strings before they are piped to the main array
+        gData = ["!GrowthLimits=ClearArray"];//second accumulator to collect growth values
     for (i in dinotable.rows) {
         if (i === 'length' || i === 'item') {break; }
         if (i != 0) {
-            var dname = dinotable.rows[i].cells[0].innerHTML;
-            var dcount = dinotable.rows[i].cells[1].firstChild.value;
-            var dpercent = dinotable.rows[i].cells[2].firstChild.value;
-            temp = ['CreatureLimits=(CreatureType=EDinoType::', dname, ',PercentAllowed=', dpercent, 'f,GroupLimit=', dcount, ')'];
-            aData.push(temp.join('')); 
+            var dname = dinotable.rows[i].cells[0].innerHTML,
+             	dcount = dinotable.rows[i].cells[1].firstChild.value,
+             	dpercent = dinotable.rows[i].cells[2].firstChild.value,
+             	dgrowth = dinotable.rows[i].cells[3].firstChild.value,
+				dlower = dinotable.rows[i].cells[4].firstChild.value,
+				dupper = dinotable.rows[i].cells[5].firstChild.value,
+            temp = ['CreatureLimits=(CreatureType=EDinoType::'+dname+',PercentAllowed='+dpercent+'f,GroupLimit='+dcount+',SoftCapStart='+dlower+'f,SoftCapEnd'+dupper+')'];
+            aData.push(temp.join(''));
+            gData.push("GrowthLimits=(Type=EDinoType::"+dname+",Limit="+dgrowth+"f)")
         }//lazy skip of the header data
     }
     output.push(aData.join('\r\n'));//join using newlines to create a single entry in the output. already formatted and ready to go
+    output.push(gData.join('\r\n'));//adds the new growth data
     output.push('bForceIgnoreGroupSpeciesCheckOnLogin='+document.getElementById('bForceIgnoreGroupSpeciesCheckOnLogin').checked);
     var MPTable = document.getElementById('MPTable');
     var allocatedrows = 0;
@@ -84,7 +98,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     for (i in MPTable.rows) {
         if (i === 'length' || i === 'item') {break; }
         if (i != 0) {
-            var drow = MPTable.rows[i].cells[2].childNodes //grabs all buttons from the row and turns it into an array
+            var drow = MPTable.rows[i].cells[3].childNodes //grabs all buttons from the row and turns it into an array
             if(drow.length != 1) {
                 allocatedrows = allocatedrows + 1;
                 aData = ['AllowedSpeciesGroups=(Group=('];
@@ -169,7 +183,23 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push(aData.join('\r\n'));
     output.push(bData.join('\r\n'));
     output.push(cData.join('\r\n'));
+	output.push('\r\n[Skins]');
+	output.push('SkinLockGrowthThreshold='+document.getElementById("SkinLockGrowthTreshold").value+"f");
+    output.push('\r\n[/Script/BeastsOfBermuda.WeatherControllerBase]');
+    output.push('OceanHeightAdd='+document.getElementById("OceanHeightAdd").value+"f");
+    output.push('bCapStormSurge='+document.getElementById("StormS").checked);
+    output.push('bStormsCauseStress='+document.getElementById("bStormsCauseStress").checked);
+    output.push('bSpawnsTornados='+document.getElementById("bSpawnsTornados").checked);
+    output.push('SpeedModifier='+document.getElementById("SpeedMod").value+"f");
+    output.push('IntensityModifier='+document.getElementById("IntensityModifier").value+"f");
+    output.push('StormSpacingMultiplier='+document.getElementById("StormSpacingMultiplier").value+"f");
+    output.push('StormSurgeMultiplier='+document.getElementById("StormSurgeMultiplier").value+"f");
+    output.push('RainCommonness='+document.getElementById("RainCommonness").value);
+    output.push('FogCommonness='+document.getElementById("FogCommonness").value);
+    output.push('OvercastCommonness='+document.getElementById("OvercastCommonness").value);
+    output.push('DryLightningCommonness='+document.getElementById("DryLightningCommonness").value);
     output.push('\r\n[/Script/BeastsOfBermuda.SaveSystem]');//lazy addition for the save system
+	output.push('bDisableCharacterDeath='+document.getElementById("bDisableCharacterDeath").checked);
     output.push('AutosaveTime='+document.getElementById("asave").value);
     var rcon = document.getElementById('enableRcon').checked;
     output.push('\r\n[/Script/BeastsOfBermuda.BBGameModeBase]');
@@ -184,16 +214,18 @@ function Generate() {//the superfunction that builds all the configurations. any
         output.push('bUseChatWebhook='+document.getElementById('bUseChatWebhook').checked);
         output.push('ChatReportDiscordWebhook="'+document.getElementById('ChatReportDiscordWebhook').value+'"');
         output.push('ChatReportIconURL="'+document.getElementById('ChatReportIconURL').value+'"');
-        output.push('bUseCombatActivityWebhook='+document.getElementById('bUseCombatActivityWebhook').checked);
+        output.push("ChatWebhookFormatStyle='"+document.getElementById('ChatWebhookFormatStyle').value+"'");  output.push('bUseCombatActivityWebhook='+document.getElementById('bUseCombatActivityWebhook').checked);
         output.push('CombatActivityDiscordWebhook="'+document.getElementById('CombatActivityDiscordWebhook').value+'"');
         output.push('CombatActivityDiscordIconURL="'+document.getElementById('CombatActivityDiscordIconURL').value+'"');
         output.push('bUseLoginReportWebhook='+document.getElementById('bUseLoginReportWebhook').checked);
         output.push('LoginDiscordWebhook="'+document.getElementById('LoginDiscordWebhook').value+'"');
         output.push('LoginDiscordIconURL="'+document.getElementById('LoginDiscordIconURL').value+'"');
+        output.push("LoginReportFormatStyle='"+document.getElementById('LoginReportFormatStyle').value+"'"); 
+        output.push("LogoutReportFormatStyle='"+document.getElementById('LogoutReportFormatStyle').value+"'"); 
         output.push('bUseAdminCommandUsageWebhook='+document.getElementById('bUseAdminCommandUsageWebhook').checked);
         output.push('AdminCmdDiscordWebhook="'+document.getElementById('AdminCmdDiscordWebhook').value+'"');
         output.push('AdminCmdDiscordIcon="'+document.getElementById('AdminCmdDiscordIcon').value+'"');
-        output.push('bUseGroupActivityWebhook='+document.getElementById('bUseGroupActivityWebhook').checked);
+       output.push("AdminCommandUsageFormatStyle='"+document.getElementById('AdminCommandUsageFormatStyle').value+"'"); output.push('bUseGroupActivityWebhook='+document.getElementById('bUseGroupActivityWebhook').checked);
         output.push('GroupActivityDiscordWebhook="'+document.getElementById('GroupActivityDiscordWebhook').value+'"');
         output.push('GroupActivityDiscordIconURL="'+document.getElementById('GroupActivityDiscordIconURL').value+'"');
     }
