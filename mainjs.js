@@ -9,7 +9,6 @@ var AddCreatureCarnButton = document.createDocumentFragment();
 var AddCreatureHerbButton = document.createDocumentFragment();
 var AddCreatureAquaButton = document.createDocumentFragment();
 var AddCreatureFlyerButton = document.createDocumentFragment();
-
 //Modal logic
 function OpenLoad() {
     document.getElementById("fileModal").style.display = "block";
