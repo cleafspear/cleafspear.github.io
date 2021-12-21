@@ -1,5 +1,6 @@
 html, body {
   height: 100%;
+  background-color: darkgrey;
 }
 body {
   display: flex;
@@ -29,10 +30,9 @@ body {
 .content {
   flex: 1 0 auto;
 }
-
 .modal-content {
   position: relative;
-  background-color: #fefefe;
+  background-color: #bbb;
   margin: auto;
   padding: 0;
   border: 1px solid #888;
@@ -63,7 +63,7 @@ body {
 }
 .section-header {
   padding: 2px 16px ;
-  background-color: #aaa;
+  background-color: #ccc;
   color: black;
   font-size: 16;
 }

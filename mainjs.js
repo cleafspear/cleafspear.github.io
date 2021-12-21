@@ -1,7 +1,14 @@
 //Dynamically generated content variables. used on page load to build some of the creature list as well as a single location to validate entries against
-const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
-const MixedAllowed = ['Apatosaurus','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
-var AddCreatureButton = document.createDocumentFragment();
+const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Coahuilaceratops','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
+const Herbivores = ['Apatosaurus','Coahuilaceratops','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
+const Carnivores = ['Acrocanthosaurus','Ichthyovenator','Megalosaurus','Tyrannosaurus','Utahraptor','Velociraptor'];
+const Flyers = ['Pteranodon','Tropeognathus'];
+const Aquatics = ['Elasmosaurus','Kronosaurus','Mosasaurus'];
+
+var AddCreatureCarnButton = document.createDocumentFragment();
+var AddCreatureHerbButton = document.createDocumentFragment();
+var AddCreatureAquaButton = document.createDocumentFragment();
+var AddCreatureFlyerButton = document.createDocumentFragment();
 //Modal logic
 function OpenLoad() {
     document.getElementById("fileModal").style.display = "block";
@@ -50,16 +57,21 @@ function HLToggle() {
         Tname.textContent = "Absolute Group limit";
     }
 }
+function SanatizeInvite(input){
+    input.value = input.value.replace('https://discord.gg/','');
+}
 function addMPRow(dButton){
     var tabMP = document.getElementById("MPTable"),
         loc = dButton.parentNode.parentNode.rowIndex + 1,
         row = tabMP.insertRow(loc),
         cell0 = row.insertCell(0),
         cell1 = row.insertCell(1),
-        cell2 = row.insertCell(2);
+        cell2 = row.insertCell(2),
+		cell3 = row.insertCell(3);
     cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
     cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
-    cell2.appendChild(AddCreatureButton.cloneNode(true));
+	cell2.innerHTML = '<input type="button" value="C" onclick="Setrow(this)" style="background-color:coral"><input type="button" value="H" onclick="Setrow(this)"><input type="button" value="A" onclick="Setrow(this)"><input type="button" value="F" onclick="Setrow(this)">';
+    cell3.appendChild(AddCreatureCarnButton.cloneNode(true));
 }
 function RemoveMPRow(dButton){
     var tabMP = document.getElementById("MPTable"),
@@ -69,10 +81,12 @@ function RemoveMPRow(dButton){
         row = tabMP.insertRow(-1),
         cell0 = row.insertCell(0),
         cell1 = row.insertCell(1),
-        cell2 = row.insertCell(2);
+        cell2 = row.insertCell(2),
+		cell3 = row.insertCell(3);
     cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
     cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
-    cell2.appendChild(AddCreatureButton.cloneNode(true));
+	cell2.innerHTML = '<input type="button" value="C" onclick="Setrow(this)" style="background-color:coral"><input type="button" value="H" onclick="Setrow(this)"><input type="button" value="A" onclick="Setrow(this)"><input type="button" value="F" onclick="Setrow(this)">';
+    cell3.appendChild(AddCreatureCarnButton.cloneNode(true));
     }
 }
 function AddMPCreature(dSelect){
@@ -82,7 +96,41 @@ function AddMPCreature(dSelect){
     btn.setAttribute('onclick','this.remove()');
     btn.value = creature;
     dSelect.parentNode.parentNode.parentNode.insertAdjacentElement ('beforeend',btn);
-
+}
+function Setrow(button){
+	var btn = button.value,
+	 	list = button.parentElement.children;
+	
+	for (btns in list){
+		if (btns == 'entries' || btns == 'item'|| btns == 'length'){break;}
+		list[btns].style.backgroundColor = "revert"
+		
+	}
+	switch(btn){
+		case "C":
+			button.style.backgroundColor="coral";
+			button.parentElement.parentElement.cells[3].innerHTML="";
+			button.parentElement.parentElement.cells[3].appendChild(AddCreatureCarnButton.cloneNode(true));
+			break;
+		case "H":
+			button.style.backgroundColor="aquamarine";
+			button.parentElement.parentElement.cells[3].innerHTML="";
+			button.parentElement.parentElement.cells[3].appendChild(AddCreatureHerbButton.cloneNode(true));
+			break;
+		case "A":
+			button.style.backgroundColor="aqua";
+			button.parentElement.parentElement.cells[3].innerHTML="";
+			button.parentElement.parentElement.cells[3].appendChild(AddCreatureAquaButton.cloneNode(true));
+			break;
+		case "F":
+			button.style.backgroundColor="darkturquoise";
+			button.parentElement.parentElement.cells[3].innerHTML="";
+			button.parentElement.parentElement.cells[3].appendChild(AddCreatureFlyerButton.cloneNode(true));
+			break;
+		default:
+			alert("Quit Breaking the config tool.");
+			return;
+	}
 }
 //general function to recompute the value based on a time multiplyer
 function RecomputeTime(loc, caller){
@@ -272,6 +320,28 @@ function ValidateColor(colorbutton) {
 function SanatizeHookInput(input){
     input.value = input.value.replace('https://discord.com/api/webhooks/','');
 }
+function TestWebhook(target,iconurl,webhookType){
+    var webhook = document.getElementById(target).value,
+        icon = document.getElementById(iconurl).value;
+     var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState !=4) return;
+            if (this.status == 204) {
+                InternalDebug("NOTE: Webhook Test Sucessful for "+webhookType+". please verify on discord that the message is there");
+            }else{
+                InternalDebug("WARN: " +webhookType+ " Contains an error. this webhook will fail!");
+             }
+        }
+        var APIURL = 'https://discord.com/api/webhooks/'+webhook
+        xhr.open('POST',APIURL);
+        xhr.setRequestHeader('Content-type', 'application/json');
+        params = {
+            username: "",
+            avatar_url: icon,
+            content: "If you see this message, your webhook configuration is correct for the "+webhookType+". if you have set an icon, please verify it as well."
+        }
+        xhr.send(JSON.stringify(params));
+}
 function ToggleConsole() {
         var select = document.getElementById('Console');
         var button = document.getElementById('ConsoleButton');
@@ -298,19 +368,25 @@ function ReadyPage(){//this function is to replace a lot of the hand coded parts
         var row = DinoTable.insertRow(-1),
             cell0 = row.insertCell(0),
             cell1 = row.insertCell(1),
-            cell2 = row.insertCell(2);
+            cell2 = row.insertCell(2),
+            cell3 = row.insertCell(3),
+            cell4 = row.insertCell(4),
+			cell5 = row.insertCell(5);
         cell0.innerHTML=Creatures[index];
         cell1.innerHTML='<input type="number" value="999" step = 1 style="width:50px">';
         cell2.innerHTML='<input type="number" value="100.0" min = 0 max = 100>';
+        cell3.innerHTML='<input type="number" value="20.0" min = 0.1 max = 20>';
+        cell4.innerHTML='<input type="number" value="0.7" min = 0 max = 20>';
+		cell5.innerHTML='<input type="number" value="1.0" min = 0 max = 20>';
     }
     //this creates the "add creature" button dynamically and saves it to the global var for use elsewhere
     var innerdiv = document.createElement("div");
     innerdiv.className = "dropdown-content";
-    for(MPIndex in MixedAllowed){
+    for(MPIndex in Carnivores){
         button = document.createElement("input")
         button.type = 'button';
         button.setAttribute('onclick','AddMPCreature(this)')
-        button.value = MixedAllowed[MPIndex];
+        button.value = Carnivores[MPIndex];
         innerdiv.appendChild(button);
     }
     hoverbutton = document.createElement("button");
@@ -320,7 +396,61 @@ function ReadyPage(){//this function is to replace a lot of the hand coded parts
     outerdiv.className = "dropdown";
     outerdiv.appendChild(hoverbutton);
     outerdiv.appendChild(innerdiv);
-    AddCreatureButton.appendChild(outerdiv);
+    AddCreatureCarnButton.appendChild(outerdiv);
+    innerdiv = document.createElement("div");
+    innerdiv.className = "dropdown-content";
+    for(MPIndex in Herbivores){
+        button = document.createElement("input")
+        button.type = 'button';
+        button.setAttribute('onclick','AddMPCreature(this)')
+        button.value = Herbivores[MPIndex];
+        innerdiv.appendChild(button);
+    }
+    hoverbutton = document.createElement("button");
+    hoverbutton.className = 'dropbtn'
+    hoverbutton.innerHTML = 'Add Creature'
+    outerdiv = document.createElement("div");
+    outerdiv.className = "dropdown";
+    outerdiv.appendChild(hoverbutton);
+    outerdiv.appendChild(innerdiv);
+    AddCreatureHerbButton.appendChild(outerdiv);
+    var innerdiv = document.createElement("div");
+    innerdiv.className = "dropdown-content";
+    for(MPIndex in Aquatics){
+        button = document.createElement("input")
+        button.type = 'button';
+        button.setAttribute('onclick','AddMPCreature(this)')
+        button.value = Aquatics[MPIndex];
+        innerdiv.appendChild(button);
+    }
+    hoverbutton = document.createElement("button");
+    hoverbutton.className = 'dropbtn'
+    hoverbutton.innerHTML = 'Add Creature'
+    outerdiv = document.createElement("div");
+    outerdiv.className = "dropdown";
+    outerdiv.appendChild(hoverbutton);
+    outerdiv.appendChild(innerdiv);
+    AddCreatureAquaButton.appendChild(outerdiv);
+    innerdiv = document.createElement("div");
+    innerdiv.className = "dropdown-content";
+    for(MPIndex in Flyers){
+        button = document.createElement("input")
+        button.type = 'button';
+        button.setAttribute('onclick','AddMPCreature(this)')
+        button.value = Flyers[MPIndex];
+        innerdiv.appendChild(button);
+    }
+    hoverbutton = document.createElement("button");
+    hoverbutton.className = 'dropbtn'
+    hoverbutton.innerHTML = 'Add Creature'
+    outerdiv = document.createElement("div");
+    outerdiv.className = "dropdown";
+    outerdiv.appendChild(hoverbutton);
+    outerdiv.appendChild(innerdiv);
+    AddCreatureFlyerButton.appendChild(outerdiv);
+ 	
+ 	
+ 	
 }
 document.addEventListener('DOMContentLoaded', function(event) {
   ReadyPage();

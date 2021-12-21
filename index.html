@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Beast of Bermuda Config Tool</title>
-        <meta name="description" content="The Offical configuration Generator and Editor for the game Beasts of Bermuda, Developed by Discord user Cleafspear#0001">
+        <meta name="description" content="The Official configuration Generator and Editor for the game Beasts of Bermuda, Developed by Discord user Cleafspear#0001">
         <link rel="stylesheet" href="main.css">
         <script type="text/javascript" src="mainjs.js"></script>
         <script type="text/javascript" src="generate.js"></script>
@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.1.1285 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.1.1421 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -42,8 +42,12 @@
             <br>
             Use the buttons below to modify the config settings
             <div class="btnContainer">
-                <button type="button" id="Section1button" onclick="SHfuntion('Section1')">Show Basic Configuration:</button>
-                <button type="button" id="Section2button" onclick="SHfuntion('Section2')">Show Dino Configuration:</button>
+                <button type="button" id="BaseGamebutton" onclick="SHfuntion('BaseGame')">Show Basic Configuration:</button>
+                <button type="button" id="Weatherbutton" onclick="SHfuntion('Weather')">Show Weather Configuration:</button>
+                <button type="button" id="Worldbutton" onclick="SHfuntion('World')">Show World Configuration:</button>
+                <button type="button" id="Dino1button" onclick="SHfuntion('Dino1')">Show Global Dino Configuration:</button>
+				<button type="button" id="Dino2button" onclick="SHfuntion('Dino2')">Show Per Dino Configuration:</button>
+				<button type="button" id="Dino3button" onclick="SHfuntion('Dino3')">Show Mixed Dino Configuration:</button>
                 <button type="button" id="Section3button" onclick="SHfuntion('Section3')">Show Admin Rank Configuration:</button>
                 <button type="button" id="Section4button" onclick="SHfuntion('Section4')">Show Command Configuration:</button>
                 <button type="button" id="Section5button" onclick="SHfuntion('Section5')">Show Player Configuration:</button>
@@ -51,7 +55,7 @@
                 <button type="button" id="Finalbutton" onclick="SHfuntion('Final')">Show Configuration Outputs:</button>
             </div>
             <div class="SectionContainer">
-                <div class="Section" id="Section1" style="display: none">
+                <div class="Section" id="BaseGame" style="display: none">
                     <div class="section-header">
                         Basic Configuration
                         <span class="close" onclick="topFunction()">Top ↑</span>
@@ -59,11 +63,18 @@
                     <label for="maps">Map:</label>
                     <!-- selector for the map. add maps and define the internal names in these options-->
                     <select id="maps">
-                        <option selected value="Forest_Island">Forest Island</option>
                         <option value="Ancestral_Plains">Ancestral Plains</option>
+						<option value="Ancestral_Plains_Canvas">Ancestral Plains (Canvas)</option>
+						<option selected value="Forest_Island">Forest Island</option>
+						<option value="Forest_Island_Canvas">Forest Island (Canvas)</option>
+						<!--<option value="islatitania">Isla Titania</option>-->
                         <option value="Rival_Shores">Rival Shores</option>
+						<option value="Rival_Shores_Canvas">Rival Shores (Canvas)</option>
                         <option value="DM_Caldera">Caldera (DeathMatch)</option>
+						<option value="DM_Caldera_Canvas">Caldera (Canvas)</option>
+						<option value="Volcano_Bay">Volcano Bay (Canvas)</option>
                         <option value="Test_Performance">Test Performance (Testing Map)</option>
+						<option value="BB_Test_Map">Test Map (Debug Map)</option>
                     </select>
                     <br>
                     <label for="gamemode">
@@ -77,16 +88,48 @@
                             <option value="Free_Roam">Free Roam</option>
                         </select>
                     <br>
-                    <label for="growth">
-                        <div class="tooltip">Growth Cap:<span class="tooltiptext">This limits both the natural and command set growth.<br>Setting your growth above this with commands will revert to this set max on the next growth tick.</span></div></label>
-                    <input type="number" value="20.0" id="growth" style="width:50px">
+                    <label for="FoodDrainDifficulty">
+                        <div class="tooltip">Server Food Difficulty:
+                            <span class="tooltiptext">This sets the server food drain rates.<br>Easy:Half food drain<br>Normal:Default drain rates<br>Hard:Double drain rates. hard to survive<br>Expert:Triple drain rates.for the Hardcore Dinos</span>
+                        </div>
+                    </label>
+                    <select id="FoodDrainDifficulty">
+                            <option value="EGameDifficulty::Easy">Easy</option>
+                            <option selected value="EGameDifficulty::Normal">Normal</option>
+                            <option value="EGameDifficulty::Hard">Hard</option>
+                            <option value="EGameDifficulty::Expert">Expert</option>
+                        </select>
+                    <br>
+					<label for="WaterDrainDifficulty">
+                        <div class="tooltip">Server Water Difficulty:
+                            <span class="tooltiptext">This sets the server water drain rates.<br>Easy:Half water drain<br>Normal:Default drain rates<br>Hard:Double drain rates. hard to survive<br>Expert:Triple drain rates.for the Hardcore Dinos</span>
+                        </div>
+                    </label>
+                    <select id="WaterDrainDifficulty">
+                            <option value="EGameDifficulty::Easy">Easy</option>
+                            <option selected value="EGameDifficulty::Normal">Normal</option>
+                            <option value="EGameDifficulty::Hard">Hard</option>
+                            <option value="EGameDifficulty::Expert">Expert</option>
+                        </select>
+                    <br>
+					<label for="WaterDirtinessDifficulty">
+                        <div class="tooltip">Server Water Dirtiness Difficulty:
+                            <span class="tooltiptext">This sets the server water Dirtiness rates.<br>Easy:Half water Dirtiness speed<br>Normal:Default Dirtiness speed rates<br>Hard:Double Dirtiness rates. hard to survive<br>Expert:Triple Dirtiness rates.for the Hardcore Dinos</span>
+                        </div>
+                    </label>
+                    <select id="WaterDirtinessDifficulty">
+                            <option value="EGameDifficulty::Easy">Easy</option>
+                            <option selected value="EGameDifficulty::Normal">Normal</option>
+                            <option value="EGameDifficulty::Hard">Hard</option>
+                            <option value="EGameDifficulty::Expert">Expert</option>
+                        </select>
                     <br>
                     <label for="discordenable">Discord link Enabled:</label>
                     <input type="checkbox" id="discordenable" onchange="SHSubSection('discord')" >
                     <br>
                     <div id="discord" style="display: none">
-                        <label><div class="tooltip">Discord Join ID:<span class="tooltiptext">this is the code after discord.gg/thiscodehere.<br>Do not include the discord.gg/</span></div></label>
-                        <input type="text" id="discordlink">
+                        <label><div class="tooltip">Discord Join ID:<span class="tooltiptext">this is the code after discord.gg/thiscodehere.<br>Will automatically remove the discord.gg/</span></div></label>
+                        <input type="text" id="discordlink" onchange="SanatizeInvite(this)">
                         <br>
                     </div>
                     <label for="steamgroup">Steam Group Required:</label>
@@ -118,6 +161,82 @@
                     <br>
                     <label for="lchat">Disable Local Chat:</label>
                     <input type="checkbox" id="lchat" >
+					<br>
+					<label for="bDisableCharacterDeath"><div class="tooltip">Enable Auto Resurrection:
+                            <span class="tooltiptext">Enabling this will Auto Resurrect any dino that dies.<br>this is equivalent to the admin resurrection, where no growth is lost or penalties are incurred</span>
+                        </div></label>
+                    <input type="checkbox" id="bDisableCharacterDeath" >
+                </div>
+                <div class="Section" id="Weather" style="display: none">
+                    <div class="section-header">
+                        Weather Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
+                    <label for="fire"><div class="tooltip">Enable Forest fires:<span class="tooltiptext">This will effect storm and admin spawned fires.</span></div></label>
+                    <input type="checkbox" id= "fire" checked >
+                    <br>
+                     <label for="StormS"><div class="tooltip">Cap Storm Surge:<span class="tooltiptext">This Keeps flooding from getting too high on the map. disable to allow Superfloods</span></div></label>
+                    <input type="checkbox" id= "StormS" checked >
+                     <br>
+                    <label for="StormSurgeMultiplier" ><div class="tooltip">Storm Surge Multiplier:
+                            <span class="tooltiptext">This adjust how high the surge from flooding will occur.<br>setting to 0 will disable flooding<br>setting above 1 will multiply the height the flooding will progress</span>
+                        </div></label>
+                    <input type="number" id ="StormSurgeMultiplier" value="1.0" min=0 max =100>
+                    <br>
+                    <label for="bSpawnsTornados"><div class="tooltip">Spawn Tornados:<span class="tooltiptext">This Enables or Disables tornado spawning during High Wind Storms</span></div></label>
+                    <input type="checkbox" id= "bSpawnsTornados" checked >
+                    <br>
+                    <label for="bStormsCauseStress"><div class="tooltip">Stressful Storms:<span class="tooltiptext">This Enables or Disables Stress caused by Severe Weather</span></div></label>
+                    <input type="checkbox" id= "bStormsCauseStress" checked >
+                    <br>
+                    <label for="SpeedMod" ><div class="tooltip">Weather System Speed:
+                            <span class="tooltiptext">This adjust how fast the weather system will run. a higher value will result in faster storms/Events.<br>A lower value will result in drawn out storms.</span>
+                        </div></label>
+                    <input type="number" id ="SpeedMod" value="1.0" min=0 max =100>
+                    <br>
+                    <label for="IntensityModifier" ><div class="tooltip">Weather System Intensity:
+                            <span class="tooltiptext">This adjust how Severe the weather system will be. a higher value will result in Extreme storms/Events.<br>A lower value will result in calmer, more tame weather.</span>
+                        </div></label>
+                    <input type="number" id ="IntensityModifier" value="1.0" min=0 max =10>
+                    <br>
+                    <label for="StormSpacingMultiplier" ><div class="tooltip">Weather System Period:
+                            <span class="tooltiptext">This adjust how often the weather system will spawn storms. a lower value will result in storms occurring one right after another.<br>A higher value will result in long periods between events.</span>
+                        </div></label>
+                    <input type="number" id ="StormSpacingMultiplier" value="1.0" min=0 max =10>
+                    <br>
+                    <label for="RainCommonness" ><div class="tooltip">Weather Type- Rain:
+                            <span class="tooltiptext">This adjust how often the weather system will spawn this weather event. a higher value will result in Rainstorms occurring more frequently, in relation to other storm types<br>A lower value will result in this weather type occurring less frequently.<br> setting this to 0 will disable this type of weather</span>
+                        </div></label>
+                    <input type="number" id ="RainCommonness" value="5" min=0 max =100>
+                    <br>
+                    <label for="FogCommonness" ><div class="tooltip">Weather Type- Fog:
+                            <span class="tooltiptext">This adjust how often the weather system will spawn this weather event. a higher value will result in Rainstorms occurring more frequently, in relation to other storm types<br>A lower value will result in this weather type occurring less frequently.<br> setting this to 0 will disable this type of weather</span>
+                        </div></label>
+                    <input type="number" id ="FogCommonness" value="2" min=0 max =100>
+                    <br>
+                    <label for="OvercastCommonness" ><div class="tooltip">Weather Type- Overcast:
+                            <span class="tooltiptext">This adjust how often the weather system will spawn this weather event. a higher value will result in Rainstorms occurring more frequently, in relation to other storm types<br>A lower value will result in this weather type occurring less frequently.<br> setting this to 0 will disable this type of weather</span>
+                        </div></label>
+                    <input type="number" id ="OvercastCommonness" value="2" min=0 max =100>
+                    <br>
+                    <label for="DryLightningCommonness" ><div class="tooltip">Weather Type- Dry Lightning:
+                            <span class="tooltiptext">This adjust how often the weather system will spawn this weather event. a higher value will result in Rainstorms occurring more frequently, in relation to other storm types<br>A lower value will result in this weather type occurring less frequently.<br> setting this to 0 will disable this type of weather</span>
+                        </div></label>
+                    <input type="number" id ="DryLightningCommonness" value="1" min=0 max =100>
+                </div>
+                <div class="Section" id="World" style="display: none">
+                    <div class="section-header">
+                        World Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
+                    <label for="DayLegnth">Day Length:</label>
+                    <input type="number" id="daycycle" value="2" data-state=2 style="width:50px" onwheel="this.blur()" >
+                    <select id="DayMulti" onchange="RecomputeTime('daycycle', this)">
+                        <option value = 0>Seconds</option>
+                        <option value = 1>Minutes</option>
+                        <option value = 2 selected>Hours</option>
+                        <option value = 3>Days</option>
+                    </select>
                     <br>
                     <label for="carcassrate"><div class="tooltip">Carcass Spawn Rate:
                             <span class="tooltiptext">This multiplies the amount of total meat spawned over time on the map. max is 8x normal</span>
@@ -129,17 +248,8 @@
                         </div></label>
                     <input type="number" id ="carcassratio" value="1.0" min=0 max =2>
                     <br>
-                    <label for="DayLegnth">Day Legnth:</label>
-                    <input type="number" id="daycycle" value="2" data-state=2 style="width:50px" onwheel="this.blur()" >
-                    <select id="DayMulti" onchange="RecomputeTime('daycycle', this)">
-                        <option value = 0>Seconds</option>
-                        <option value = 1>Minutes</option>
-                        <option value = 2 selected>Hours</option>
-                        <option value = 3>Days</option>
-                    </select>
-                    <br>
                     <label for="TunnelLifetime"><div class="tooltip">Tunnel Despawn time:
-                            <span class="tooltiptext">This determins the legnth of time a burrow network will remain after its last edit.<br>Please note, the tunnels are checked every 5 minutes, and there is a 5 minute delay when the timer hits 0 before it removes a network.</span>
+                            <span class="tooltiptext">This determines the length of time a burrow network will remain after its last edit.<br>Please note, the tunnels are checked every 5 minutes, and there is a 5 minute delay when the timer hits 0 before it removes a network.</span>
                         </div></label>
                     <input type="number" id="TunnelLifetime" min=0 value= 3 step=1 data-state=3 onwheel="this.blur()" style="width:50px">
                     <select id="TunnelMulti" onchange="RecomputeTime('TunnelLifetime', this)">
@@ -148,21 +258,64 @@
                         <option value = 2>Hours</option>
                         <option value = 3 selected>Days</option>
                     </select>
+					<br>
+					<label for="bPortalsDisabled"><div class="tooltip">Disable Map Portals:<span class="tooltiptext">This will remove any portals on the map.</span></div></label>
+                    <input type="checkbox" id= "bPortalsDisabled" >
                     <br>
-                    <label for="fire"><div class="tooltip">Enable Forest fires:<span class="tooltiptext">This will effect storm and admin spawned fires.</span></div></label>
-                    <Input type="checkbox" id= "fire" checked>
+                    <label for="OceanHeightAdd"><div class="tooltip">Ocean Height Adjustment:
+                            <span class="tooltiptext">This adjust the default level of the ocean.<br>setting it positive will increase the default height<br>setting it negative will lower the default height</span>
+                        </div></label>
+                    <input type="number" id ="OceanHeightAdd" value="1.0" min=-1000000 max =1000000>
+					<br>
+					<label for="FoliageSpawnSpeed">
+                        <div class="tooltip">Foliage Spawn Rate:
+                            <span class="tooltiptext">This sets the Respawn rate of foliage</span>
+                        </div>
+                    </label>
+                    <select id="FoliageSpawnSpeed">
+                            <option value="EGrowthRate::VerySlow">Very Slow (1/2x)</option>
+							<option value="EGrowthRate::Slow">Slow (3/4x)</option>
+                            <option selected value="EGrowthRate::Normal">Normal</option>
+                            <option value="EGrowthRate::Fast">Fast(1 1/2x)</option>
+                            <option value="EGrowthRate::VeryFast">Very Fast(2x)</option>
+                        </select>
                 </div>
-                <div class="Section" id="Section2" style="display: none">
+                <div class="Section" id="Dino1" style="display: none">
                     <div class="section-header">
-                        Dino Configuration
+                        Global Dino Configuration
                         <span class="close" onclick="topFunction()">Top ↑</span>
                     </div>
-                    <label for="Mixherd">
-                        <div class="tooltip">Use Mix herd Caps
-                            <span class="tooltiptext">  -When Checked, calculation of group caps (both soft and hard) use all members of a group, regardless of species<br>-When Unchecked, calculation of group caps (both soft and hard) use only members of the group that match the species of the player</span>
+                    <label for="GrowthRate"><div class="tooltip">Growth Rate:<span class="tooltiptext">This sets how fast your players dinos will grow. the X number is the multiplier to the normal rate</span></div></label>
+                    <!-- selector for the map. add maps and define the internal names in these options-->
+                    <select id="GrowthRate">
+                        <option value="EGrowthRate::VerySlow">Very Slow (1/2x)</option>
+							<option value="EGrowthRate::Slow">Slow (3/4x)</option>
+                            <option selected value="EGrowthRate::Normal">Normal</option>
+                            <option value="EGrowthRate::Fast">Fast(1 1/2x)</option>
+                            <option value="EGrowthRate::VeryFast">Very Fast(2x)</option>
+                    </select>
+					<br>
+					<label for="SkinLockGrowthTreshold"><div class="tooltip">Skin Max growth threshold:
+                            <span class="tooltiptext">This allows setting the max growth before players can no longer edit their skin</span>
                         </div></label>
-                    <input type="checkbox" id="Mixherd">
+                    <input type="number" id ="SkinLockGrowthTreshold" value=".8" min=.1 max =20>
                     <br>
+					<label for="MaxTalentsAllowed"><div class="tooltip">Max Talents Allowed:
+                            <span class="tooltiptext">This allows setting the max number of talents your creature can attain<br>Set to -1 to disable<br>creatures that exceed this value must remove talents until they are at this limit</span>
+                        </div></label>
+                    <input type="number" id ="MaxTalentsAllowed" value="1" min=-1 max =1000000>
+                    <br>
+                    <label for="bDisableResurrections"><div class="tooltip">Disable Resurrections:<span class="tooltiptext">This Enables or Disables The Resurrection system<br>however, it will NOT remove the deities from the map</span></div></label>
+                    <input type="checkbox" id= "bDisableResurrections" >
+                    <br>
+                    <label for="bDisableReincarnations"><div class="tooltip">Disable Reincarnations:<span class="tooltiptext">This Enables or Disables The Reincarnations system<br>however, it will NOT remove the deities from the map</span></div></label>
+                    <input type="checkbox" id= "bDisableReincarnations" >
+				</div>
+                <div class="Section" id="Dino2" style="display: none">
+                    <div class="section-header">
+                        Per Dino Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                     <label for="GroupLimit">
                         <div class="tooltip">Use Hard Group Limits
                             <span class="tooltiptext">Enabling this will force groups to respect the creature caps.<br>Any young that hatch into a group at cap will automatically be ejected from the group.<br>Leaving this disabled allows groups to exceed the caps,at the cost that when the adults count reaches the limit,a stress debuff will be applied.</span>
@@ -174,23 +327,44 @@
                                 <th>Creature</th>
                                 <th id="dinoh" style="padding-left: 20px ; padding-right: 20px">Soft Limit</th>
                                 <th><div class="tooltip">% server population
-                            <span class="tooltiptext">This sets a limit for the total number of a certain creature compared to the rest of the server.<br>I.E.:50% on pteranodon means that a max of 50% of the server population can be Pteranodons. anyone that exceeds this will have their growth rate SEVERELY reduced.</span></th>
+									<span class="tooltiptext">This sets a limit for the total number of a certain creature compared to the rest of the server.<br>I.E.:50% on pteranodon means that a max of 50% of the server population can be Pteranodons. anyone that exceeds this will have their growth rate SEVERELY reduced.</span></div></th>
+                                <th><div class="tooltip">Creature Growth Limit
+                            <span class="tooltiptext">This sets a limit for the Max growth a creature can attain.<br>Hard limited to 20</span></th>
+                            <th><div class="tooltip">Pack Soft Cap Start
+								<span class="tooltiptext">This is the growth at which new pack members will start causing the overpacked debuff</span></div></th>
+							<th><div class="tooltip">Pack Soft Cap End
+								<span class="tooltiptext">This is the growth at which new pack members will reach max strength of the overpacked debuff</span></div></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Debug Row</td>
+                                <td>Debug Row.If you see this, enable JavaScript</td>
                                 <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
+								<td><input type="number" value="20.0" min = 0.1 max = 20></td>
+								<td><input type="number" value="0.7" min = 0 max = 20></td>
+								<td><input type="number" value="1.0" min = 0 max = 20></td>
                             </tr>
                         </tbody>
                     </table>
+				</div>
+				<div class="Section" id="Dino3" style="display: none">
+                    <div class="section-header">
+                        Mixed Dino Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
                 <div>
                     <b>Mix-Herd Configuration</b>
                     <br>
+                    <label for="Mixherd">
+                        <div class="tooltip">Use Mix Group Caps
+                            <span class="tooltiptext">  -When Checked, calculation of group caps (both soft and hard) use all members of a group, regardless of species<br>-When Unchecked, calculation of group caps (both soft and hard) use only members of the group that match the species of the player</span>
+                        </div></label>
+                    <input type="checkbox" id="Mixherd">
+                    <br>
                     <label for="GroupValidate">
                         <div class="tooltip">Ignore Grouping Validation on Login
-                            <span class="tooltiptext">Enabling this will allow creatures that are not in a valid group listed below to rejoin the group on login. if disabled, any invalid creatures that do not match a grouping below will be kicked from their group</span>
+                            <span class="tooltiptext">Enabling this will allow creatures that are not in a valid group listed below to rejoin the group on login. if disabled, any creature that does not match a grouping below will be kicked from their group</span>
                         </div></label>
                     <input type="checkbox" id="bForceIgnoreGroupSpeciesCheckOnLogin">
                     <table id = "MPTable">
@@ -198,16 +372,18 @@
                             <tr>
                                 <th>Add Row</th>
                                 <th>Remove Row</th>
+								<th><div class="tooltip">Set Faction
+                            <span class="tooltiptext">Factions:<br>C = Carnivore<br>H = Herbivore<br>A = Aquatic<br>F = Flyer</span></div></th>
                                 <th><div class="tooltip">Creatures
-                            <span class="tooltiptext">To add a Creature to a list, click a Creature in the Add Creature dropdown on that row.<br>To remove a Creature, click the Creature in the list</span>
-                        </div></th>
+                            <span class="tooltiptext">To add a Creature to a list, click a Creature in the Add Creature dropdown on that row.<br>To remove a Creature, click the Creature in the list<br>to change the faction of the row, click on the C H A F buttons</span></div></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 <td><input type="button" value="+" onclick="addMPRow(this)"></td>
                                 <td><input type="button" value="x" onclick="RemoveMPRow(this)"></td>
-                                <td><div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Apatosaurus" onclick="AddMPCreature(this)"><input type="button" value="Lurdusaurus" onclick="AddMPCreature(this)"><input type="button" value="Oryctodromeus" onclick="AddMPCreature(this)"><input type="button" value="Pachycephalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Parasaurolophus" onclick="AddMPCreature(this)"><input type="button" value="Saichania" onclick="AddMPCreature(this)"></div></div><input type="button" value="Apatosaurus" onclick="this.remove()"><input type="button" value="Lurdusaurus" onclick="this.remove()"><input type="button" value="Oryctodromeus" onclick="this.remove()"><input type="button" value="Pachycephalosaurus" onclick="this.remove()"><input type="button" value="Parasaurolophus" onclick="this.remove()"><input type="button" value="Saichania" onclick="this.remove()"></td>
+                                <td><input type="button" value="C" onclick="Setrow(this)" style="background-color:coral"><input type="button" value="H" onclick="Setrow(this)"><input type="button" value="A" onclick="Setrow(this)"><input type="button" value="F" onclick="Setrow(this)"></td>
+								<td><div class="dropdown"><button class="dropbtn">Add Creature</button><div class="dropdown-content"><input type="button" value="Acrocanthosaurus" onclick="AddMPCreature(this)"><input type="button" value="Ichthyovenator" onclick="AddMPCreature(this)"><input type="button" value="Megalosaurus" onclick="AddMPCreature(this)"><input type="button" value="Tyrannosaurus" onclick="AddMPCreature(this)"><input type="button" value="Utahraptor" onclick="AddMPCreature(this)"><input type="button" value="Velociraptor" onclick="AddMPCreature(this)"></div></div></td>
                             </tr>
                         </tbody>
                     </table>
@@ -223,14 +399,14 @@
                         <thead>
                             <tr>
                                 <th><div class="tooltip">Rank name<span class="tooltiptext">Server side names for setting permissions.<br>Cannot contain spaces.<br>You cannot share the same name for multiple levels.</span></div></th>
-                                <th style="padding-left: 10px ; padding-right: 10px"><div class="tooltip" >Rank Level<span class="tooltiptext">The Numeric level of the rank,in ascending order.<br>Multiple ranks cannot be at the same level.<br>Ranks with a higher level inherit the abilities of lower levels.</span></div></th>
+                                <th style="padding-left: 10px ; padding-right: 10px"><div class="tooltip" >Rank Level<span class="tooltiptext">The Numeric level of the rank,in ascending order.<br>Multiple ranks cannot be at the same value.<br>Ranks with a higher value inherit the abilities of lower levels.</span></div></th>
                                 <th style="padding-left: 10px ; padding-right: 10px">Remove Row</th>
                                 <th>Add Row Below</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="text" value="NoAdmin" onchange="updatename(this)"></td>
+                                <td><input type="text" value="SuperAdmin" onchange="updatename(this)"></td>
                                 <td><input type="number" value="999" step= 1 onwheel="this.blur()" style="width:50px"></td>
                                 <td><input type="button" value="X" disabled></td>
                                 <td><input type="button" value="+" onclick="RankAddRow(this)"></td>
@@ -288,8 +464,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">ClearCarcasses</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DestroyAllCarcasses<br>SpawnCarcass<br>ListCarcasses</span>
+                                <td ><div class="tooltip"><div class="name">ClearBones</div>
+                                        <span class="tooltiptext">allows the usage of ClearAllBones</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -298,8 +474,8 @@
                                     </select></td>
                             </tr>
                             <tr>
-                                <td ><div class="tooltip"><div class="name">ClearBones</div>
-                                        <span class="tooltiptext">allows the usage of ClearAllBones</span>
+                                <td ><div class="tooltip"><div class="name">ClearCarcasses</div>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>DestroyAllCarcasses<br>SpawnCarcass<br>ListCarcasses</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -319,7 +495,17 @@
                             </tr>
                             <tr>
                                 <td ><div class="tooltip"><div class="name">ControlWeather</div>
-                                        <span class="tooltiptext">Allows the usage of the following commands:<br>Lightning<br>SetDayLength<br>SetWeather ReqWeather<br>ForceStorm<br>ToggleWeatherData<br>PauseWeather<br>SetTimeOfDay<br>MoveTornado<br>KillTornado<br>The following command needs additional perms:<br>SpawnTornado<br>Spawnfire</span>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>FillAllFreshwater<br>Lightning<br>SetDayLength<br>SetWeather ReqWeather<br>ForceStorm<br>Spawnfire<br>ToggleWeatherData<br>PauseWeather<br>SetTimeOfDay<br>MoveTornado<br>KillTornado<br>The following command needs additional perms:<br>SpawnTornado</span>
+                                    </div></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" selected>DefaultAdmin</option>
+                                    </select></td>
+                            </tr>
+                            <tr>
+                                <td ><div class="tooltip"><div class="name">EditFoliage</div>
+                                        <span class="tooltiptext">Allows the usage of the Map Editor while in Spectator mode</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -570,11 +756,19 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                             <input type="text" id="ChatReportDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('ChatReportDiscordWebhook','ChatReportIconURL','Chat Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                             <label ><div class="tooltip">Chat Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
                             <input type="text" id="ChatReportIconURL" value = "" style="width:1000px">
+                            <br>
+                            <label ><div class="tooltip">Chat Log Format:
+                                <span class="tooltiptext">This is the Format used by the server to display messages posted in the webhooks</span>
+                            </div></label>
+                            <input type="text" id="ChatWebhookFormatStyle" value = "" style="width:1000px">
                         </div>
                         <br>
                         <label ><div class="tooltip">Combat Log:
@@ -586,6 +780,9 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                             <input type="text" id="CombatActivityDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('CombatActivityDiscordWebhook','CombatActivityDiscordIconURL','Combat Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                             <label ><div class="tooltip">Combat Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
@@ -602,11 +799,24 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                         <input type="text" id="LoginDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('LoginDiscordWebhook','LoginDiscordIconURL','Login Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                             <label ><div class="tooltip">Connection Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
                             <input type="text" id="LoginDiscordIconURL" value = "" style="width:1000px">
+                            <br>
+                            <label ><div class="tooltip">Login Format:
+                                <span class="tooltiptext">This is the Format used by the server to display messages posted in the webhooks</span>
+                            </div></label>
+                            <input type="text" id="LoginReportFormatStyle" value = "" style="width:1000px">
+                            <br>
+                            <label ><div class="tooltip">Logout Format:
+                                <span class="tooltiptext">This is the Format used by the server to display messages posted in the webhooks</span>
+                            </div></label>
+                            <input type="text" id="LogoutReportFormatStyle" value = "" style="width:1000px">
                         </div>
                         <br>
                         
@@ -619,12 +829,19 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                             <input type="text" id="AdminCmdDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('AdminCmdDiscordWebhook','AdminCmdDiscordIcon','Command Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
-                        
                             <label ><div class="tooltip">Command Log Icon:
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
                             <input type="text" id="AdminCmdDiscordIcon" value = "" style="width:1000px">
+                            <br>
+                            <label ><div class="tooltip">Command Log Format:
+                                <span class="tooltiptext">This is the Format used by the server to display messages posted in the webhooks</span>
+                            </div></label>
+                            <input type="text" id="AdminCommandUsageFormatStyle" value = "" style="width:1000px">
                         </div>
                         <br>
                         <label ><div class="tooltip">Grouping Log:
@@ -636,6 +853,9 @@
                                 <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
                             </div></label>
                             <input type="text" id="GroupActivityDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('GroupActivityDiscordWebhook','GroupActivityDiscordIconURL','Grouping Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
                             <br>
                         
                             <label ><div class="tooltip">Grouping Log Icon:
