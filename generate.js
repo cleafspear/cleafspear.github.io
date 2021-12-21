@@ -84,7 +84,7 @@ function Generate() {//the superfunction that builds all the configurations. any
              	dgrowth = dinotable.rows[i].cells[3].firstChild.value,
 				dlower = dinotable.rows[i].cells[4].firstChild.value,
 				dupper = dinotable.rows[i].cells[5].firstChild.value,
-            temp = ['CreatureLimits=(CreatureType=EDinoType::'+dname+',PercentAllowed='+dpercent+'f,GroupLimit='+dcount+',SoftCapStart='+dlower+'f,SoftCapEnd'+dupper+')'];
+            temp = ['CreatureLimits=(CreatureType=EDinoType::'+dname+',PercentAllowed='+dpercent+'f,GroupLimit='+dcount+',SoftCapStart='+dlower+'f,SoftCapEnd='+dupper+'f)'];
             aData.push(temp.join(''));
             gData.push("GrowthLimits=(Type=EDinoType::"+dname+",Limit="+dgrowth+"f)")
         }//lazy skip of the header data
