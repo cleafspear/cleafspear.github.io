@@ -68,6 +68,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('TunnelNetworkDespawnTime='+tmptime);
     output.push('bDisableResurrections='+document.getElementById("bDisableResurrections").checked);
     output.push('bDisableReincarnations='+document.getElementById("bDisableReincarnations").checked);
+	output.push('bPortalsDisabled='+document.getElementById("bPortalsDisabled").checked);
     output.push('bSpawnForestFires='+document.getElementById('fire').checked);//FIRE!!!!
     output.push('bUseMixedHerdCaps='+document.getElementById('Mixherd').checked);//mixherdcaps
     output.push('bUseHardGroupLimits='+document.getElementById("grouplimit").checked);
@@ -84,7 +85,7 @@ function Generate() {//the superfunction that builds all the configurations. any
              	dgrowth = dinotable.rows[i].cells[3].firstChild.value,
 				dlower = dinotable.rows[i].cells[4].firstChild.value,
 				dupper = dinotable.rows[i].cells[5].firstChild.value,
-            temp = ['CreatureLimits=(CreatureType=EDinoType::'+dname+',PercentAllowed='+dpercent+'f,GroupLimit='+dcount+',SoftCapStart='+dlower+'f,SoftCapEnd='+dupper+'f)'];
+            temp = ['CreatureLimits=(CreatureType=EDinoType::'+dname+',PercentAllowed='+dpercent+'f,GroupLimit='+dcount+',SoftCapStart='+dlower+'f,SoftCapEnd'+dupper+')'];
             aData.push(temp.join(''));
             gData.push("GrowthLimits=(Type=EDinoType::"+dname+",Limit="+dgrowth+"f)")
         }//lazy skip of the header data
