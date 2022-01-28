@@ -342,6 +342,9 @@ function TestWebhook(target,iconurl,webhookType){
         }
         xhr.send(JSON.stringify(params));
 }
+function DefaultData(DataTarget,Data){
+	document.getElementById(DataTarget).value = Data;// this works ONLY if you escape your symbols first! ie use //n for /n to render the data properly
+}
 function ToggleConsole() {
         var select = document.getElementById('Console');
         var button = document.getElementById('ConsoleButton');

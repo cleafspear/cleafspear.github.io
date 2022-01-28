@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.1.1421 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.1.1427 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -768,7 +768,10 @@
                             <label ><div class="tooltip">Chat Log Format:
                                 <span class="tooltiptext">This is the Format used by the server to display messages posted in the webhooks</span>
                             </div></label>
-                            <input type="text" id="ChatWebhookFormatStyle" value = "" style="width:1000px">
+                            <input type="text" id="ChatWebhookFormatStyle" value = "[:x01]<{PlayerInfo}>[:x01] <ChatMode={ChatMode}> **>** _{msg}_" style="width:1000px">
+							<button><div class="tooltip" onclick="DefaultData('ChatWebhookFormatStyle','[:x01]<{PlayerInfo}>[:x01] <ChatMode={ChatMode}> **>** _{msg}_')">Default Format...
+                                <span class="tooltiptext">Clicking this will default the message format</span>
+                            </div></button>
                         </div>
                         <br>
                         <label ><div class="tooltip">Combat Log:
@@ -811,12 +814,18 @@
                             <label ><div class="tooltip">Login Format:
                                 <span class="tooltiptext">This is the Format used by the server to display messages posted in the webhooks</span>
                             </div></label>
-                            <input type="text" id="LoginReportFormatStyle" value = "" style="width:1000px">
+                            <input type="text" id="LoginReportFormatStyle" value = "Player [:x01]<{PlayerInfo}>[:x01] joined server _{Server}_\n----" style="width:1000px">
+							<button><div class="tooltip" onclick="DefaultData('LoginReportFormatStyle','Player [:x01]<{PlayerInfo}>[:x01] joined server _{Server}_\\n----')">Default Format...
+                                <span class="tooltiptext">Clicking this will default the message format</span>
+                            </div></button>
                             <br>
                             <label ><div class="tooltip">Logout Format:
                                 <span class="tooltiptext">This is the Format used by the server to display messages posted in the webhooks</span>
                             </div></label>
-                            <input type="text" id="LogoutReportFormatStyle" value = "" style="width:1000px">
+                            <input type="text" id="LogoutReportFormatStyle" value = "Player [:x01]<{PlayerInfo}>[:x01] left server _{Server}_, played for {Hours} hours and {Minutes} minutes.\\n----" style="width:1000px">
+							<button><div class="tooltip" onclick="DefaultData('LogoutReportFormatStyle','Player [:x01]<{PlayerInfo}>[:x01] left server _{Server}_, played for {Hours} hours and {Minutes} minutes.\\n----')">Default Format...
+                                <span class="tooltiptext">Clicking this will default the message format</span>
+                            </div></button>
                         </div>
                         <br>
                         
@@ -841,7 +850,10 @@
                             <label ><div class="tooltip">Command Log Format:
                                 <span class="tooltiptext">This is the Format used by the server to display messages posted in the webhooks</span>
                             </div></label>
-                            <input type="text" id="AdminCommandUsageFormatStyle" value = "" style="width:1000px">
+                            <input type="text" id="AdminCommandUsageFormatStyle" value = "Player [:x01]<{PlayerInfo}>[:x01] used command [:x01]{Cmd}[:x01]\n----" style="width:1000px">
+							<button><div class="tooltip" onclick="DefaultData('AdminCommandUsageFormatStyle','Player [:x01]<{PlayerInfo}>[:x01] used command [:x01]{Cmd}[:x01]\\n----')">Default Format...
+                                <span class="tooltiptext">Clicking this will default the message format</span>
+                            </div></button>
                         </div>
                         <br>
                         <label ><div class="tooltip">Grouping Log:

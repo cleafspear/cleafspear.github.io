@@ -213,22 +213,32 @@ function Generate() {//the superfunction that builds all the configurations. any
     if(document.getElementById('GameReporter').checked){
         output.push('\r\n[GameReporter]');
         output.push('bUseChatWebhook='+document.getElementById('bUseChatWebhook').checked);
-        output.push('ChatReportDiscordWebhook="'+document.getElementById('ChatReportDiscordWebhook').value+'"');
+  		output.push('ChatReportDiscordWebhook="'+document.getElementById('ChatReportDiscordWebhook').value+'"');
         output.push('ChatReportIconURL="'+document.getElementById('ChatReportIconURL').value+'"');
-        output.push("ChatWebhookFormatStyle='"+document.getElementById('ChatWebhookFormatStyle').value+"'");  output.push('bUseCombatActivityWebhook='+document.getElementById('bUseCombatActivityWebhook').checked);
-        output.push('CombatActivityDiscordWebhook="'+document.getElementById('CombatActivityDiscordWebhook').value+'"');
-        output.push('CombatActivityDiscordIconURL="'+document.getElementById('CombatActivityDiscordIconURL').value+'"');
+       	if(!document.getElementById('ChatWebhookFormatStyle').value == ""){
+		   output.push('ChatWebhookFormatStyle="'+document.getElementById('ChatWebhookFormatStyle').value+'"'); 
+		}
+		output.push('bUseCombatActivityWebhook='+document.getElementById('bUseCombatActivityWebhook').checked);
+       	output.push('CombatActivityDiscordWebhook="'+document.getElementById('CombatActivityDiscordWebhook').value+'"');
+       	output.push('CombatActivityDiscordIconURL="'+document.getElementById('CombatActivityDiscordIconURL').value+'"');
         output.push('bUseLoginReportWebhook='+document.getElementById('bUseLoginReportWebhook').checked);
         output.push('LoginDiscordWebhook="'+document.getElementById('LoginDiscordWebhook').value+'"');
         output.push('LoginDiscordIconURL="'+document.getElementById('LoginDiscordIconURL').value+'"');
-        output.push("LoginReportFormatStyle='"+document.getElementById('LoginReportFormatStyle').value+"'"); 
-        output.push("LogoutReportFormatStyle='"+document.getElementById('LogoutReportFormatStyle').value+"'"); 
-        output.push('bUseAdminCommandUsageWebhook='+document.getElementById('bUseAdminCommandUsageWebhook').checked);
-        output.push('AdminCmdDiscordWebhook="'+document.getElementById('AdminCmdDiscordWebhook').value+'"');
+       	if(!document.getElementById('LoginReportFormatStyle').value == ""){
+			output.push('LoginReportFormatStyle="'+document.getElementById('LoginReportFormatStyle').value+'"');
+		}
+		if(!document.getElementById('LogoutReportFormatStyle').value == ""){
+       		output.push('LogoutReportFormatStyle="'+document.getElementById('LogoutReportFormatStyle').value+'"');
+		}
+       	output.push('bUseAdminCommandUsageWebhook='+document.getElementById('bUseAdminCommandUsageWebhook').checked);
+       	output.push('AdminCmdDiscordWebhook="'+document.getElementById('AdminCmdDiscordWebhook').value+'"');
         output.push('AdminCmdDiscordIcon="'+document.getElementById('AdminCmdDiscordIcon').value+'"');
-       output.push("AdminCommandUsageFormatStyle='"+document.getElementById('AdminCommandUsageFormatStyle').value+"'"); output.push('bUseGroupActivityWebhook='+document.getElementById('bUseGroupActivityWebhook').checked);
-        output.push('GroupActivityDiscordWebhook="'+document.getElementById('GroupActivityDiscordWebhook').value+'"');
-        output.push('GroupActivityDiscordIconURL="'+document.getElementById('GroupActivityDiscordIconURL').value+'"');
+       	if(!document.getElementById('AdminCommandUsageFormatStyle').value == ""){
+			output.push('AdminCommandUsageFormatStyle="'+document.getElementById('AdminCommandUsageFormatStyle').value+'"');
+		}
+		output.push('bUseGroupActivityWebhook='+document.getElementById('bUseGroupActivityWebhook').checked);
+       	output.push('GroupActivityDiscordWebhook="'+document.getElementById('GroupActivityDiscordWebhook').value+'"');
+       	output.push('GroupActivityDiscordIconURL="'+document.getElementById('GroupActivityDiscordIconURL').value+'"');
     }
     return output.join('\r\n');//use a newline as the joining item before outputting.
 }
