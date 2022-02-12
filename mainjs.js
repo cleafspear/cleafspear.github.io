@@ -1,7 +1,7 @@
 //Dynamically generated content variables. used on page load to build some of the creature list as well as a single location to validate entries against
-const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Coahuilaceratops','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
+const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Coahuilaceratops','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Megaraptor','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
 const Herbivores = ['Apatosaurus','Coahuilaceratops','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
-const Carnivores = ['Acrocanthosaurus','Ichthyovenator','Megalosaurus','Tyrannosaurus','Utahraptor','Velociraptor'];
+const Carnivores = ['Acrocanthosaurus','Ichthyovenator','Megalosaurus','Megaraptor','Tyrannosaurus','Utahraptor','Velociraptor'];
 const Flyers = ['Pteranodon','Tropeognathus'];
 const Aquatics = ['Elasmosaurus','Kronosaurus','Mosasaurus'];
 
