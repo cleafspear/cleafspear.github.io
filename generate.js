@@ -32,6 +32,9 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('bDisableLocalChat='+document.getElementById("lchat").checked);
     output.push('CarcassRateMultiplier='+document.getElementById("carcassrate").value+ 'f');
     output.push('CarcassSpawnRatio='+document.getElementById("carcassratio").value+'f');
+	output.push('bDisableRestlessDebuff='+document.getElementById("bDisableRestlessDebuff").checked);
+	output.push('bDisableRandomEggSpawns='+document.getElementById("bDisableRandomEggSpawns").checked);
+	output.push('RandomEggSpawnChance='+document.getElementById("RandomEggSpawnChance").value+'f');
     tmptime= document.getElementById("daycycle").value;
     mult = document.getElementById("DayMulti").value;
     switch(mult) {

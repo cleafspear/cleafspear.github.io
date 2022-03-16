@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.1.1427 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.1.1474 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -262,6 +262,18 @@
 					<label for="bPortalsDisabled"><div class="tooltip">Disable Map Portals:<span class="tooltiptext">This will remove any portals on the map.</span></div></label>
                     <input type="checkbox" id= "bPortalsDisabled" >
                     <br>
+					<label for="bDisableRestlessDebuff"><div class="tooltip">Disable Restless Debuff:<span class="tooltiptext">This will remove the debuff while in caves</span></div></label>
+                    <input type="checkbox" id= "bDisableRestlessDebuff" >
+                    <br>
+					<label for="bDisableRandomEggSpawns"><div class="tooltip">Disable Random Eggs Spawns:<span class="tooltiptext">This will remove the abandoned eggs that spawn around the map</span></div></label>
+                    <input type="checkbox" id= "bDisableRandomEggSpawns" onchange="SHSubSection('Eggs')" >
+                    <br>
+                    <div id="Eggs" style="display: block">
+                        <label><div class="tooltip">Egg Spawn Chance:<span class="tooltiptext">This is the chance that a carcass spawn will generate an abandoned egg<br>Setting to 0 will stop egg spawning<br> Setting to 1 will always spawn eggs instead of carcasses</span></div></label>
+                        <input type="number" id="RandomEggSpawnChance" value= .05>
+                        <br>
+                    </div>
+					
                     <label for="OceanHeightAdd"><div class="tooltip">Ocean Height Adjustment:
                             <span class="tooltiptext">This adjust the default level of the ocean.<br>setting it positive will increase the default height<br>setting it negative will lower the default height</span>
                         </div></label>

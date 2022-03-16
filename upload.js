@@ -73,9 +73,12 @@ var MapNameOverride = "Forest_Island",
     FoodDrainDifficulty= "EGameDifficulty::Normal",
 	WaterDrainDifficulty="EGameDifficulty::Normal",
 	WaterDirtinessDifficulty="EGameDifficulty::Normal",
-	FoliageSpawnSpeed="EGameDifficulty::Normal",
+	FoliageSpawnSpeed="EGrowthRate::Normal",
 	MaxTalentsAllowed= -1,
 	SkinLockGrowthTreshold = .7,
+	bDisableRestlessDebuff = false,
+	bDisableRandomEggSpawns = false,
+	RandomEggSpawnChance = 0.05,
 	bPortalsDisabled= false,
 	bDisableCharacterDeath=false,
     CompatibilityMode = false,//this will show a notice to the user that their config was loaded with paramaters that are outdated
@@ -153,9 +156,12 @@ function parsedata(data) {
     FoodDrainDifficulty= "EGameDifficulty::Normal",
 	WaterDrainDifficulty="EGameDifficulty::Normal",
 	WaterDirtinessDifficulty="EGameDifficulty::Normal",
-	FoliageSpawnSpeed="EGameDifficulty::Normal",
+	FoliageSpawnSpeed="EGrowthRate::Normal",
 	MaxTalentsAllowed= -1,
 	SkinLockGrowthTreshold = .7,
+	bDisableRestlessDebuff = false,
+	bDisableRandomEggSpawns = false,
+	RandomEggSpawnChance = 0.05,
 	bDisableCharacterDeath=false,
     CompatibilityMode = false,
 	bPortalsDisabled= false,
@@ -376,6 +382,15 @@ function parsedata(data) {
             }
             PlayerChatTags.push([id, tag]);
             break;
+		case 'bDisableRestlessDebuff':
+				bDisableRestlessDebuff = (linedata[1].toLowerCase().trim() === "true");
+			break;	
+		case 'bDisableRandomEggSpawns':
+				bDisableRandomEggSpawns = (linedata[1].toLowerCase().trim() === "true");
+			break;	
+		case 'RandomEggSpawnChance':
+				 RandomEggSpawnChance = parseFloat(linedata[1]);
+			break;
         case 'AutosaveTime':
             AutosaveTime = parseInt(linedata[1], 10);
             break;
@@ -450,16 +465,20 @@ function parsedata(data) {
             GroupActivityDiscordIconURL = linedata[1].trim().replace(/['"]+/g, '');
             break;
         case 'ChatWebhookFormatStyle':
-            ChatWebhookFormatStyle = linedata[1].trim().replace(/[']+/g, '');
+            linedata.shift();
+			ChatWebhookFormatStyle = linedata.join("=").trim().replace(/['"]+/g, '');//cheeky hack that will restore the original string back to its original form, agnostic to the splitting char
             break;
         case 'LoginReportFormatStyle':
-            LoginReportFormatStyle = linedata[1].trim().replace(/[']+/g, '');
+			linedata.shift();
+            LoginReportFormatStyle = linedata.join("=").trim().replace(/['"]+/g, '');
             break;
         case 'LogoutReportFormatStyle':
-            LogoutReportFormatStyle = linedata[1].trim().replace(/[']+/g, '');
+			linedata.shift();
+            LogoutReportFormatStyle = linedata.join("=").trim().replace(/['"]+/g, '');
             break;
         case 'AdminCommandUsageFormatStyle':
-            AdminCommandUsageFormatStyle = linedata[1].trim().replace(/[']+/g, '');
+			linedata.shift();
+            AdminCommandUsageFormatStyle = linedata.join("=").trim().replace(/['"]+/g, '');
             break;
         case 'OceanHeightAdd':
             OceanHeightAdd = parseFloat(linedata[1]);
@@ -594,6 +613,14 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
 	document.getElementById('bDisableCharacterDeath').checked = bDisableCharacterDeath;
 	document.getElementById('SkinLockGrowthTreshold').value = SkinLockGrowthTreshold;
 	document.getElementById('bPortalsDisabled').checked = bPortalsDisabled;
+	document.getElementById('bDisableRestlessDebuff').checked = bDisableRestlessDebuff;
+	document.getElementById('bDisableRandomEggSpawns').checked = bDisableRandomEggSpawns;
+	if(bDisableRandomEggSpawns){
+		document.getElementById("Eggs").style.display = 'none';
+	}else{
+		document.getElementById("Eggs").style.display = 'block';
+	}
+	document.getElementById('RandomEggSpawnChance').value = RandomEggSpawnChance;
     document.getElementById('Mixherd').value = bUseMixedHerdCaps;
     if (bUseHardGroupLimits) {
         document.getElementById("dinoh").textContent = "Absolute Group limit";
@@ -646,8 +673,10 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         }
     }
     document.getElementById('bForceIgnoreGroupSpeciesCheckOnLogin').checked = bForceIgnoreGroupSpeciesCheckOnLogin;
-    var mixpack = document.getElementById("MPTable").getElementsByTagName('tbody')[0]
-    for (rowid = 0; rowid < mixpack.rows.length; rowid++) {
+    var mixpack = document.getElementById("MPTable").getElementsByTagName('tbody')[0],
+		MProw = 0,
+		MProw = mixpack.rows.length;
+    for (rowid = 0; rowid < MProw; rowid++) {
         mixpack.deleteRow(-1);
     }
     var mixfragment1 = document.createDocumentFragment();//we are going to be making allthe buttons here 
