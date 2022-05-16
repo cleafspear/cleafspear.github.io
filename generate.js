@@ -6,6 +6,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('[/Script/BeastsOfBermuda.ServerGameInstance]');//Header of the file
     output.push('MapNameOverride="'+document.getElementById("maps").value+'"');
     output.push('GameMode='+document.getElementById("gamemode").value);
+	output.push('PreferredGameExperience='+document.getElementById("PreferredGameExperience").value);
     output.push('FoodDrainDifficulty='+document.getElementById("FoodDrainDifficulty").value);
 	output.push('WaterDrainDifficulty='+document.getElementById("WaterDrainDifficulty").value);
 	output.push('WaterDirtinessDifficulty='+document.getElementById("WaterDirtinessDifficulty").value);

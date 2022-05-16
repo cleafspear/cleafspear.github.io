@@ -3,6 +3,7 @@
 //variables are GLOBAL to ALL FUNCTIONS on here.  you cannot redefine them elsewhere
 var MapNameOverride = "Forest_Island",
     GameMode = 'Free_Roam',
+	PreferredGameExperience = 'EGameExperience::PvPvE',
     GrowthLimit = 0,//Depreciated in 1.1.1404, used in conversion to new configs
     bDisplayDiscordLink = false,
     DiscordLink = "",
@@ -87,6 +88,7 @@ var MapNameOverride = "Forest_Island",
 function parsedata(data) {
     MapNameOverride = "Forest_Island",
     GameMode = 'Free_Roam',
+	PreferredGameExperience = 'EGameExperience::PvPvE',
     GrowthLimit = 0,
     bDisplayDiscordLink = false,
     DiscordLink = "",
@@ -185,10 +187,13 @@ function parsedata(data) {
         case 'GameMode':
             GameMode = linedata[1].trim().replace(/['"]|EGameModes::/g, '');//will nuke quotes and the preceading gamemodes config var used in older configs
             break;
+		case 'PreferredGameExperience':
+            PreferredGameExperience = linedata[1].trim().replace(/['"]+/g, '');
+            break;
         case 'GrowthLimit'://Depreciated but supported for inporting old configs
             GrowthLimit = parseFloat(linedata[1]);
             CompatibilityMode = true;
-            InternalDebug("WARN:	Your config contains the older Growth limit value. We will convert you to the new per-Creature limits");
+            InternalDebug("WARN:Your config contains the older Growth limit value. We will convert you to the new per-Creature limits");
             break;
         case 'bDisplayDiscordLink':
             bDisplayDiscordLink = (linedata[1].toLowerCase().trim() === "true")//lazy hack to turn a string to a boolean value while accounting for any unncessicary spaces
@@ -527,6 +532,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         ErrorState = true;
     }
     document.getElementById('gamemode').value = GameMode;
+	document.getElementById('PreferredGameExperience').value = PreferredGameExperience;
     if (bDisplayDiscordLink & DiscordLink == '') {
         InternalDebug("WARN: Discord was enabled but there is no link!")
     }

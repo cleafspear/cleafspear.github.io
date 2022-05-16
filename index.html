@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.1.1474 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.1.1524 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -86,6 +86,17 @@
                             <option value="Life_Cycle">Life Cycle</option>
                             <option value="Combat">Combat</option>
                             <option value="Free_Roam">Free Roam</option>
+                        </select>
+                    <br>
+					<label for="PreferredGameExperience">
+                        <div class="tooltip">Preferred Game Experience:
+                            <span class="tooltiptext">PvPvE :Classic survival <br> PvP : server enables more PvP features <br>PvE : server disables intimidation and damage, PvP ONLY via Dueling</span>
+                        </div>
+                    </label>
+                    <select id="PreferredGameExperience">
+                            <option value="EGameExperience::PvPvE">PvPvE</option>
+                            <option value="EGameExperience::PvP">PvP</option>
+                            <option value="EGameExperience::PvE">PvE</option>
                         </select>
                     <br>
                     <label for="FoodDrainDifficulty">
