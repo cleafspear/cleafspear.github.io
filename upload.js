@@ -16,7 +16,7 @@ var MapNameOverride = "Forest_Island",
     bDisableLocalChat = false,
     CarcassRateMultiplier = 1,
     CarcassSpawnRatio = 1,
-    DayLength = 7050,
+    DayLength = 4441,
     bCapStormSurge = true,
     SpeedModifier = 1,
     IntensityModifier = 1,
@@ -81,7 +81,7 @@ var MapNameOverride = "Forest_Island",
 	bDisableRandomEggSpawns = false,
 	RandomEggSpawnChance = 0.05,
 	bPortalsDisabled= false,
-	bDisableCharacterDeath=false,
+	bDisableCharacterDeath=false,//Removed
     CompatibilityMode = false,//this will show a notice to the user that their config was loaded with paramaters that are outdated
     ErrorState = false;//used in case a parse error the user must know about generates and opens the console
 
@@ -101,7 +101,7 @@ function parsedata(data) {
     bDisableLocalChat = false,
     CarcassRateMultiplier = 1,
     CarcassSpawnRatio = 1,
-    DayLength = 7050,
+    DayLength = 4441,
     bCapStormSurge = true,
     SpeedModifier = 1,
     IntensityModifier = 1,
@@ -510,7 +510,8 @@ function parsedata(data) {
 			bPortalsDisabled = (linedata[1].toLowerCase().trim() === "true");
 			break;
 		case 'bDisableCharacterDeath':
-			bDisableCharacterDeath = (linedata[1].toLowerCase().trim() === "true");
+			bDisableCharacterDeath = "false";
+			InternalDebug("WARN: Disable Char Death was removed in the 1.2.0 update.")
 			break;
         default:
             if (linedata != ""){
@@ -616,7 +617,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById('DryLightningCommonness').value = DryLightningCommonness;
     document.getElementById('bDisableResurrections').checked = bDisableResurrections;
     document.getElementById('bDisableReincarnations').checked = bDisableReincarnations;
-	document.getElementById('bDisableCharacterDeath').checked = bDisableCharacterDeath;
+	//document.getElementById('bDisableCharacterDeath').checked = bDisableCharacterDeath;
 	document.getElementById('SkinLockGrowthTreshold').value = SkinLockGrowthTreshold;
 	document.getElementById('bPortalsDisabled').checked = bPortalsDisabled;
 	document.getElementById('bDisableRestlessDebuff').checked = bDisableRestlessDebuff;

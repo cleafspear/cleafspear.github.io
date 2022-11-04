@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.1.1524 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.2.0000 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -67,7 +67,7 @@
 						<option value="Ancestral_Plains_Canvas">Ancestral Plains (Canvas)</option>
 						<option selected value="Forest_Island">Forest Island</option>
 						<option value="Forest_Island_Canvas">Forest Island (Canvas)</option>
-						<!--<option value="islatitania">Isla Titania</option>-->
+						<option value="islatitania">Isla Titania</option>
                         <option value="Rival_Shores">Rival Shores</option>
 						<option value="Rival_Shores_Canvas">Rival Shores (Canvas)</option>
                         <option value="DM_Caldera">Caldera (DeathMatch)</option>
@@ -90,7 +90,7 @@
                     <br>
 					<label for="PreferredGameExperience">
                         <div class="tooltip">Preferred Game Experience:
-                            <span class="tooltiptext">PvPvE :Classic survival <br> PvP : server enables more PvP features <br>PvE : server disables intimidation and damage, PvP ONLY via Dueling</span>
+                            <span class="tooltiptext">PvPvE :Classic survival <br> PvP : server enables more PvP features <br>PvE : server disables intimidation and damage, PvP ONLY via Dueling (overridden on Titania to PvPvE)</span>
                         </div>
                     </label>
                     <select id="PreferredGameExperience">
@@ -173,10 +173,10 @@
                     <label for="lchat">Disable Local Chat:</label>
                     <input type="checkbox" id="lchat" >
 					<br>
-					<label for="bDisableCharacterDeath"><div class="tooltip">Enable Auto Resurrection:
+					<!--<label for="bDisableCharacterDeath"><div class="tooltip">Enable Auto Resurrection:
                             <span class="tooltiptext">Enabling this will Auto Resurrect any dino that dies.<br>this is equivalent to the admin resurrection, where no growth is lost or penalties are incurred</span>
                         </div></label>
-                    <input type="checkbox" id="bDisableCharacterDeath" >
+                    <input type="checkbox" id="bDisableCharacterDeath" > -->
                 </div>
                 <div class="Section" id="Weather" style="display: none">
                     <div class="section-header">
@@ -241,12 +241,12 @@
                         <span class="close" onclick="topFunction()">Top ↑</span>
                     </div>
                     <label for="DayLegnth">Day Length:</label>
-                    <input type="number" id="daycycle" value="2" data-state=2 style="width:50px" onwheel="this.blur()" >
+                    <input type="number" id="daycycle" value="4441" data-state=0 style="width:50px" onwheel="this.blur()" >
                     <select id="DayMulti" onchange="RecomputeTime('daycycle', this)">
-                        <option value = 0>Seconds</option>
-                        <option value = 1>Minutes</option>
-                        <option value = 2 selected>Hours</option>
-                        <option value = 3>Days</option>
+                        <option value = 0 selected>Seconds</option>
+                        <option value = 1 >Minutes</option>
+                        <option value = 2 >Hours</option>
+                        <option value = 3 >Days</option>
                     </select>
                     <br>
                     <label for="carcassrate"><div class="tooltip">Carcass Spawn Rate:
@@ -528,7 +528,7 @@
                             </tr>
                             <tr>
                                 <td ><div class="tooltip"><div class="name">EditFoliage</div>
-                                        <span class="tooltiptext">Allows the usage of the Map Editor while in Spectator mode</span>
+                                        <span class="tooltiptext">(Disabled on Titania!)<br>Allows the usage of the Map Editor while in Spectator mode</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>

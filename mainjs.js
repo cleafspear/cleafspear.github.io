@@ -1,9 +1,9 @@
 //Dynamically generated content variables. used on page load to build some of the creature list as well as a single location to validate entries against
-const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Coahuilaceratops','Elasmosaurus','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Megaraptor','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
-const Herbivores = ['Apatosaurus','Coahuilaceratops','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
+const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Arganodus','Auroraceratops','Coahuilaceratops','Elasmosaurus','HorseshoeCrab','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Megaraptor','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
+const Herbivores = ['Apatosaurus','Auroraceratops','Coahuilaceratops','HorseshoeCrab','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
 const Carnivores = ['Acrocanthosaurus','Ichthyovenator','Megalosaurus','Megaraptor','Tyrannosaurus','Utahraptor','Velociraptor'];
 const Flyers = ['Pteranodon','Tropeognathus'];
-const Aquatics = ['Elasmosaurus','Kronosaurus','Mosasaurus'];
+const Aquatics = ['Arganodus','Elasmosaurus','Kronosaurus','Mosasaurus'];
 
 var AddCreatureCarnButton = document.createDocumentFragment();
 var AddCreatureHerbButton = document.createDocumentFragment();

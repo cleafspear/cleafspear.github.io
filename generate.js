@@ -204,7 +204,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('OvercastCommonness='+document.getElementById("OvercastCommonness").value);
     output.push('DryLightningCommonness='+document.getElementById("DryLightningCommonness").value);
     output.push('\r\n[/Script/BeastsOfBermuda.SaveSystem]');//lazy addition for the save system
-	output.push('bDisableCharacterDeath='+document.getElementById("bDisableCharacterDeath").checked);
+	//output.push('bDisableCharacterDeath='+document.getElementById("bDisableCharacterDeath").checked);//DEPRECIATED and REMOVED
     output.push('AutosaveTime='+document.getElementById("asave").value);
     var rcon = document.getElementById('enableRcon').checked;
     output.push('\r\n[/Script/BeastsOfBermuda.BBGameModeBase]');
