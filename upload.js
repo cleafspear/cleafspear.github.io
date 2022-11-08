@@ -931,8 +931,8 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     } else {
         document.getElementById('DiscordConnect').style.display = 'none';
     }
-    document.getElementById('LoginDiscordWebhook').value = ChatReportDiscordWebhook;
-    document.getElementById('LoginDiscordIconURL').value = ChatReportIconURL;
+    document.getElementById('LoginDiscordWebhook').value = LoginDiscordWebhook;
+    document.getElementById('LoginDiscordIconURL').value = LoginDiscordIconURL;
     document.getElementById('LoginReportFormatStyle').value = LoginReportFormatStyle;
     document.getElementById('LogoutReportFormatStyle').value = LogoutReportFormatStyle;
     document.getElementById('bUseAdminCommandUsageWebhook').checked = bUseAdminCommandUsageWebhook;
