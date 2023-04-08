@@ -17,7 +17,7 @@ window.onclick = function(event) {
   if (event.target == document.getElementById("fileModal")) {
     document.getElementById("fileModal").style.display = "none";
   }
-}
+};
 function CloseLoad() {
     document.getElementById("fileModal").style.display = "none";
 }
@@ -101,9 +101,9 @@ function Setrow(button){
 	var btn = button.value,
 	 	list = button.parentElement.children;
 	
-	for (btns in list){
+	for (var btns in list){
 		if (btns == 'entries' || btns == 'item'|| btns == 'length'){break;}
-		list[btns].style.backgroundColor = "revert"
+		list[btns].style.backgroundColor = "revert";
 		
 	}
 	switch(btn){
@@ -153,7 +153,7 @@ function RecomputeTime(loc, caller){
         case "3":
             decompVal = val*86400;
             break;
-    };
+    }
     switch(mult) {
         case "0":
             recompVal = decompVal;
@@ -167,7 +167,7 @@ function RecomputeTime(loc, caller){
         case "3":
             recompVal = decompVal/86400;
             break;
-    };
+    }
     select.setAttribute("data-state",mult);
     select.value = recompVal;
 }
@@ -290,8 +290,8 @@ function validateid(id) {
                 id.parentElement.parentElement.cells[7].firstChild.innerHTML = "";
                  InternalDebug("WARN: " +id.value+ "is not a valid steam id");
              }
-        }
-        var APIURL = 'https://raptorsystems.site/?id='+id.value //this API site is a NODE JS steam api site ran by Cleafspear. 
+        };
+        var APIURL = 'https://raptorsystems.site/?id='+id.value ;//this API site is a NODE JS steam api site ran by Cleafspear. 
         xhr.open('GET',APIURL,true);
         xhr.send();
     }
@@ -331,15 +331,15 @@ function TestWebhook(target,iconurl,webhookType){
             }else{
                 InternalDebug("WARN: " +webhookType+ " Contains an error. this webhook will fail!");
              }
-        }
-        var APIURL = 'https://discord.com/api/webhooks/'+webhook
+        };
+        var APIURL = 'https://discord.com/api/webhooks/'+webhook;
         xhr.open('POST',APIURL);
         xhr.setRequestHeader('Content-type', 'application/json');
         params = {
             username: "",
             avatar_url: icon,
             content: "If you see this message, your webhook configuration is correct for the "+webhookType+". if you have set an icon, please verify it as well."
-        }
+        };
         xhr.send(JSON.stringify(params));
 }
 function DefaultData(DataTarget,Data){
@@ -365,7 +365,7 @@ function InternalDebug(message) {
         }
 }
 function ReadyPage(){//this function is to replace a lot of the hand coded parts of the page with a runtime dynamic system.basically making updating parts a 1 line instead of multiline update. users should not be effected since all page data is already in ram. does cause a DOM update after load but performance hits should be negligable
-    var DinoTable = document.getElementById("dinos")
+    var DinoTable = document.getElementById("dinos");
     DinoTable.deleteRow(-1);
     for(index = 0; index < Creatures.length; index++)   {
         var row = DinoTable.insertRow(-1),
@@ -385,16 +385,16 @@ function ReadyPage(){//this function is to replace a lot of the hand coded parts
     //this creates the "add creature" button dynamically and saves it to the global var for use elsewhere
     var innerdiv = document.createElement("div");
     innerdiv.className = "dropdown-content";
-    for(MPIndex in Carnivores){
-        button = document.createElement("input")
+    for(var MPIndex in Carnivores){
+        button = document.createElement("input");
         button.type = 'button';
-        button.setAttribute('onclick','AddMPCreature(this)')
+        button.setAttribute('onclick','AddMPCreature(this)');
         button.value = Carnivores[MPIndex];
         innerdiv.appendChild(button);
     }
     hoverbutton = document.createElement("button");
-    hoverbutton.className = 'dropbtn'
-    hoverbutton.innerHTML = 'Add Creature'
+    hoverbutton.className = 'dropbtn';
+    hoverbutton.innerHTML = 'Add Creature';
     outerdiv = document.createElement("div");
     outerdiv.className = "dropdown";
     outerdiv.appendChild(hoverbutton);
@@ -403,32 +403,32 @@ function ReadyPage(){//this function is to replace a lot of the hand coded parts
     innerdiv = document.createElement("div");
     innerdiv.className = "dropdown-content";
     for(MPIndex in Herbivores){
-        button = document.createElement("input")
+        button = document.createElement("input");
         button.type = 'button';
-        button.setAttribute('onclick','AddMPCreature(this)')
+        button.setAttribute('onclick','AddMPCreature(this)');
         button.value = Herbivores[MPIndex];
         innerdiv.appendChild(button);
     }
     hoverbutton = document.createElement("button");
-    hoverbutton.className = 'dropbtn'
-    hoverbutton.innerHTML = 'Add Creature'
+    hoverbutton.className = 'dropbtn';
+    hoverbutton.innerHTML = 'Add Creature';
     outerdiv = document.createElement("div");
     outerdiv.className = "dropdown";
     outerdiv.appendChild(hoverbutton);
     outerdiv.appendChild(innerdiv);
     AddCreatureHerbButton.appendChild(outerdiv);
-    var innerdiv = document.createElement("div");
+    innerdiv = document.createElement("div");
     innerdiv.className = "dropdown-content";
     for(MPIndex in Aquatics){
-        button = document.createElement("input")
+        button = document.createElement("input");
         button.type = 'button';
-        button.setAttribute('onclick','AddMPCreature(this)')
+        button.setAttribute('onclick','AddMPCreature(this)');
         button.value = Aquatics[MPIndex];
         innerdiv.appendChild(button);
     }
     hoverbutton = document.createElement("button");
-    hoverbutton.className = 'dropbtn'
-    hoverbutton.innerHTML = 'Add Creature'
+    hoverbutton.className = 'dropbtn';
+    hoverbutton.innerHTML = 'Add Creature';
     outerdiv = document.createElement("div");
     outerdiv.className = "dropdown";
     outerdiv.appendChild(hoverbutton);
@@ -437,15 +437,15 @@ function ReadyPage(){//this function is to replace a lot of the hand coded parts
     innerdiv = document.createElement("div");
     innerdiv.className = "dropdown-content";
     for(MPIndex in Flyers){
-        button = document.createElement("input")
+        button = document.createElement("input");
         button.type = 'button';
-        button.setAttribute('onclick','AddMPCreature(this)')
+        button.setAttribute('onclick','AddMPCreature(this)');
         button.value = Flyers[MPIndex];
         innerdiv.appendChild(button);
     }
     hoverbutton = document.createElement("button");
-    hoverbutton.className = 'dropbtn'
-    hoverbutton.innerHTML = 'Add Creature'
+    hoverbutton.className = 'dropbtn';
+    hoverbutton.innerHTML = 'Add Creature';
     outerdiv = document.createElement("div");
     outerdiv.className = "dropdown";
     outerdiv.appendChild(hoverbutton);
@@ -457,4 +457,4 @@ function ReadyPage(){//this function is to replace a lot of the hand coded parts
 }
 document.addEventListener('DOMContentLoaded', function(event) {
   ReadyPage();
-})
+});

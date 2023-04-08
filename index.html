@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.2.0000 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.2.0084 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -173,10 +173,13 @@
                     <label for="lchat">Disable Local Chat:</label>
                     <input type="checkbox" id="lchat" >
 					<br>
-					<!--<label for="bDisableCharacterDeath"><div class="tooltip">Enable Auto Resurrection:
+					<label for="bDisableCharacterDeath"><div class="tooltip">Enable Auto Resurrection:
                             <span class="tooltiptext">Enabling this will Auto Resurrect any dino that dies.<br>this is equivalent to the admin resurrection, where no growth is lost or penalties are incurred</span>
                         </div></label>
-                    <input type="checkbox" id="bDisableCharacterDeath" > -->
+                    <input type="checkbox" id="bDisableCharacterDeath" >
+                    <br>
+                    <label for="RandomName"><div class="tooltip">Disable Random Names<span class="tooltiptext">When enabled, Disallows the use of the console command UseRandomName</span></div></label>
+                    <input type="checkbox" id="bDisableUseRandomName">
                 </div>
                 <div class="Section" id="Weather" style="display: none">
                     <div class="section-header">
@@ -279,6 +282,9 @@
 					<label for="bDisableRandomEggSpawns"><div class="tooltip">Disable Random Eggs Spawns:<span class="tooltiptext">This will remove the abandoned eggs that spawn around the map</span></div></label>
                     <input type="checkbox" id= "bDisableRandomEggSpawns" onchange="SHSubSection('Eggs')" >
                     <br>
+                    <label for="bDisableAISpawning"><div class="tooltip">Disable AI Spawns:<span class="tooltiptext">This will disable ALL AI spawns. do note, this includes map editer placed spawners</span></div></label>
+                    <input type="checkbox" id= "bDisableAISpawning">
+                    <br>
                     <div id="Eggs" style="display: block">
                         <label><div class="tooltip">Egg Spawn Chance:<span class="tooltiptext">This is the chance that a carcass spawn will generate an abandoned egg<br>Setting to 0 will stop egg spawning<br> Setting to 1 will always spawn eggs instead of carcasses</span></div></label>
                         <input type="number" id="RandomEggSpawnChance" value= .05>
@@ -309,7 +315,6 @@
                         <span class="close" onclick="topFunction()">Top ↑</span>
                     </div>
                     <label for="GrowthRate"><div class="tooltip">Growth Rate:<span class="tooltiptext">This sets how fast your players dinos will grow. the X number is the multiplier to the normal rate</span></div></label>
-                    <!-- selector for the map. add maps and define the internal names in these options-->
                     <select id="GrowthRate">
                         <option value="EGrowthRate::VerySlow">Very Slow (1/2x)</option>
 							<option value="EGrowthRate::Slow">Slow (3/4x)</option>
@@ -361,7 +366,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Debug Row.If you see this, enable JavaScript</td>
+                                <td>This Page Requires javascript to function properly. please enable and reload this page</td>
                                 <td><input type="number" value="999" step = 1 style="width:50px"></td>
                                 <td><input type="number" value="100.0" min = 0 max = 100></td>
 								<td><input type="number" value="20.0" min = 0.1 max = 20></td>
@@ -897,6 +902,26 @@
                                 <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
                                 </div></label>
                             <input type="text" id="GroupActivityDiscordIconURL" value = "" style="width:1000px">
+                        </div>
+                        <br>
+                        <label ><div class="tooltip">Event Log:
+                                <span class="tooltiptext">This is the webhook to the channel you want World Events to go to.</span>
+                            </div></label>
+                        <input type="checkbox" id="bUseEventsWebhook" onchange="SHSubSection('EventsWebhook')">
+                        <div id = "EventsWebhook" style="display: none">
+                            <label ><div class="tooltip">Events Log Hook:
+                                <span class="tooltiptext">This is the webhook link used. Accepts full webhook URLs and will convert on Entry.</span>
+                            </div></label>
+                            <input type="text" id="EventsDiscordWebhook" value = "" onchange="SanatizeHookInput(this)" style="width:1000px">
+                            <button><div class="tooltip" onclick="TestWebhook('EventsDiscordWebhook','EventsDiscordIconURL','Event Webhook')">Test Webhook...
+                                <span class="tooltiptext">Clicking this will send a test message to the supplied webhook.</span>
+                            </div></button>
+                            <br>
+                        
+                            <label ><div class="tooltip">Events Log Icon:
+                                <span class="tooltiptext">This is the webhook Icon you want to appear in Discord. This is an image URL</span>
+                                </div></label>
+                            <input type="text" id="EventsDiscordIconURL" value = "" style="width:1000px">
                         </div>
                     </div>
                 </div>

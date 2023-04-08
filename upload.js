@@ -69,6 +69,7 @@ var MapNameOverride = "Forest_Island",
     LoginReportFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] joined server _{Server}_\n----"',
     LogoutReportFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] left server _{Server}_, played for {Hours} hours and {Minutes}"',
     AdminCommandUsageFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] used command [:x01]{Cmd}[:x01]\n----"',
+    bDisableUseRandomName= false,
     OceanHeightAdd= 0,
     GrowthRate= "EGrowthRate::Normal",
     FoodDrainDifficulty= "EGameDifficulty::Normal",
@@ -76,12 +77,16 @@ var MapNameOverride = "Forest_Island",
 	WaterDirtinessDifficulty="EGameDifficulty::Normal",
 	FoliageSpawnSpeed="EGrowthRate::Normal",
 	MaxTalentsAllowed= -1,
-	SkinLockGrowthTreshold = .7,
+	SkinLockGrowthTreshold = 0.7,
 	bDisableRestlessDebuff = false,
 	bDisableRandomEggSpawns = false,
 	RandomEggSpawnChance = 0.05,
 	bPortalsDisabled= false,
-	bDisableCharacterDeath=false,//Removed
+    bDisableAISpawning=false,
+    bUseEventsWebhook=false,
+    EventsDiscordWebhook = "",
+    EventsDiscordIconURL = "",
+	bDisableCharacterDeath=false,
     CompatibilityMode = false,//this will show a notice to the user that their config was loaded with paramaters that are outdated
     ErrorState = false;//used in case a parse error the user must know about generates and opens the console
 
@@ -153,14 +158,19 @@ function parsedata(data) {
     LoginReportFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] joined server _{Server}_\n----"',
     LogoutReportFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] left server _{Server}_, played for {Hours} hours and {Minutes}"',
     AdminCommandUsageFormatStyle='"Player [:x01]<{PlayerInfo}>[:x01] used command [:x01]{Cmd}[:x01]\n----"',
+    bDisableUseRandomName= false,
     OceanHeightAdd= 0,
     GrowthRate= "EGrowthRate::Normal",
     FoodDrainDifficulty= "EGameDifficulty::Normal",
 	WaterDrainDifficulty="EGameDifficulty::Normal",
 	WaterDirtinessDifficulty="EGameDifficulty::Normal",
 	FoliageSpawnSpeed="EGrowthRate::Normal",
+    bDisableAISpawning=false,
+    bUseEventsWebhook=false,
+    EventsDiscordWebhook = "",
+    EventsDiscordIconURL = "",
 	MaxTalentsAllowed= -1,
-	SkinLockGrowthTreshold = .7,
+	SkinLockGrowthTreshold = 0.7,
 	bDisableRestlessDebuff = false,
 	bDisableRandomEggSpawns = false,
 	RandomEggSpawnChance = 0.05,
@@ -196,13 +206,13 @@ function parsedata(data) {
             InternalDebug("WARN:Your config contains the older Growth limit value. We will convert you to the new per-Creature limits");
             break;
         case 'bDisplayDiscordLink':
-            bDisplayDiscordLink = (linedata[1].toLowerCase().trim() === "true")//lazy hack to turn a string to a boolean value while accounting for any unncessicary spaces
+            bDisplayDiscordLink = (linedata[1].toLowerCase().trim() === "true");//lazy hack to turn a string to a boolean value while accounting for any unncessicary spaces
             break;
         case 'DiscordLink':
             DiscordLink = linedata[1].replace(/['"]+/g, '');
             if(DiscordLink.includes("https://discord.gg/",0)){
                 CompatibilityMode = true;
-                InternalDebug("WARN:Config contains an improper config link for discord. we have corrected this for you.")
+                InternalDebug("WARN:Config contains an improper config link for discord. we have corrected this for you.");
                 DiscordLink = DiscordLink.replace("https://discord.gg/", '');
             }
             break;
@@ -228,7 +238,7 @@ function parsedata(data) {
             bDisableLocalChat = (linedata[1].toLowerCase().trim() === "true");
             break;
         case 'CarcassRateModifier'://for VERY OLD config imports
-            InternalDebug('WARN: Found CarcassRateModifier, this is a 2019 config option.it will be ported')
+            InternalDebug('WARN: Found CarcassRateModifier, this is a 2019 config option.it will be ported');
             CompatibilityMode = true;
         case 'CarcassRateMultiplier':
             CarcassRateMultiplier = parseFloat(linedata[1]);
@@ -322,13 +332,13 @@ function parsedata(data) {
                 gl = parseInt(linedata[4], 10);
             if (linedata[4].includes('bRequiresVeteran')) {
                 InternalDebug("ERROR: bRequiresVeteran is no longer supported and MAY cause the config to fail");
-                InternalDebug('ERROR: '+ linedata)
+                InternalDebug('ERROR: '+ linedata);
                 ErrorState = true;//done to warn users that their config contains a incorrect setting that will break it
             } else {//done this way as if its this old, the additional data isnt in its proper location
 				var mi = 0.7,
 					ma = 1;
-				if(!linedata[4] == null){ mi = parseFloat(linedata[4])};
-				if(!linedata[5] == null){ ma = parseFloat(linedata[5])};
+				if(!linedata[4] == null){ mi = parseFloat(linedata[4])}
+				if(!linedata[5] == null){ ma = parseFloat(linedata[5])}
 			}
             CreatureLimits.push([cr, pa, gl, mi, ma]);
             break;
@@ -485,6 +495,15 @@ function parsedata(data) {
 			linedata.shift();
             AdminCommandUsageFormatStyle = linedata.join("=").trim().replace(/['"]+/g, '');
             break;
+        case 'bUseEventsWebhook':
+            bUseEventsWebhook = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'EventsDiscordWebhook':
+            EventsDiscordWebhook = linedata[1].trim().replace(/['"]+/g, '');
+            break;
+        case 'EventsDiscordIconURL':
+            EventsDiscordIconURL = linedata[1].trim().replace(/['"]+/g, '');
+            break;
         case 'OceanHeightAdd':
             OceanHeightAdd = parseFloat(linedata[1]);
             break;
@@ -510,8 +529,13 @@ function parsedata(data) {
 			bPortalsDisabled = (linedata[1].toLowerCase().trim() === "true");
 			break;
 		case 'bDisableCharacterDeath':
-			bDisableCharacterDeath = "false";
-			InternalDebug("WARN: Disable Char Death was removed in the 1.2.0 update.")
+			bDisableCharacterDeath = (linedata[1].toLowerCase().trim() === "true");
+			break;
+        case 'bDisableUseRandomName':
+			bDisableUseRandomName = (linedata[1].toLowerCase().trim() === "true");
+			break;
+        case 'bDisableAISpawning':
+			bDisableAISpawning = (linedata[1].toLowerCase().trim() === "true");
 			break;
         default:
             if (linedata != ""){
@@ -520,45 +544,45 @@ function parsedata(data) {
             }
         }
     }
-    InternalDebug("DBG: file load complete, parsing and building page data")
+    InternalDebug("DBG: file load complete, parsing and building page data");
 }
 function buildpage() {//you must call parsedata before buildpage, otherwise it will build with default Data
     if (!document.getElementById('maps').contains(MapNameOverride)){
-        InternalDebug("ERROR: Map name is invalid! provided: "+ MapNameOverride)
+        InternalDebug("ERROR: Map name is invalid! provided: "+ MapNameOverride);
         ErrorState = true;
     }
     document.getElementById('maps').value = MapNameOverride;//the fact this works so well is scary in a way, as well as set blank when an option is incorrect
     if (!document.getElementById('gamemode').contains(GameMode)){
-        InternalDebug("ERROR: GameMode is invalid! provided: "+ GameMode)
+        InternalDebug("ERROR: GameMode is invalid! provided: "+ GameMode);
         ErrorState = true;
     }
     document.getElementById('gamemode').value = GameMode;
 	document.getElementById('PreferredGameExperience').value = PreferredGameExperience;
     if (bDisplayDiscordLink & DiscordLink == '') {
-        InternalDebug("WARN: Discord was enabled but there is no link!")
+        InternalDebug("WARN: Discord was enabled but there is no link!");
     }
     
     if (!document.getElementById('FoodDrainDifficulty').contains(FoodDrainDifficulty)){
-        InternalDebug("ERROR: FoodDrainDifficulty is invalid! provided: "+ FoodDrainDifficulty)
+        InternalDebug("ERROR: FoodDrainDifficulty is invalid! provided: "+ FoodDrainDifficulty);
         ErrorState = true;
     }
     document.getElementById('FoodDrainDifficulty').value = FoodDrainDifficulty;
 	
 	if (!document.getElementById('WaterDrainDifficulty').contains(WaterDrainDifficulty)){
-        InternalDebug("ERROR: WaterDrainDifficulty is invalid! provided: "+ WaterDrainDifficulty)
+        InternalDebug("ERROR: WaterDrainDifficulty is invalid! provided: "+ WaterDrainDifficulty);
         ErrorState = true;
     }
     document.getElementById('WaterDrainDifficulty').value = WaterDrainDifficulty;
 	
 	if (!document.getElementById('WaterDirtinessDifficulty').contains(WaterDrainDifficulty)){
-        InternalDebug("ERROR: WaterDirtinessDifficulty is invalid! provided: "+ WaterDrainDifficulty)
+        InternalDebug("ERROR: WaterDirtinessDifficulty is invalid! provided: "+ WaterDrainDifficulty);
         ErrorState = true;
     }
 	
     document.getElementById('WaterDirtinessDifficulty').value = WaterDirtinessDifficulty;
     
     if (!document.getElementById('gamemode').contains(GameMode)){
-        InternalDebug("ERROR: GameMode is invalid! provided: "+ GameMode)
+        InternalDebug("ERROR: GameMode is invalid! provided: "+ GameMode);
         ErrorState = true;
     }
     document.getElementById('discordenable').checked = bDisplayDiscordLink;
@@ -569,7 +593,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     }
     document.getElementById('discordlink').value = DiscordLink;
     if (bRequireSteamGroupToJoin & SteamGroupName == '') {
-        InternalDebug("WARN: Steam was enabled but there is no Group link!")
+        InternalDebug("WARN: Steam was enabled but there is no Group link!");
     }
     document.getElementById('steamgroup').checked = bRequireSteamGroupToJoin;
     if (bRequireSteamGroupToJoin) {
@@ -579,7 +603,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     }
     
     if (!document.getElementById('GrowthRate').contains(GrowthRate)){
-        InternalDebug("ERROR: GrowthRate is invalid! provided: "+ GrowthRate)
+        InternalDebug("ERROR: GrowthRate is invalid! provided: "+ GrowthRate);
         ErrorState = true;
     }
     document.getElementById('GrowthRate').value = GrowthRate;
@@ -617,10 +641,12 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById('DryLightningCommonness').value = DryLightningCommonness;
     document.getElementById('bDisableResurrections').checked = bDisableResurrections;
     document.getElementById('bDisableReincarnations').checked = bDisableReincarnations;
-	//document.getElementById('bDisableCharacterDeath').checked = bDisableCharacterDeath;
+	document.getElementById('bDisableCharacterDeath').checked = bDisableCharacterDeath;
 	document.getElementById('SkinLockGrowthTreshold').value = SkinLockGrowthTreshold;
 	document.getElementById('bPortalsDisabled').checked = bPortalsDisabled;
 	document.getElementById('bDisableRestlessDebuff').checked = bDisableRestlessDebuff;
+    document.getElementById('bDisableAISpawning').checked = bDisableAISpawning;
+    document.getElementById('bDisableUseRandomName').checked = bDisableUseRandomName;
 	document.getElementById('bDisableRandomEggSpawns').checked = bDisableRandomEggSpawns;
 	if(bDisableRandomEggSpawns){
 		document.getElementById("Eggs").style.display = 'none';
@@ -707,7 +733,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
 			cell0.innerHTML = '<input type="button" value="+" onclick="addMPRow(this)">';
             cell1.innerHTML = '<input type="button" value="x" onclick="RemoveMPRow(this)">';
 			cell2.innerHTML = '<input type="button" value="C" onclick="Setrow(this)"><input type="button" value="H" onclick="Setrow(this)"><input type="button" value="A" onclick="Setrow(this)"><input type="button" value="F" onclick="Setrow(this)">';
-			var MixedAllowed = []
+			var MixedAllowed = [];
 			if(Carnivores.includes(AllowedSpeciesGroups[i][0])){
 				MixedAllowed = Carnivores;
 				cell2.children[0].style.backgroundColor="coral";
@@ -726,7 +752,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
 				cell3.appendChild(AddCreatureFlyerButton.cloneNode(true));
 			}
             for(y in AllowedSpeciesGroups[i]){
-                if (y === "length" || y === 'item') {break; };
+                if (y === "length" || y === 'item') {break; }
                 if(!MixedAllowed.includes(AllowedSpeciesGroups[i][y])){
                     InternalDebug("WARN: Creature "+ dname +" is not allowed in this mixpacks config and has been removed.");
                     CompatibilityMode = true;
@@ -805,7 +831,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
                 }
             }
             if(!valid) {
-                InternalDebug('WARN: ' + cname + " was missing from the config. setting to blank")
+                InternalDebug('WARN: ' + cname + " was missing from the config. setting to blank");
                 crank.value = ' ';
             }
         }
@@ -838,7 +864,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
         }
     }
     for(count in PlayerChatColors) {//now we do the EXACT SAME THING to get colors in....
-        var valid = false
+        var valid = false;
         for(players in playersettings){
             if(playersettings[players][0] === PlayerChatColors[count][0]) {//we found an existing entry!
                 playersettings[players][3] = PlayerChatColors[count][1];//adds the data to the existing entry
@@ -952,6 +978,14 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     }
     document.getElementById('GroupActivityDiscordWebhook').value = GroupActivityDiscordWebhook;
     document.getElementById('GroupActivityDiscordIconURL').value = GroupActivityDiscordIconURL;
+    document.getElementById('EventsDiscordWebhook').value = EventsDiscordWebhook;
+    document.getElementById('EventsDiscordIconURL').value = EventsDiscordIconURL;
+    document.getElementById('bUseEventsWebhook').checked = bUseEventsWebhook;
+    if (bUseEventsWebhook){
+        document.getElementById('EventsWebhook').style.display = 'block';
+    } else {
+        document.getElementById('EventsWebhook').style.display = 'none';
+    }
     document.getElementById("Output").innerHTML = 'Click Generate Game.ini to output your new config here,or click Download Game.ini to download a ready to insert file';
     if (ErrorState){
         confirm("Warning: your configuration file had errors that will cause issues on the server or the file to not load.We have opened the console at the bottom of the page so that you may review the errors generated");
@@ -962,15 +996,15 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
             confirm("Notice: your configuration file was loaded with outdated settings that are no longer compatible with the current server version. we have attempted to update them to the matching correct settings. please use the configuration export option to export an up-to-date config after verifying all your settings");
         }
     }
-    InternalDebug("DBG: Finished loading, updating page")
+    InternalDebug("DBG: Finished loading, updating page");
 }
 // used by the upload file 
 function readdata(selector) {
     var fileList = selector.files;
     console.log(fileList);
     if(fileList.length !== 0) {
-        document.getElementById('loadHeader').style.display = "block"
-        document.getElementById("fileModal").style.display = "none"
+        document.getElementById('loadHeader').style.display = "block";
+        document.getElementById("fileModal").style.display = "none";
         var proceed = confirm("Warning!\n Loading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?\nThis may take a few seconds!");
         if(proceed){//user clicked ok
             var reader = new FileReader();
@@ -980,22 +1014,22 @@ function readdata(selector) {
                 buildpage();
                 document.getElementById("btnload").innerHTML="Reload Existing Game.ini";
             };
-            document.getElementById('loadHeader').style.display = "none"
+            document.getElementById('loadHeader').style.display = "none";
             var data = reader.readAsText(fileList[0]);//outputs a string to parse
         }
     }
 }
 function SubmitConfig() {
-    document.getElementById('loadHeader').style.display = "block"
+    document.getElementById('loadHeader').style.display = "block";
     var proceed = confirm("Warning!\n Loading a Game.ini will overwrite all settings you have currently set on this page!\n do you want to proceed with this?\nThis may take a few seconds!");
     if(proceed){//user clicked ok
         var content = document.getElementById("inputtxt").value;
         parsedata(content);
         buildpage();
         document.getElementById("btnload").innerHTML="Reload Existing Game.ini";
-        document.getElementById("fileModal").style.display = "none"
+        document.getElementById("fileModal").style.display = "none";
     }
-    document.getElementById('loadHeader').style.display = 'none'
+    document.getElementById('loadHeader').style.display = 'none';
 }
 HTMLSelectElement.prototype.contains = function( value ) {//adds a oneliner prototype for JS selections
     for ( var i = 0, l = this.options.length; i < l; i++ ) {
@@ -1004,4 +1038,5 @@ HTMLSelectElement.prototype.contains = function( value ) {//adds a oneliner prot
         }
     }
     return false;
-}
+
+};

@@ -27,6 +27,7 @@ function Generate() {//the superfunction that builds all the configurations. any
         output.push('SteamGroupName="'+document.getElementById("steamname").value+'"');
     }
     output.push('bDisplayIntroMessage='+document.getElementById("motd").checked);
+    output.push('bDisableUseRandomName='+document.getElementById("bDisableUseRandomName").checked);
     output.push('bConsoleLocked='+document.getElementById("console").checked);
     output.push('ReservedAdminSlots='+document.getElementById("slots").value);
     output.push('bDisableGlobalChat='+document.getElementById("gchat").checked);
@@ -36,6 +37,7 @@ function Generate() {//the superfunction that builds all the configurations. any
 	output.push('bDisableRestlessDebuff='+document.getElementById("bDisableRestlessDebuff").checked);
 	output.push('bDisableRandomEggSpawns='+document.getElementById("bDisableRandomEggSpawns").checked);
 	output.push('RandomEggSpawnChance='+document.getElementById("RandomEggSpawnChance").value+'f');
+    output.push('bDisableAISpawning='+document.getElementById("bDisableAISpawning").checked);
     tmptime= document.getElementById("daycycle").value;
     mult = document.getElementById("DayMulti").value;
     switch(mult) {
@@ -51,7 +53,7 @@ function Generate() {//the superfunction that builds all the configurations. any
         case "3":
             tmptime = tmptime*86400;
             break;
-    };
+    }
     output.push('DayLength='+tmptime+'f'); 
     tmptime= document.getElementById("TunnelLifetime").value;
     mult = document.getElementById("TunnelMulti").value;
@@ -68,7 +70,7 @@ function Generate() {//the superfunction that builds all the configurations. any
         case "3":
             tmptime = tmptime*86400;
             break;
-    };
+    }
     output.push('TunnelNetworkDespawnTime='+tmptime);
     output.push('bDisableResurrections='+document.getElementById("bDisableResurrections").checked);
     output.push('bDisableReincarnations='+document.getElementById("bDisableReincarnations").checked);
@@ -91,7 +93,7 @@ function Generate() {//the superfunction that builds all the configurations. any
 				dupper = dinotable.rows[i].cells[5].firstChild.value,
             temp = ['CreatureLimits=(CreatureType=EDinoType::'+dname+',PercentAllowed='+dpercent+'f,GroupLimit='+dcount+',SoftCapStart='+dlower+'f,SoftCapEnd='+dupper+'f)'];
             aData.push(temp.join(''));
-            gData.push("GrowthLimits=(Type=EDinoType::"+dname+",Limit="+dgrowth+"f)")
+            gData.push("GrowthLimits=(Type=EDinoType::"+dname+",Limit="+dgrowth+"f)");
         }//lazy skip of the header data
     }
     output.push(aData.join('\r\n'));//join using newlines to create a single entry in the output. already formatted and ready to go
@@ -103,12 +105,12 @@ function Generate() {//the superfunction that builds all the configurations. any
     for (i in MPTable.rows) {
         if (i === 'length' || i === 'item') {break; }
         if (i != 0) {
-            var drow = MPTable.rows[i].cells[3].childNodes //grabs all buttons from the row and turns it into an array
+            var drow = MPTable.rows[i].cells[3].childNodes ;//grabs all buttons from the row and turns it into an array
             if(drow.length != 1) {
                 allocatedrows = allocatedrows + 1;
                 aData = ['AllowedSpeciesGroups=(Group=('];
                 temp = [];
-                for( y in drow ) {
+                for( var y in drow ) {
                     if (y === 'entries' ||y === 'length' || y === 'item') {break; }
                     if(drow[y].tagName.toLowerCase() != 'input'){continue;}
                     var dinompn = drow[y].value;
@@ -120,7 +122,7 @@ function Generate() {//the superfunction that builds all the configurations. any
         }
     }
     if (allocatedrows != 0){
-        output.push('!AllowedSpeciesGroups=ClearArray')
+        output.push('!AllowedSpeciesGroups=ClearArray');
         output.push(bData.join('\r\n'));
     }
 
@@ -204,7 +206,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('OvercastCommonness='+document.getElementById("OvercastCommonness").value);
     output.push('DryLightningCommonness='+document.getElementById("DryLightningCommonness").value);
     output.push('\r\n[/Script/BeastsOfBermuda.SaveSystem]');//lazy addition for the save system
-	//output.push('bDisableCharacterDeath='+document.getElementById("bDisableCharacterDeath").checked);//DEPRECIATED and REMOVED
+	output.push('bDisableCharacterDeath='+document.getElementById("bDisableCharacterDeath").checked);
     output.push('AutosaveTime='+document.getElementById("asave").value);
     var rcon = document.getElementById('enableRcon').checked;
     output.push('\r\n[/Script/BeastsOfBermuda.BBGameModeBase]');
@@ -212,7 +214,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     if (rcon) {
         output.push('\r\n[/Script/BeastsOfBermuda.RCONHandler]');
         output.push('CommunicationPort=' + document.getElementById('RconPort').value);
-        output.push('IP4Binding="' + document.getElementById('Rconip').value + '"')
+        output.push('IP4Binding="' + document.getElementById('Rconip').value + '"');
     }
     if(document.getElementById('GameReporter').checked){
         output.push('\r\n[GameReporter]');
@@ -243,6 +245,9 @@ function Generate() {//the superfunction that builds all the configurations. any
 		output.push('bUseGroupActivityWebhook='+document.getElementById('bUseGroupActivityWebhook').checked);
        	output.push('GroupActivityDiscordWebhook="'+document.getElementById('GroupActivityDiscordWebhook').value+'"');
        	output.push('GroupActivityDiscordIconURL="'+document.getElementById('GroupActivityDiscordIconURL').value+'"');
+        output.push('bUseEventsWebhook='+document.getElementById('bUseEventsWebhook').checked);
+       	output.push('EventsDiscordWebhook="'+document.getElementById('EventsDiscordWebhook').value+'"');
+       	output.push('EventsDiscordIconURL="'+document.getElementById('EventsDiscordIconURL').value+'"');
     }
     return output.join('\r\n');//use a newline as the joining item before outputting.
 }
@@ -256,7 +261,7 @@ function GenerateFile() {//calls generate and parses the output to a game.ini te
     var filename = "Game.ini";//in case it EVER needs to change, here is the filename
     var element = document.createElement('a');//we are going to generate and click a link to force a download to the client. this is a hack but works on all but safari
     element.setAttribute('href','data:text/plain;charset=utf-8,'+encodeURIComponent(data));
-    element.setAttribute('download',filename)
+    element.setAttribute('download',filename);
     element.style.display= 'none';
     document.body.appendChild(element);
     element.click();//yes. we are literally clicking an invis download link to make this work.
