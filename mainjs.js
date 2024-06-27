@@ -1,14 +1,17 @@
 //Dynamically generated content variables. used on page load to build some of the creature list as well as a single location to validate entries against
-const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Arganodus','Auroraceratops','Coahuilaceratops','Elasmosaurus','HorseshoeCrab','Kronosaurus','Ichthyovenator','Lurdusaurus','Megalosaurus','Megaraptor','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
+const Creatures = [ 'Acrocanthosaurus','Apatosaurus','Arganodus','Auroraceratops','Coahuilaceratops','Elasmosaurus','HorseshoeCrab','Kronosaurus','Ichthyovenator','Lurdusaurus','Malawania','Megalosaurus','Megaraptor','Mosasaurus','Oryctodromeus','Pachycephalosaurus','Palaeophis','Parasaurolophus','Pteranodon','Saichania','Tropeognathus','Tyrannosaurus','Utahraptor','Velociraptor'];
 const Herbivores = ['Apatosaurus','Auroraceratops','Coahuilaceratops','HorseshoeCrab','Lurdusaurus','Oryctodromeus','Pachycephalosaurus','Parasaurolophus','Saichania'];
 const Carnivores = ['Acrocanthosaurus','Ichthyovenator','Megalosaurus','Megaraptor','Tyrannosaurus','Utahraptor','Velociraptor'];
 const Flyers = ['Pteranodon','Tropeognathus'];
-const Aquatics = ['Arganodus','Elasmosaurus','Kronosaurus','Mosasaurus'];
-
+const Aquatics = ['Arganodus','Elasmosaurus','Kronosaurus','Malawania ','Mosasaurus'];
+const Events = ['WeatherImmunity','LowFoodWaterDrain','AutoResurrection','AISwarm','Nesting','GrowthBuff','PledgeAmplify','Reskin'];
+const AI = ['Arganodus','Auroraceratops','HorseshoeCrab','Malawania'];
 var AddCreatureCarnButton = document.createDocumentFragment();
 var AddCreatureHerbButton = document.createDocumentFragment();
 var AddCreatureAquaButton = document.createDocumentFragment();
 var AddCreatureFlyerButton = document.createDocumentFragment();
+var AddEventButton = document.createDocumentFragment();
+var AddAIButton = document.createDocumentFragment();
 //Modal logic
 function OpenLoad() {
     document.getElementById("fileModal").style.display = "block";
@@ -282,8 +285,8 @@ function validateid(id) {
             if (this.readyState !=4) return;
             if (this.status == 200) {
                 var data = JSON.parse(this.responseText);
-                link.href = data['url'];
-                link.innerHTML = data['nickname'];
+                link.href = data.url;
+                link.innerHTML = data.nickname;
             }
              if (this.status == 404) {
                 id.style.backgroundColor = '#f66';//the id is invalid because it dosent exist
@@ -329,14 +332,14 @@ function TestWebhook(target,iconurl,webhookType){
             if (this.status == 204) {
                 InternalDebug("NOTE: Webhook Test Sucessful for "+webhookType+". please verify on discord that the message is there");
             }else{
-                InternalDebug("WARN: " +webhookType+ " Contains an error. this webhook will fail!");
+                InternalDebug("WARN: " +webhookType+ " Contains an error. this webhook will fail! Response code: "+this.status+" with message: "+this.responseText);
              }
         };
         var APIURL = 'https://discord.com/api/webhooks/'+webhook;
         xhr.open('POST',APIURL);
         xhr.setRequestHeader('Content-type', 'application/json');
         params = {
-            username: "",
+            username: "ConfigTool",
             avatar_url: icon,
             content: "If you see this message, your webhook configuration is correct for the "+webhookType+". if you have set an icon, please verify it as well."
         };
@@ -452,6 +455,40 @@ function ReadyPage(){//this function is to replace a lot of the hand coded parts
     outerdiv.appendChild(innerdiv);
     AddCreatureFlyerButton.appendChild(outerdiv);
  	
+    innerdiv = document.createElement("div");
+    innerdiv.className = "dropdown-content";
+    for(MPIndex in Events){
+        button = document.createElement("input");
+        button.type = 'button';
+        button.setAttribute('onclick','AddMPCreature(this)');
+        button.value = Events[MPIndex];
+        innerdiv.appendChild(button);
+    }
+    hoverbutton = document.createElement("button");
+    hoverbutton.className = 'dropbtn';
+    hoverbutton.innerHTML = 'Disable Event';
+    outerdiv = document.createElement("div");
+    outerdiv.className = "dropdown";
+    outerdiv.appendChild(hoverbutton);
+    outerdiv.appendChild(innerdiv);
+    AddEventButton.appendChild(outerdiv);
+    innerdiv = document.createElement("div");
+    innerdiv.className = "dropdown-content";
+    for(MPIndex in AI){
+        button = document.createElement("input");
+        button.type = 'button';
+        button.setAttribute('onclick','AddMPCreature(this)');
+        button.value = AI[MPIndex];
+        innerdiv.appendChild(button);
+    }
+    hoverbutton = document.createElement("button");
+    hoverbutton.className = 'dropbtn';
+    hoverbutton.innerHTML = 'Disable AI';
+    outerdiv = document.createElement("div");
+    outerdiv.className = "dropdown";
+    outerdiv.appendChild(hoverbutton);
+    outerdiv.appendChild(innerdiv);
+    AddAIButton.appendChild(outerdiv);
  	
  	
 }

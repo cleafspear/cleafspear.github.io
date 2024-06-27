@@ -13,7 +13,6 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('GrowthRate='+document.getElementById("GrowthRate").value);
 	output.push('FoliageSpawnSpeed='+document.getElementById("FoliageSpawnSpeed").value);
 	output.push('MaxTalentsAllowed='+document.getElementById("MaxTalentsAllowed").value);
-    //output.push('GrowthLimit='+document.getElementById("growth").value+'f');//DEPRECIATED
     //discord setup function. only push the link if the variable is set to true.
     var discordenab = document.getElementById("discordenable").checked;//discord enable and link
     output.push('bDisplayDiscordLink='+discordenab);
@@ -38,6 +37,54 @@ function Generate() {//the superfunction that builds all the configurations. any
 	output.push('bDisableRandomEggSpawns='+document.getElementById("bDisableRandomEggSpawns").checked);
 	output.push('RandomEggSpawnChance='+document.getElementById("RandomEggSpawnChance").value+'f');
     output.push('bDisableAISpawning='+document.getElementById("bDisableAISpawning").checked);
+    output.push('bSpawnWorldEvents='+document.getElementById("bSpawnWorldEvents").checked);
+    output.push('WorldEventPrepTime='+document.getElementById("WorldEventPrepTime").value+'f');
+    output.push('WorldEventDuration='+document.getElementById("WorldEventDuration").value+'f');
+    output.push('WorldEventSpacing='+document.getElementById("WorldEventSpacing").value+'f');
+    output.push('!WorldEventBuffsToNotUse=ClearArray');
+    for (i in WorldEventBuffsToNotUse.rows) {//yes its useless but this will be refactored in a later revision. and it just works.
+        if (i === 'length' || i === 'item') {break; }
+        if (i != 0) {
+            var drow = WorldEventBuffsToNotUse.rows[1].cells[0].childNodes ;
+            if(drow.length != 1) {
+                aData = [];
+                temp = [];
+                for( var y in drow ) {
+                    if (y === 'entries' ||y === 'length' || y === 'item') {break; }
+                    if(drow[y].tagName.toLowerCase() != 'input'){continue;}
+                    var EventName = drow[y].value;
+                    temp.push('WorldEventBuffsToNotUse=EVENT_'+EventName);
+                }
+                aData.push(temp.join('\r\n'));
+                 output.push(aData);
+            }
+        }
+    }
+    
+    output.push('AISpawnRateMultiplier='+document.getElementById("AISpawnRateMultiplier").value+'f');
+    output.push('AISpawnCapMultiplier='+document.getElementById("AISpawnCapMultiplier").value+'f');
+    output.push('!DisabledAITypes=ClearArray');
+    for (i in DisabledAITypes.rows) {
+        if (i === 'length' || i === 'item') {break; }
+        if (i != 0) {
+            var airow = DisabledAITypes.rows[1].cells[0].childNodes ;
+            if(airow.length != 1) {
+                aData = [];
+                temp = [];
+                for( var ai in airow ) {
+                    if (ai === 'entries' ||ai === 'length' || ai === 'item') {break; }
+                    if(airow[ai].tagName.toLowerCase() != 'input'){continue;}
+                    var AiName = airow[ai].value;
+                    temp.push('+DisabledAITypes=EDinoType::'+AiName);
+                }
+                aData.push(temp.join('\r\n'));
+                 output.push(aData);
+            }
+        }
+    }
+    output.push('bDisableRevengeKillProtection='+document.getElementById("bDisableRevengeKillProtection").checked);
+    output.push('bDisableLeaderboard='+document.getElementById("bDisableLeaderboard").checked);
+    
     tmptime= document.getElementById("daycycle").value;
     mult = document.getElementById("DayMulti").value;
     switch(mult) {

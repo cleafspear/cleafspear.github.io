@@ -87,6 +87,16 @@ var MapNameOverride = "Forest_Island",
     EventsDiscordWebhook = "",
     EventsDiscordIconURL = "",
 	bDisableCharacterDeath=false,
+    bSpawnWorldEvents=true,
+    WorldEventPrepTime=30,
+    WorldEventDuration=45,
+    WorldEventSpacing=120,
+    WorldEventBuffsToNotUse = [],
+    AISpawnRateMultiplier=1,
+    AISpawnCapMultiplier=1,
+    DisabledAITypes =[],
+    bDisableRevengeKillProtection=false,
+    bDisableLeaderboard=false,
     CompatibilityMode = false,//this will show a notice to the user that their config was loaded with paramaters that are outdated
     ErrorState = false;//used in case a parse error the user must know about generates and opens the console
 
@@ -175,6 +185,17 @@ function parsedata(data) {
 	bDisableRandomEggSpawns = false,
 	RandomEggSpawnChance = 0.05,
 	bDisableCharacterDeath=false,
+    bDisableCharacterDeath=false,
+    bSpawnWorldEvents=true,
+    WorldEventPrepTime=30,
+    WorldEventDuration=45,
+    WorldEventSpacing=120,
+    WorldEventBuffsToNotUse = [],
+    AISpawnRateMultiplier=1,
+    AISpawnCapMultiplier=1,
+    DisabledAITypes =[],
+    bDisableRevengeKillProtection=false,
+    bDisableLeaderboard=false,
     CompatibilityMode = false,
 	bPortalsDisabled= false,
     ErrorState = false;
@@ -420,6 +441,8 @@ function parsedata(data) {
 		case '[Skins]':
         case '!PlayerChatColors':
         case '!PlayerChatTags':
+        case '!WorldEventBuffsToNotUse':
+        case '!DisabledAITypes':
         case '!CreatureLimits'://these consume the lines that are valid so that they dont hit the logger
             break;
         case 'bLiveMessagesToRCON':
@@ -537,6 +560,39 @@ function parsedata(data) {
         case 'bDisableAISpawning':
 			bDisableAISpawning = (linedata[1].toLowerCase().trim() === "true");
 			break;
+        case 'bDisableCharacterDeath':
+            bDisableCharacterDeath = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'bSpawnWorldEvents':
+            bSpawnWorldEvents = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'bDisableRevengeKillProtection':
+            bDisableRevengeKillProtection = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'bDisableLeaderboard':
+            bDisableLeaderboard = (linedata[1].toLowerCase().trim() === "true");
+            break;
+        case 'WorldEventPrepTime':
+            WorldEventPrepTime = parseFloat(linedata[1]);
+            break;
+        case 'WorldEventDuration':
+            WorldEventDuration = parseFloat(linedata[1]);
+            break;
+        case 'WorldEventSpacing':
+            WorldEventSpacing = parseFloat(linedata[1]);
+            break;
+        case 'AISpawnRateMultiplier':
+            AISpawnRateMultiplier = parseFloat(linedata[1]);
+            break;
+        case 'AISpawnCapMultiplier':
+            AISpawnCapMultiplier = parseFloat(linedata[1]);
+            break;
+        case 'WorldEventBuffsToNotUse':
+            WorldEventBuffsToNotUse.push(linedata[1].trim().replace(/[:)('" ]|EVENT_|/g, ''));
+            break;
+        case '+DisabledAITypes':
+            DisabledAITypes.push(linedata[1].trim().replace(/[:)('" ]|EDinoType|/g, ''));
+            break;
         default:
             if (linedata != ""){
                 InternalDebug("WARN: " + linedata[0] +" is not a valid config option!");
@@ -648,6 +704,15 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     document.getElementById('bDisableAISpawning').checked = bDisableAISpawning;
     document.getElementById('bDisableUseRandomName').checked = bDisableUseRandomName;
 	document.getElementById('bDisableRandomEggSpawns').checked = bDisableRandomEggSpawns;
+    document.getElementById('bDisableCharacterDeath').checked = bDisableCharacterDeath;
+    document.getElementById('bSpawnWorldEvents').checked = bSpawnWorldEvents;
+    document.getElementById('bDisableRevengeKillProtection').checked = bDisableRevengeKillProtection;
+    document.getElementById('bDisableLeaderboard').checked = bDisableLeaderboard;
+    document.getElementById('WorldEventPrepTime').value = WorldEventPrepTime;
+    document.getElementById('WorldEventDuration').value = WorldEventDuration;
+    document.getElementById('WorldEventSpacing').value = WorldEventSpacing;
+    document.getElementById('AISpawnRateMultiplier').value = AISpawnRateMultiplier;
+    document.getElementById('AISpawnCapMultiplier').value = AISpawnCapMultiplier;
 	if(bDisableRandomEggSpawns){
 		document.getElementById("Eggs").style.display = 'none';
 	}else{
@@ -660,8 +725,42 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     } else {
         document.getElementById("dinoh").textContent = "Soft Limit";
     }
+    var EventTable = document.getElementById('WorldEventBuffsToNotUse');
+    var eventdat = EventTable.rows[1].cells[0].childNodes;
+    if(eventdat.length != 1){
+        for(var ele=eventdat.length;ele-->1;){
+            if(eventdat[ele].tagName.toLowerCase() == 'input'){eventdat[ele].delete();}
+        }
+    }
+    if(WorldEventBuffsToNotUse.count != 0 ){
+        for(var i in WorldEventBuffsToNotUse){
+                if (i == "length" || i === 'item') {break; }
+                var btn = document.createElement('input');
+                btn.type= 'button';
+                btn.setAttribute('onclick','this.remove()');
+                btn.value = WorldEventBuffsToNotUse[i];
+                EventTable.rows[1].cells[0].appendChild(btn);
+        }
+    }
+    var AITable =document.getElementById('DisabledAITypes');
+    var AIdat = AITable.rows[1].cells[0].childNodes;
+    if(AIdat.length != 1){
+        for(var ele=AIdat.length;ele-->1;){
+            if(AIdat[ele].tagName.toLowerCase() == 'input'){AIdat[ele].delete();}
+        }
+    }
+    if(DisabledAITypes.count != 0 ){
+        for(var i in DisabledAITypes){
+                if (i == "length" || i === 'item') {break; }
+                var btn = document.createElement('input');
+                btn.type= 'button';
+                btn.setAttribute('onclick','this.remove()');
+                btn.value = DisabledAITypes[i];
+                AITable.rows[1].cells[0].appendChild(btn);
+        }
+    }
     var dinotable = document.getElementById("dinos");//this is the same code we use to grab the values from the dino table to generate the ini
-    for (i in dinotable.rows) {
+    for (var i in dinotable.rows) {
         if (i === "length" || i === 'item') {break; }
         if (i !== 0) {
             var dname = dinotable.rows[i].cells[0].innerHTML,
@@ -685,7 +784,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
                 InternalDebug("WARN: Creature "+ dname +" was not found in the config, loading defaults");
             }
             valid = false;//variable reuse for this new part that adds the new growth system
-            for (grname in GrowthLimits) {
+            for (var grname in GrowthLimits) {
                 if (GrowthLimits[grname][0] == dname) {
                     valid = true;
                     if(GrowthLimits[grname][1] <= 20) {dinotable.rows[i].cells[3].firstChild.value = GrowthLimits[grname][1];} else {

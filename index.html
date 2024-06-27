@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Beast of Bermuda Config Tool</title>
-        <meta name="description" content="The Official configuration Generator and Editor for the game Beasts of Bermuda, Developed by Discord user Cleafspear#0001">
+        <meta name="description" content="The Official configuration Generator and Editor for the game Beasts of Bermuda, Developed by Discord user Cleafspear">
         <link rel="stylesheet" href="main.css">
         <script type="text/javascript" src="mainjs.js"></script>
         <script type="text/javascript" src="generate.js"></script>
@@ -16,7 +16,7 @@
         </div>
         <div class="content">
             <h1>Beast of Bermuda Config Tool</h1>
-            <b>This configuration Generator/Editor is compatible with Version 1.2.0084 of the server.</b>
+            <b>This configuration Generator/Editor is compatible with Version 1.2.0323 of the server.</b>
             <br>
             <div class="tooltip">note:please hover over anything with a dashed line under it.<span class="tooltiptext"> It will have additional information about if you are confused about something!</span></div>
             <br>
@@ -48,6 +48,7 @@
                 <button type="button" id="Dino1button" onclick="SHfuntion('Dino1')">Show Global Dino Configuration:</button>
 				<button type="button" id="Dino2button" onclick="SHfuntion('Dino2')">Show Per Dino Configuration:</button>
 				<button type="button" id="Dino3button" onclick="SHfuntion('Dino3')">Show Mixed Dino Configuration:</button>
+                <button type="button" id="AIbutton" onclick="SHfuntion('AI')">Show AI Configuration:</button>
                 <button type="button" id="Section3button" onclick="SHfuntion('Section3')">Show Admin Rank Configuration:</button>
                 <button type="button" id="Section4button" onclick="SHfuntion('Section4')">Show Command Configuration:</button>
                 <button type="button" id="Section5button" onclick="SHfuntion('Section5')">Show Player Configuration:</button>
@@ -173,6 +174,9 @@
                     <label for="lchat">Disable Local Chat:</label>
                     <input type="checkbox" id="lchat" >
 					<br>
+                    <label for="bDisableLeaderboard">Disable Leaderboards:</label>
+                    <input type="checkbox" id="bDisableLeaderboard" >
+					<br>
 					<label for="bDisableCharacterDeath"><div class="tooltip">Enable Auto Resurrection:
                             <span class="tooltiptext">Enabling this will Auto Resurrect any dino that dies.<br>this is equivalent to the admin resurrection, where no growth is lost or penalties are incurred</span>
                         </div></label>
@@ -282,9 +286,6 @@
 					<label for="bDisableRandomEggSpawns"><div class="tooltip">Disable Random Eggs Spawns:<span class="tooltiptext">This will remove the abandoned eggs that spawn around the map</span></div></label>
                     <input type="checkbox" id= "bDisableRandomEggSpawns" onchange="SHSubSection('Eggs')" >
                     <br>
-                    <label for="bDisableAISpawning"><div class="tooltip">Disable AI Spawns:<span class="tooltiptext">This will disable ALL AI spawns. do note, this includes map editer placed spawners</span></div></label>
-                    <input type="checkbox" id= "bDisableAISpawning">
-                    <br>
                     <div id="Eggs" style="display: block">
                         <label><div class="tooltip">Egg Spawn Chance:<span class="tooltiptext">This is the chance that a carcass spawn will generate an abandoned egg<br>Setting to 0 will stop egg spawning<br> Setting to 1 will always spawn eggs instead of carcasses</span></div></label>
                         <input type="number" id="RandomEggSpawnChance" value= .05>
@@ -308,6 +309,37 @@
                             <option value="EGrowthRate::Fast">Fast(1 1/2x)</option>
                             <option value="EGrowthRate::VeryFast">Very Fast(2x)</option>
                         </select>
+                    <br>
+					<label for="bSpawnWorldEvents"><div class="tooltip">Disable World Events:<span class="tooltiptext">This will remove the normally occuring world events that spawn occasionally on the map</span></div></label>
+                    <input type="checkbox" id= "bSpawnWorldEvents" >
+                    <br>
+                    <label for="WorldEventPrepTime"><div class="tooltip">World Event Prep time:
+                            <span class="tooltiptext">This adjust the amount of time from when a world event spawns to when it starts.<br>in minutes</span>
+                        </div></label>
+                    <input type="number" id ="WorldEventPrepTime" value="30" min=0 max =100000>
+                    <br>
+                    <label for="WorldEventDuration"><div class="tooltip">World Event Duration:
+                            <span class="tooltiptext">This adjust the amount of time a world event will last.<br>in minutes</span>
+                        </div></label>
+                    <input type="number" id ="WorldEventDuration" value="45" min=0 max =100000>
+                    <br>
+                    <label for="WorldEventSpacing"><div class="tooltip">World Event Spacing:
+                            <span class="tooltiptext">This adjust the amount of time in between world events.<br>in minutes</span>
+                        </div></label>
+                    <input type="number" id ="WorldEventSpacing" value="120" min=0 max =100000>
+                    <table id = "WorldEventBuffsToNotUse">
+                        <thead>
+                            <tr>
+                                <th><div class="tooltip">Disable Events
+                            <span class="tooltiptext">To Disable an event from spawning, click an event in the Disable Event Dropdown<br>To remove an event, click the Event in the list</span></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+								<td><div class="dropdown"><button class="dropbtn">Disable Event</button><div class="dropdown-content"><input type="button" value="WeatherImmunity" onclick="AddMPCreature(this)"><input type="button" value="LowFoodWaterDrain" onclick="AddMPCreature(this)"><input type="button" value="AutoResurrection" onclick="AddMPCreature(this)"><input type="button" value="AISwarm" onclick="AddMPCreature(this)"><input type="button" value="Nesting" onclick="AddMPCreature(this)"><input type="button" value="GrowthBuff" onclick="AddMPCreature(this)"><input type="button" value="PledgeAmplify" onclick="AddMPCreature(this)"><input type="button" value="Reskin" onclick="AddMPCreature(this)"></div></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="Section" id="Dino1" style="display: none">
                     <div class="section-header">
@@ -317,10 +349,10 @@
                     <label for="GrowthRate"><div class="tooltip">Growth Rate:<span class="tooltiptext">This sets how fast your players dinos will grow. the X number is the multiplier to the normal rate</span></div></label>
                     <select id="GrowthRate">
                         <option value="EGrowthRate::VerySlow">Very Slow (1/2x)</option>
-							<option value="EGrowthRate::Slow">Slow (3/4x)</option>
-                            <option selected value="EGrowthRate::Normal">Normal</option>
-                            <option value="EGrowthRate::Fast">Fast(1 1/2x)</option>
-                            <option value="EGrowthRate::VeryFast">Very Fast(2x)</option>
+				        <option value="EGrowthRate::Slow">Slow (3/4x)</option>
+                        <option selected value="EGrowthRate::Normal">Normal</option>
+                        <option value="EGrowthRate::Fast">Fast(1 1/2x)</option>
+                        <option value="EGrowthRate::VeryFast">Very Fast(2x)</option>
                     </select>
 					<br>
 					<label for="SkinLockGrowthTreshold"><div class="tooltip">Skin Max growth threshold:
@@ -338,6 +370,9 @@
                     <br>
                     <label for="bDisableReincarnations"><div class="tooltip">Disable Reincarnations:<span class="tooltiptext">This Enables or Disables The Reincarnations system<br>however, it will NOT remove the deities from the map</span></div></label>
                     <input type="checkbox" id= "bDisableReincarnations" >
+                    <br>
+                    <label for="bDisableRevengeKillProtection"><div class="tooltip">Disable Revenge-Kill Protection:<span class="tooltiptext">This Enables or Disables The Revenge Kill system<br>Disableing this will allow players to spawn onto creatures that are close to their last death point</span></div></label>
+                    <input type="checkbox" id= "bDisableRevengeKillProtection" >
 				</div>
                 <div class="Section" id="Dino2" style="display: none">
                     <div class="section-header">
@@ -357,7 +392,7 @@
                                 <th><div class="tooltip">% server population
 									<span class="tooltiptext">This sets a limit for the total number of a certain creature compared to the rest of the server.<br>I.E.:50% on pteranodon means that a max of 50% of the server population can be Pteranodons. anyone that exceeds this will have their growth rate SEVERELY reduced.</span></div></th>
                                 <th><div class="tooltip">Creature Growth Limit
-                            <span class="tooltiptext">This sets a limit for the Max growth a creature can attain.<br>Hard limited to 20</span></th>
+                                    <span class="tooltiptext">This sets a limit for the Max growth a creature can attain.<br>Hard limited to 20</span></div></th>
                             <th><div class="tooltip">Pack Soft Cap Start
 								<span class="tooltiptext">This is the growth at which new pack members will start causing the overpacked debuff</span></div></th>
 							<th><div class="tooltip">Pack Soft Cap End
@@ -416,6 +451,39 @@
                         </tbody>
                     </table>
                 </div>
+                </div>
+                <div class="Section" id="AI" style="display: none">
+                    <div class="section-header">
+                        AI Configuration
+                        <span class="close" onclick="topFunction()">Top ↑</span>
+                    </div>
+                    <div>
+                    <label for="bDisableAISpawning"><div class="tooltip">Disable AI Spawns:<span class="tooltiptext">This will disable ALL AI spawns. do note, this includes map editer placed spawners</span></div></label>
+                    <input type="checkbox" id= "bDisableAISpawning">
+                    <br>
+                    <label for="AISpawnRateMultiplier"><div class="tooltip">AI Spawn Rate Multiplier
+                            <span class="tooltiptext">Multiplies how often the AI respawn tick happens<br>Lower values will result in more frequent AI respawns.</span>
+                        </div></label>
+                    <input type="number" id ="AISpawnRateMultiplier" value="1.0" min=0 max =100000>
+                    <br>
+                    <label for="AISpawnCapMultiplier"><div class="tooltip">AI Spawn Cap Multiplier
+                            <span class="tooltiptext">Multiplies how many AI are allowed to be active in each Ai spawn region on the map<br>Higher values will result in more AI being present in spawn areas when at the spawn cap</span>
+                        </div></label>
+                    <input type="number" id ="AISpawnCapMultiplier" value="1.0" min=0 max =100000>
+                    <table id = "DisabledAITypes">
+                        <thead>
+                            <tr>
+                                <th><div class="tooltip">Disable AI
+                            <span class="tooltiptext">To Disable an AI from spawning, click a creature in the Disable AI Dropdown<br>To remove a creature, click the creature in the list</span></div></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+								<td><div class="dropdown"><button class="dropbtn">Disable AI</button><div class="dropdown-content"><input type="button" value="Arganodus" onclick="AddMPCreature(this)"><input type="button" value="Auroraceratops" onclick="AddMPCreature(this)"><input type="button" value="HorseshoeCrab" onclick="AddMPCreature(this)"><input type="button" value="Malawania" onclick="AddMPCreature(this)"></div></div></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    </div>
                 </div>
                 <div class="Section" id="Section3" style="display: none">
                     <!-- this will rely HEAVILY on the javascript to create the entries.only the sheer basics are built here.-->
@@ -513,7 +581,7 @@
                             </tr>
                             <tr>
                                 <td ><div class="tooltip"><div class="name">ControlServer</div>
-                                        <span class="tooltiptext">Allows the usage of ServerConsoleCommand</span>
+                                        <span class="tooltiptext">Allows the usage of the following commands:<br>ServerConsoleCommand<br>AddScentToArea<br>RemoveAllScentNodeData</span>
                                     </div></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
@@ -728,18 +796,32 @@
                                 <td><a href="https://steamcommunity.com/id/Predatoria/" target="_blank">Predatoria</a></td>
                             </tr>
                             <tr>
-                                <td><input type="number" value="76561197998584510" onchange="validateid(this)" onwheel="this.blur()"></td>
+                                <td><input type="number" value="76561198122870810" onchange="validateid(this)" onwheel="this.blur()"></td>
                                 <td><select  name="Ranks">
                                     <option value=" "> </option>
                                     <option value="NoAdmin">NoAdmin</option>
                                     <option value="DefaultAdmin" selected>DefaultAdmin</option>
                                     </select></td>
-                                <td><input type="text" value="Cool Guy"></td>
+                                <td><input type="text" value="Developer"></td>
                                 <td><input type="color" value="#00b2b2" onchange="ValidateColor(this)"></td>
                                 <td><input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#00b2b2" style="vertical-align: middle"></td>
                                 <td><input type="button" value="X" onclick="StaffRemoveRow(this)"></td>
                                 <td><input type="button" value="+" onclick="StaffAddRow(this)"></td>
-                                <td><a href="https://steamcommunity.com/id/Vipe_lc/" target="_blank">Vipe</a></td>
+                                <td><a href="https://steamcommunity.com/id/Soals/" target="_blank">Soals</a></td>
+                            </tr>
+                            <tr>
+                                <td><input type="number" value="76561198077984700" onchange="validateid(this)" onwheel="this.blur()"></td>
+                                <td><select  name="Ranks">
+                                    <option value=" "selected> </option>
+                                    <option value="NoAdmin">NoAdmin</option>
+                                    <option value="DefaultAdmin" >DefaultAdmin</option>
+                                    </select></td>
+                                <td><input type="text" value="Tech Admin"></td>
+                                <td><input type="color" value="#000fff" onchange="ValidateColor(this)"></td>
+                                <td><input type = "text" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$" onchange ="ValidateColor(this)" size=7 maxlength="7" value="#000fff" style="vertical-align: middle"></td>
+                                <td><input type="button" value="X"></td>
+                                <td><input type="button" value="+" onclick="StaffAddRow(this)"></td>
+                                <td><a href="https://steamcommunity.com/id/cleafspear/" target="_blank">Cleafspear</a></td>
                             </tr>
                         </tbody>
                     </table>
@@ -940,7 +1022,7 @@
         </div>
         <footer class="footer">
             <div class='wrap'>
-                <div class='Fsectionl'>Built and maintained by Cleafspear#0001<br><a id="ConsoleButton" 
+                <div class='Fsectionl'>Built and maintained by Cleafspear<br><a id="ConsoleButton" 
 role="button" href="#" onclick="ToggleConsole()">Open Debug Console</a></div>
                 <div class='Fsectionr'> Issues?/Feature request? submit <a href="https://github.com/cleafspear/cleafspear.github.io/" target="_blank">here on github.</a>
                 <br>
