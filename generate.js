@@ -38,9 +38,9 @@ function Generate() {//the superfunction that builds all the configurations. any
 	output.push('RandomEggSpawnChance='+document.getElementById("RandomEggSpawnChance").value+'f');
     output.push('bDisableAISpawning='+document.getElementById("bDisableAISpawning").checked);
     output.push('bSpawnWorldEvents='+document.getElementById("bSpawnWorldEvents").checked);
-    output.push('WorldEventPrepTime='+document.getElementById("WorldEventPrepTime").value+'f');
-    output.push('WorldEventDuration='+document.getElementById("WorldEventDuration").value+'f');
-    output.push('WorldEventSpacing='+document.getElementById("WorldEventSpacing").value+'f');
+    output.push('WorldEventPrepTime='+document.getElementById("WorldEventPrepTime").value);
+    output.push('WorldEventDuration='+document.getElementById("WorldEventDuration").value);
+    output.push('WorldEventSpacing='+document.getElementById("WorldEventSpacing").value);
     output.push('!WorldEventBuffsToNotUse=ClearArray');
     for (i in WorldEventBuffsToNotUse.rows) {//yes its useless but this will be refactored in a later revision. and it just works.
         if (i === 'length' || i === 'item') {break; }
