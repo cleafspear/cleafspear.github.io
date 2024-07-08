@@ -42,6 +42,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('WorldEventDuration='+document.getElementById("WorldEventDuration").value);
     output.push('WorldEventSpacing='+document.getElementById("WorldEventSpacing").value);
     output.push('!WorldEventBuffsToNotUse=ClearArray');
+    var WorldEventBuffsToNotUse = document.getElementById("WorldEventBuffsToNotUse");
     for (i in WorldEventBuffsToNotUse.rows) {//yes its useless but this will be refactored in a later revision. and it just works.
         if (i === 'length' || i === 'item') {break; }
         if (i != 0) {
@@ -64,6 +65,7 @@ function Generate() {//the superfunction that builds all the configurations. any
     output.push('AISpawnRateMultiplier='+document.getElementById("AISpawnRateMultiplier").value+'f');
     output.push('AISpawnCapMultiplier='+document.getElementById("AISpawnCapMultiplier").value+'f');
     output.push('!DisabledAITypes=ClearArray');
+    var DisabledAITypes = document.getElementById("DisabledAITypes");
     for (i in DisabledAITypes.rows) {
         if (i === 'length' || i === 'item') {break; }
         if (i != 0) {
