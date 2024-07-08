@@ -729,7 +729,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     var eventdat = EventTable.rows[1].cells[0].childNodes;
     if(eventdat.length != 1){
         for(var ele=eventdat.length;ele-->1;){
-            if(eventdat[ele].tagName.toLowerCase() == 'input'){eventdat[ele].delete();}
+            if(eventdat[ele].tagName.toLowerCase() == 'input'){eventdat[ele].remove();}
         }
     }
     if(WorldEventBuffsToNotUse.count != 0 ){
@@ -746,7 +746,7 @@ function buildpage() {//you must call parsedata before buildpage, otherwise it w
     var AIdat = AITable.rows[1].cells[0].childNodes;
     if(AIdat.length != 1){
         for(var ele=AIdat.length;ele-->1;){
-            if(AIdat[ele].tagName.toLowerCase() == 'input'){AIdat[ele].delete();}
+            if(AIdat[ele].tagName.toLowerCase() == 'input'){AIdat[ele].remove();}
         }
     }
     if(DisabledAITypes.count != 0 ){
