@@ -294,7 +294,7 @@ function validateid(id) {
                  InternalDebug("WARN: " +id.value+ "is not a valid steam id");
              }
         };
-        var APIURL = 'https://raptorsystems.site/?id='+id.value ;//this API site is a NODE JS steam api site ran by Cleafspear. 
+        var APIURL = 'https://steamapi.raptorsystems.site/?id='+id.value ;//this API site is a NODE JS steam api site ran by Cleafspear. 
         xhr.open('GET',APIURL,true);
         xhr.send();
     }
